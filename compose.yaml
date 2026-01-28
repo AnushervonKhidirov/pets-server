@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    command: npm run start:dev
+    environment:
+      DB_HOST: db
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - .:/usr/app
+
+  admin_panel:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  db:
+    image: mysql:lts
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p${DB_PASSWORD}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - ./db_data:/var/lib/mysql
