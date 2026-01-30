@@ -17,9 +17,15 @@
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "useUnknownInCatchVariables": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+
+    "paths": {
+      "@helper/*": ["src/utils/helper/*"],
+      "@type/*": ["src/type/*"]
+    }
   }
 }

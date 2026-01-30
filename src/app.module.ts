@@ -2,6 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 
 import { PrismaModule } from './prisma/prisma.module';
+import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
@@ -9,6 +10,7 @@ import { UserModule } from './user/user.module';
   imports: [
     ConfigModule.forRoot({ envFilePath: getEnv(), isGlobal: true }),
     PrismaModule,
+    TokenModule,
     AuthModule,
     UserModule,
   ],
