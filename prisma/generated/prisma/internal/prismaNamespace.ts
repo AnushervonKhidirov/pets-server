@@ -583,6 +583,7 @@ export const UserScalarFieldEnum = {
   phone: 'phone',
   firstName: 'firstName',
   lastName: 'lastName',
+  archive: 'archive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -650,6 +651,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
