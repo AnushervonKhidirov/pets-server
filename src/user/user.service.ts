@@ -40,7 +40,7 @@ export class UserService {
     where?: Prisma.UserWhereInput;
     include?: Prisma.UserInclude;
     omit?: Prisma.UserOmit;
-  }): ReturnWithErrPromise<User[]> {
+  } = {}): ReturnWithErrPromise<User[]> {
     try {
       const users = await this.prisma.user.findMany({ where, include, omit });
       return [users, null];
