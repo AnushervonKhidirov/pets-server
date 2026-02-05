@@ -5,12 +5,12 @@ export type Tokens = {
 
 export type TokenPayload = {
   sub: number;
-  phone: string;
+  email: string;
 };
 
 export type TokenDecoded = {
   sub: number;
-  phone: string;
+  email: string;
   iat: number;
   exp: number;
 };
