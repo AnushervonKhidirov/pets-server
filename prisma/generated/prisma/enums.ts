@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const AuthType = {
+  Local: 'Local',
+  Google: 'Google',
+  Yandex: 'Yandex'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type AuthType = (typeof AuthType)[keyof typeof AuthType]
