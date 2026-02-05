@@ -1,5 +1,6 @@
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens } from 'src/token/token.type';
+import { Prisma, AuthType } from 'prisma/generated/prisma/client';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TokenService } from 'src/token/token.service';
@@ -20,12 +21,18 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
-  async signUp(userData: CreateUserDto): ReturnWithErrPromise<Tokens> {
+  async signUpWithPassword(
+    userData: CreateUserDto,
+  ): ReturnWithErrPromise<Tokens> {
     try {
       const hashPassword = await hash(userData.password, 10);
 
       const [user, userErr] = await this.userService.create({
-        data: { ...userData, password: hashPassword },
+        data: {
+          ...userData,
+          password: hashPassword,
+          authType: AuthType.Local,
+        },
         omit: { password: true },
       });
 
@@ -40,19 +47,70 @@ export class AuthService {
     }
   }
 
-  async signIn(signInDto: SignInDto): ReturnWithErrPromise<Tokens> {
+  async signInWithPassword(signInDto: SignInDto): ReturnWithErrPromise<Tokens> {
     try {
       const [user, userErr] = await this.userService.findOne({
-        where: { phone: signInDto.phone },
+        where: { email: signInDto.email },
       });
 
       if (userErr) throw userErr;
+
+      if (!user.password) {
+        throw new BadRequestException(
+          "You don't password, please contact with support team",
+        );
+      }
 
       const isCorrectPassword = await compare(
         signInDto.password,
         user.password,
       );
       if (!isCorrectPassword) throw new BadRequestException('Wrong password');
+
+      const [tokens, tokenErr] = await this.generateToken(user);
+      if (tokenErr) throw tokenErr;
+
+      return [tokens, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  async signUpOAuth(
+    userData: Prisma.UserCreateInput,
+  ): ReturnWithErrPromise<Tokens> {
+    try {
+      const [user, userErr] = await this.userService.create({
+        data: {
+          ...userData,
+        },
+        omit: { password: true },
+      });
+
+      if (userErr) throw userErr;
+
+      const [tokens, tokenErr] = await this.generateToken(user);
+      if (tokenErr) throw tokenErr;
+
+      return [tokens, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  async signInOAuth({
+    email,
+    authType,
+  }: {
+    email: string;
+    authType: AuthType;
+  }): ReturnWithErrPromise<Tokens> {
+    try {
+      const [user, userErr] = await this.userService.findOne({
+        where: { email, authType },
+      });
+
+      if (userErr) throw userErr;
 
       const [tokens, tokenErr] = await this.generateToken(user);
       if (tokenErr) throw tokenErr;
@@ -106,7 +164,7 @@ export class AuthService {
     try {
       const [tokens, tokenErr] = await this.tokenService.generate({
         sub: user.id,
-        phone: user.phone,
+        email: user.email,
       });
 
       if (tokenErr) throw tokenErr;
