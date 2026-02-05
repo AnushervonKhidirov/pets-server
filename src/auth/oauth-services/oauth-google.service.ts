@@ -3,8 +3,13 @@ import type {
   ReturnWithErr,
   ReturnWithErrPromise,
 } from '@type/return-with-err.type';
+import type {
+  OAuthGoogleToken,
+  OAuthGoogleTokenDecoded,
+} from '../type/oauth-google.type';
 
 import { Injectable, Inject, HttpException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { stringify } from 'node:querystring';
 
 import { GoogleCallbackDto } from '../dto/google-callback.dto';
@@ -20,6 +25,7 @@ export class OAuthGoogleService {
   constructor(
     @Inject(oauthGoogleConfig.KEY)
     private readonly config: ConfigType<typeof oauthGoogleConfig>,
+    private readonly jwtService: JwtService,
   ) {}
 
   generateAuthUrl(): ReturnWithErr<string> {
@@ -29,7 +35,6 @@ export class OAuthGoogleService {
         redirect_uri: this.config.redirectUri,
         response_type: 'code',
         scope: ['profile', 'email', 'openid'].join(' '),
-        access_type: 'offline',
       };
 
       const url = `${this.authEndpoint}?${stringify(params)}`;
@@ -39,7 +44,9 @@ export class OAuthGoogleService {
     }
   }
 
-  async authCallback({ code }: GoogleCallbackDto): ReturnWithErrPromise<any> {
+  async authCallback({
+    code,
+  }: GoogleCallbackDto): ReturnWithErrPromise<OAuthGoogleTokenDecoded> {
     try {
       const params = {
         client_id: this.config.clientId,
@@ -53,18 +60,19 @@ export class OAuthGoogleService {
 
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-from-urlencoded',
-        },
+        headers: { 'Content-Type': 'application/x-www-from-urlencoded' },
       });
 
       if (response.status !== 200) {
         throw new HttpException(response.statusText, response.status);
       }
 
-      const tokens = await response.json();
+      const data = <OAuthGoogleToken>await response.json();
+      const decodedUserData = this.jwtService.decode<OAuthGoogleTokenDecoded>(
+        data.id_token,
+      );
 
-      return [tokens, null];
+      return [decodedUserData, null];
     } catch (err) {
       return exceptionHandler(err);
     }

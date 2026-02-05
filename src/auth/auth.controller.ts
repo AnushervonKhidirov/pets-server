@@ -10,10 +10,12 @@ import {
 import { ApiResponse } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
+import { OAuthGoogleService } from './oauth-services/oauth-google.service';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignOutDto } from './dto/sign-out.dto';
+import { GoogleCallbackDto } from './dto/google-callback.dto';
 
 const tokenExample: Tokens = {
   accessToken: 'your.access.token',
@@ -22,7 +24,24 @@ const tokenExample: Tokens = {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly oauthGoogleService: OAuthGoogleService,
+  ) {}
+
+  @Post('google/url')
+  googleUrl() {
+    const [url, err] = this.oauthGoogleService.generateAuthUrl();
+    if (err) throw err;
+    return url;
+  }
+
+  @Post('google/callback')
+  async googleCallback(@Body(new ValidationPipe()) body: GoogleCallbackDto) {
+    const [decodedUser, err] = await this.oauthGoogleService.authCallback(body);
+    if (err) throw err;
+    return decodedUser;
+  }
 
   @Post('sign-up')
   @HttpCode(200)
