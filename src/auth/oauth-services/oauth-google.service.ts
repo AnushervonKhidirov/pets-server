@@ -58,8 +58,6 @@ export class OAuthGoogleService {
         },
       });
 
-      console.log(response);
-
       if (response.status !== 200) {
         throw new HttpException(response.statusText, response.status);
       }
@@ -68,8 +66,6 @@ export class OAuthGoogleService {
 
       return [tokens, null];
     } catch (err) {
-      console.log(err);
-
       return exceptionHandler(err);
     }
   }
