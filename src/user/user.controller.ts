@@ -5,7 +5,6 @@ import type { TokenDecoded } from 'src/token/token.type';
 import {
   Controller,
   Get,
-  Patch,
   Delete,
   Req,
   Param,
@@ -58,37 +57,7 @@ export class UserController {
     return user;
   }
 
-  @Patch('archive')
-  @UseGuards(AuthGuard)
-  async archive(@Req() req: Request) {
-    const { sub } = this.getUserFromRequest(req);
-
-    const [user, err] = await this.userService.update({
-      where: { id: sub },
-      omit: userOmit,
-      data: { archive: true },
-    });
-
-    if (err) throw err;
-    return user;
-  }
-
-  @Patch('unarchive')
-  @UseGuards(AuthGuard)
-  async unarchive(@Req() req: Request) {
-    const { sub } = this.getUserFromRequest(req);
-
-    const [user, err] = await this.userService.update({
-      where: { id: sub },
-      omit: userOmit,
-      data: { archive: false },
-    });
-
-    if (err) throw err;
-    return user;
-  }
-
-  @Delete('')
+  @Delete()
   async delete(@Req() req: Request) {
     const { sub } = this.getUserFromRequest(req);
 
