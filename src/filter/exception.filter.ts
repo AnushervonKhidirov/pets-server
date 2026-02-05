@@ -35,7 +35,9 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
     );
 
     if (typeof exceptionResponse === 'string') {
-      response.status(status).json(httpException);
+      response
+        .status(status)
+        .json({ error: exceptionResponse, statusCode: status });
       return;
     }
 
