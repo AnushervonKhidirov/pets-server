@@ -1,12 +1,14 @@
+import type { ConfigType } from '@nestjs/config';
 import type { Prisma, Token } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens, TokenPayload, TokenDecoded } from './token.type';
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import dayjs from 'dayjs';
+import tokenConfig from './token.config';
 import { exceptionHandler } from '@helper/exception.helper';
 
 const accessExpiresIn = dayjs.duration(30, 'm');
@@ -15,6 +17,8 @@ const refreshExpiresIn = dayjs.duration(3, 'd');
 @Injectable()
 export class TokenService {
   constructor(
+    @Inject(tokenConfig.KEY)
+    private readonly config: ConfigType<typeof tokenConfig>,
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
@@ -22,11 +26,11 @@ export class TokenService {
   async generate(payload: TokenPayload): ReturnWithErrPromise<Tokens> {
     try {
       const accessToken = await this.jwtService.signAsync(payload, {
-        secret: process.env.ACCESS_SECRET,
+        secret: this.config.accessSecret,
         expiresIn: accessExpiresIn.asSeconds(),
       });
       const refreshToken = await this.jwtService.signAsync(payload, {
-        secret: process.env.REFRESH_SECRET,
+        secret: this.config.refreshSecret,
         expiresIn: refreshExpiresIn.asSeconds(),
       });
 
@@ -88,7 +92,7 @@ export class TokenService {
     try {
       const decoded = await this.jwtService.verifyAsync<TokenDecoded>(
         accessToken,
-        { secret: process.env.ACCESS_SECRET },
+        { secret: this.config.accessSecret },
       );
 
       return [decoded, null];
@@ -104,7 +108,7 @@ export class TokenService {
       const decoded = await this.jwtService.verifyAsync<TokenDecoded>(
         refreshToken,
         {
-          secret: process.env.REFRESH_SECRET,
+          secret: this.config.refreshSecret,
         },
       );
 
