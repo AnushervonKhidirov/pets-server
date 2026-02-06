@@ -1,14 +1,18 @@
+import type { Response } from 'express';
 import type { Tokens } from 'src/token/token.type';
 
 import {
   Controller,
+  Get,
   Post,
+  Redirect,
   Body,
   ValidationPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+import { AuthType } from 'prisma/generated/prisma/enums';
 
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
@@ -18,7 +22,6 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignOutDto } from './dto/sign-out.dto';
 import { GoogleCallbackDto } from './dto/google-callback.dto';
-import { AuthType } from 'prisma/generated/prisma/enums';
 
 const tokenExample: Tokens = {
   accessToken: 'your.access.token',
@@ -33,17 +36,21 @@ export class AuthController {
     private readonly oauthGoogleService: OAuthGoogleService,
   ) {}
 
-  @Post('google/url')
+  @Get('google/url')
+  @Redirect()
+  @ApiResponse({
+    status: 302,
+    description: 'Redirect to Google OAuth page',
+  })
   googleUrl() {
-    // TODO: redirect to oauth url!
     const [url, err] = this.oauthGoogleService.generateAuthUrl();
     if (err) throw err;
-    return url;
+    return { url };
   }
 
   @Post('google/callback')
   @HttpCode(200)
-  @ApiResponse({ example: tokenExample })
+  @ApiResponse({ example: tokenExample, status: 200 })
   async googleCallback(@Body(new ValidationPipe()) body: GoogleCallbackDto) {
     const [decodedUser, decodeErr] =
       await this.oauthGoogleService.authCallback(body);
@@ -85,7 +92,7 @@ export class AuthController {
 
   @Post('sign-up')
   @HttpCode(200)
-  @ApiResponse({ example: tokenExample })
+  @ApiResponse({ example: tokenExample, status: 200 })
   async signUp(
     @Body(new ValidationPipe({ transform: true })) data: CreateUserDto,
   ) {
@@ -95,8 +102,8 @@ export class AuthController {
   }
 
   @Post('sign-in')
-  @ApiResponse({ example: tokenExample })
   @HttpCode(200)
+  @ApiResponse({ example: tokenExample, status: 200 })
   async signIn(@Body(new ValidationPipe({ transform: true })) data: SignInDto) {
     const [token, err] = await this.authService.signInWithPassword(data);
     if (err) throw err;
