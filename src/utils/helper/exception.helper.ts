@@ -28,22 +28,6 @@ export function exceptionHandler(err: unknown): [null, HttpException] {
 }
 
 function prismaErrHandler(err: PrismaClientKnownRequestError) {
-  if (
-    'driverAdapterError' in err.meta! &&
-    err.meta.driverAdapterError &&
-    typeof err.meta.driverAdapterError === 'object' &&
-    'cause' in err.meta.driverAdapterError
-  ) {
-    {
-      console.log('err', err);
-      console.log('err.meta', err.meta);
-      console.log(
-        'err.meta.driverAdapterError.cause',
-        err.meta.driverAdapterError.cause,
-      );
-    }
-  }
-
   const Error: {
     [key: PrismaClientKnownRequestError['code']]: HttpException;
   } = {
