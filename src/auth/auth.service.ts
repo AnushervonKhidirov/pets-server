@@ -9,6 +9,7 @@ import { UserService } from 'src/user/user.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignOutDto } from './dto/sign-out.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
@@ -121,7 +122,7 @@ export class AuthService {
     }
   }
 
-  async signOut({ refreshToken }: SignOutDto): ReturnWithErrPromise<null> {
+  async signOut({ refreshToken }: SignOutDto): ReturnWithErrPromise {
     try {
       const [, verifyErr] =
         await this.tokenService.verifyRefreshToken(refreshToken);
@@ -137,9 +138,7 @@ export class AuthService {
     }
   }
 
-  async signOutEverywhere({
-    refreshToken,
-  }: SignOutDto): ReturnWithErrPromise<null> {
+  async signOutEverywhere({ refreshToken }: SignOutDto): ReturnWithErrPromise {
     try {
       const [decodedToken, verifyErr] =
         await this.tokenService.verifyRefreshToken(refreshToken);
@@ -158,19 +157,44 @@ export class AuthService {
     }
   }
 
-  private async generateToken(
-    user: Readonly<User>,
-  ): ReturnWithErrPromise<Tokens> {
+  async refreshToken({
+    refreshToken,
+  }: RefreshTokenDto): ReturnWithErrPromise<Tokens> {
+    try {
+      const [decodedToken, verifyErr] =
+        await this.tokenService.verifyRefreshToken(refreshToken);
+
+      if (verifyErr) throw verifyErr;
+
+      const [, deleteErr] = await this.tokenService.delete(refreshToken);
+      if (deleteErr) throw deleteErr;
+
+      const [token, tokenErr] = await this.generateToken({
+        id: decodedToken.sub,
+        email: decodedToken.email,
+      });
+      if (tokenErr) throw tokenErr;
+
+      return [token, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  private async generateToken({
+    id,
+    email,
+  }: Pick<User, 'id' | 'email'>): ReturnWithErrPromise<Tokens> {
     try {
       const [tokens, tokenErr] = await this.tokenService.generate({
-        sub: user.id,
-        email: user.email,
+        sub: id,
+        email: email,
       });
 
       if (tokenErr) throw tokenErr;
 
       const [, saveTokenErr] = await this.tokenService.save(
-        user.id,
+        id,
         tokens.refreshToken,
       );
 
