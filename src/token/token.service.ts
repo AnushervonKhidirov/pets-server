@@ -56,7 +56,7 @@ export class TokenService {
     }
   }
 
-  async delete(refreshToken: string): ReturnWithErrPromise<null> {
+  async delete(refreshToken: string): ReturnWithErrPromise {
     try {
       await this.prisma.token.delete({ where: { refreshToken } });
       return [null, null];
@@ -65,7 +65,7 @@ export class TokenService {
     }
   }
 
-  async deleteAllUsersToken(userId: number): ReturnWithErrPromise<null> {
+  async deleteAllUsersToken(userId: number): ReturnWithErrPromise {
     try {
       await this.prisma.token.deleteMany({ where: { userId } });
       return [null, null];
