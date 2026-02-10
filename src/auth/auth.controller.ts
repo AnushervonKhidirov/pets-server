@@ -1,11 +1,9 @@
-import type { Response } from 'express';
 import type { Tokens } from 'src/token/token.type';
 
 import {
   Controller,
   Get,
   Post,
-  Redirect,
   Body,
   ValidationPipe,
   HttpCode,
@@ -37,10 +35,9 @@ export class AuthController {
   ) {}
 
   @Get('google/url')
-  @Redirect()
   @ApiResponse({
-    status: 302,
-    description: 'Redirect to Google OAuth page',
+    status: 200,
+    example: { url: 'https://accounts.google.com/o/oauth2/v2/auth' },
   })
   googleUrl() {
     const [url, err] = this.oauthGoogleService.generateAuthUrl();
