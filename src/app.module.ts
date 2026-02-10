@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 
 import { PrismaModule } from './prisma/prisma.module';
 import { TokenModule } from './token/token.module';
+import { ScheduledTaskModule } from './scheduled-task/scheduled-task.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
@@ -11,6 +12,7 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({ envFilePath: getEnv(), isGlobal: true }),
     PrismaModule,
     TokenModule,
+    ScheduledTaskModule,
     AuthModule,
     UserModule,
   ],
