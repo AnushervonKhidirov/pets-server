@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { exceptionHandler } from '@helper/exception.helper';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -66,21 +67,43 @@ export class UserService {
     }
   }
 
-  async update({
-    data,
-    where,
-    include,
-    omit,
-  }: {
-    data: Prisma.UserUpdateInput;
-    where: Prisma.UserWhereUniqueInput;
-    include?: Prisma.UserInclude;
-    omit?: Prisma.UserOmit;
-  }): ReturnWithErrPromise<User> {
+  async update(
+    {
+      data,
+      where,
+      include,
+      omit,
+    }: {
+      data: UpdateUserDto;
+      where: Prisma.UserWhereUniqueInput;
+      include?: Prisma.UserInclude;
+      omit?: Prisma.UserOmit;
+    },
+    userId: number,
+  ): ReturnWithErrPromise<User> {
     try {
+      const { address, ...userData } = data;
+
+      if (address) {
+        const userAddress = await this.prisma.address.findUnique({
+          where: { userId },
+        });
+
+        if (userAddress) {
+          await this.prisma.address.update({
+            where: { userId },
+            data: address,
+          });
+        } else {
+          await this.prisma.address.create({
+            data: { ...address, userId },
+          });
+        }
+      }
+
       const user = await this.prisma.user.update({
         where,
-        data,
+        data: userData,
         include,
         omit,
       });

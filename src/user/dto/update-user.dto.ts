@@ -1,0 +1,74 @@
+import type { NullableJsonNullValueInput } from 'prisma/generated/prisma/internal/prismaNamespace';
+
+import {
+  IsOptional,
+  IsPhoneNumber,
+  IsJSON,
+  IsString,
+  IsNumber,
+  Min,
+  Max,
+  ValidateNested,
+} from 'class-validator';
+import { ApiProperty, ApiSchema, PartialType } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import parsePhoneNumberFromString from 'libphonenumber-js';
+
+import { CreateUserDto } from './create-user.dto';
+
+export class AddressDto {
+  @IsString()
+  address: string;
+
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
+  latitude: number;
+
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
+  longitude: number;
+}
+
+@ApiSchema({ name: 'Update user DTO' })
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @ApiProperty({ example: '+992715303256', required: false })
+  @IsPhoneNumber('TJ')
+  @Transform(({ obj }: { obj: { phone: string } }) => {
+    if ('phone' in obj) {
+      const formattedNumber = parsePhoneNumberFromString(
+        obj.phone,
+        'TJ',
+      )?.number.toString();
+
+      obj.phone = formattedNumber ?? obj.phone;
+      return obj.phone;
+    }
+  })
+  @IsOptional()
+  phone?: string;
+
+  @ApiProperty({
+    example: JSON.stringify([
+      { name: 'Telegram', value: '@username' },
+      { name: 'WatsApp', value: '@username' },
+    ]),
+    required: false,
+  })
+  @IsJSON()
+  @IsOptional()
+  contacts?: NullableJsonNullValueInput;
+
+  @ApiProperty({
+    example: {
+      address: 'some address, appartment number',
+      latitude: 40.4123124123,
+      longitude: 90.4123124123,
+    },
+  })
+  @ValidateNested()
+  @Type(() => AddressDto)
+  @IsOptional()
+  address?: AddressDto;
+}
