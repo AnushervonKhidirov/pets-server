@@ -19,6 +19,7 @@ import { OAuthGoogleService } from './oauth-services/oauth-google.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignOutDto } from './dto/sign-out.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { GoogleCallbackDto } from './dto/google-callback.dto';
 
 const tokenExample: Tokens = {
@@ -118,5 +119,13 @@ export class AuthController {
   async signOutEverywhere(@Body(new ValidationPipe()) data: SignOutDto) {
     const [, err] = await this.authService.signOutEverywhere(data);
     if (err) throw err;
+  }
+
+  @Post('sign-out-everywhere')
+  @HttpCode(200)
+  async refreshToken(@Body(new ValidationPipe()) data: RefreshTokenDto) {
+    const [token, err] = await this.authService.refreshToken(data);
+    if (err) throw err;
+    return token;
   }
 }
