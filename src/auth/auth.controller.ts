@@ -121,7 +121,7 @@ export class AuthController {
     if (err) throw err;
   }
 
-  @Post('sign-out-everywhere')
+  @Post('refresh-token')
   @HttpCode(200)
   async refreshToken(@Body(new ValidationPipe()) data: RefreshTokenDto) {
     const [token, err] = await this.authService.refreshToken(data);
