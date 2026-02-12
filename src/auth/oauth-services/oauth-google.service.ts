@@ -33,8 +33,8 @@ export class OAuthGoogleService {
       const params = {
         client_id: this.config.clientId,
         redirect_uri: this.config.redirectUri,
-        response_type: 'code',
-        scope: ['profile', 'email', 'openid'].join(' '),
+        response_type: this.config.responseType,
+        scope: this.config.scope.join(' '),
       };
 
       const url = `${this.authEndpoint}?${stringify(params)}`;
@@ -52,7 +52,7 @@ export class OAuthGoogleService {
         client_id: this.config.clientId,
         client_secret: this.config.clientSecret,
         redirect_uri: this.config.redirectUri,
-        grant_type: 'authorization_code',
+        grant_type: this.config.grantType,
         code,
       };
 
