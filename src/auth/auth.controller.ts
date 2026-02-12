@@ -49,7 +49,9 @@ export class AuthController {
   @Post('google/callback')
   @HttpCode(200)
   @ApiResponse({ example: tokenExample, status: 200 })
-  async googleCallback(@Body(new ValidationPipe()) body: GoogleCallbackDto) {
+  async googleCallback(
+    @Body(new ValidationPipe({ whitelist: true })) body: GoogleCallbackDto,
+  ) {
     const [decodedUser, decodeErr] =
       await this.oauthGoogleService.authCallback(body);
     if (decodeErr) throw decodeErr;
@@ -91,7 +93,8 @@ export class AuthController {
   @HttpCode(200)
   @ApiResponse({ example: tokenExample, status: 200 })
   async signUp(
-    @Body(new ValidationPipe({ transform: true })) data: CreateUserDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: CreateUserDto,
   ) {
     const [token, err] = await this.authService.signUpWithPassword(data);
     if (err) throw err;
@@ -101,7 +104,10 @@ export class AuthController {
   @Post('sign-in')
   @HttpCode(200)
   @ApiResponse({ example: tokenExample, status: 200 })
-  async signIn(@Body(new ValidationPipe({ transform: true })) data: SignInDto) {
+  async signIn(
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: SignInDto,
+  ) {
     const [token, err] = await this.authService.signInWithPassword(data);
     if (err) throw err;
     return token;
@@ -109,21 +115,27 @@ export class AuthController {
 
   @Post('sign-out')
   @HttpCode(200)
-  async signOut(@Body(new ValidationPipe()) data: SignOutDto) {
+  async signOut(
+    @Body(new ValidationPipe({ whitelist: true })) data: SignOutDto,
+  ) {
     const [, err] = await this.authService.signOut(data);
     if (err) throw err;
   }
 
   @Post('sign-out-everywhere')
   @HttpCode(200)
-  async signOutEverywhere(@Body(new ValidationPipe()) data: SignOutDto) {
+  async signOutEverywhere(
+    @Body(new ValidationPipe({ whitelist: true })) data: SignOutDto,
+  ) {
     const [, err] = await this.authService.signOutEverywhere(data);
     if (err) throw err;
   }
 
   @Post('refresh-token')
   @HttpCode(200)
-  async refreshToken(@Body(new ValidationPipe()) data: RefreshTokenDto) {
+  async refreshToken(
+    @Body(new ValidationPipe({ whitelist: true })) data: RefreshTokenDto,
+  ) {
     const [token, err] = await this.authService.refreshToken(data);
     if (err) throw err;
     return token;

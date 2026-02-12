@@ -19,7 +19,8 @@ import { CreateUserDto } from './create-user.dto';
 export class AddressDto {
   @ApiProperty({ example: 'some address, appartment number' })
   @IsString()
-  address: string;
+  @IsOptional()
+  address?: string;
 
   @ApiProperty({ example: 40.4123124123 })
   @IsNumber()

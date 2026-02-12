@@ -193,7 +193,7 @@ export type AddressGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type AddressGroupByOutputType = {
   id: number
-  address: string
+  address: string | null
   latitude: number | null
   longitude: number | null
   userId: number
@@ -224,7 +224,7 @@ export type AddressWhereInput = {
   OR?: Prisma.AddressWhereInput[]
   NOT?: Prisma.AddressWhereInput | Prisma.AddressWhereInput[]
   id?: Prisma.IntFilter<"Address"> | number
-  address?: Prisma.StringFilter<"Address"> | string
+  address?: Prisma.StringNullableFilter<"Address"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Address"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Address"> | number | null
   userId?: Prisma.IntFilter<"Address"> | number
@@ -233,7 +233,7 @@ export type AddressWhereInput = {
 
 export type AddressOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -247,7 +247,7 @@ export type AddressWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AddressWhereInput | Prisma.AddressWhereInput[]
   OR?: Prisma.AddressWhereInput[]
   NOT?: Prisma.AddressWhereInput | Prisma.AddressWhereInput[]
-  address?: Prisma.StringFilter<"Address"> | string
+  address?: Prisma.StringNullableFilter<"Address"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Address"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Address"> | number | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -255,7 +255,7 @@ export type AddressWhereUniqueInput = Prisma.AtLeast<{
 
 export type AddressOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -271,14 +271,14 @@ export type AddressScalarWhereWithAggregatesInput = {
   OR?: Prisma.AddressScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AddressScalarWhereWithAggregatesInput | Prisma.AddressScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Address"> | number
-  address?: Prisma.StringWithAggregatesFilter<"Address"> | string
+  address?: Prisma.StringNullableWithAggregatesFilter<"Address"> | string | null
   latitude?: Prisma.FloatNullableWithAggregatesFilter<"Address"> | number | null
   longitude?: Prisma.FloatNullableWithAggregatesFilter<"Address"> | number | null
   userId?: Prisma.IntWithAggregatesFilter<"Address"> | number
 }
 
 export type AddressCreateInput = {
-  address: string
+  address?: string | null
   latitude?: number | null
   longitude?: number | null
   user: Prisma.UserCreateNestedOneWithoutAddressInput
@@ -286,14 +286,14 @@ export type AddressCreateInput = {
 
 export type AddressUncheckedCreateInput = {
   id?: number
-  address: string
+  address?: string | null
   latitude?: number | null
   longitude?: number | null
   userId: number
 }
 
 export type AddressUpdateInput = {
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   user?: Prisma.UserUpdateOneRequiredWithoutAddressNestedInput
@@ -301,7 +301,7 @@ export type AddressUpdateInput = {
 
 export type AddressUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   userId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -309,21 +309,21 @@ export type AddressUncheckedUpdateInput = {
 
 export type AddressCreateManyInput = {
   id?: number
-  address: string
+  address?: string | null
   latitude?: number | null
   longitude?: number | null
   userId: number
 }
 
 export type AddressUpdateManyMutationInput = {
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AddressUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   userId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -419,14 +419,14 @@ export type NullableFloatFieldUpdateOperationsInput = {
 }
 
 export type AddressCreateWithoutUserInput = {
-  address: string
+  address?: string | null
   latitude?: number | null
   longitude?: number | null
 }
 
 export type AddressUncheckedCreateWithoutUserInput = {
   id?: number
-  address: string
+  address?: string | null
   latitude?: number | null
   longitude?: number | null
 }
@@ -448,14 +448,14 @@ export type AddressUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type AddressUpdateWithoutUserInput = {
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AddressUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
@@ -493,7 +493,7 @@ export type $AddressPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    address: string
+    address: string | null
     latitude: number | null
     longitude: number | null
     userId: number

@@ -131,7 +131,8 @@ export class UserController {
   })
   async update(
     @Req() req: Request,
-    @Body(new ValidationPipe({ transform: true })) data: UpdateUserDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: UpdateUserDto,
   ) {
     const { sub } = this.getUserFromRequest(req);
 

@@ -122,7 +122,13 @@ export class UserService {
       where: { userId },
     });
 
-    if (address) {
+    const isInstance = address instanceof AddressDto;
+
+    if (isInstance) {
+      for (const key in address) {
+        if (!address[key]) address[key] = null;
+      }
+
       if (userAddress) {
         await this.prisma.address.update({
           where: { userId },
@@ -135,7 +141,7 @@ export class UserService {
       }
     }
 
-    if (userAddress && address === null) {
+    if (!isInstance && userAddress) {
       await this.prisma.address.delete({
         where: { userId },
       });
