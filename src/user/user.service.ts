@@ -118,11 +118,11 @@ export class UserService {
   }
 
   private async addressHandler(userId: number, address?: AddressDto | null) {
-    if (address) {
-      const userAddress = await this.prisma.address.findUnique({
-        where: { userId },
-      });
+    const userAddress = await this.prisma.address.findUnique({
+      where: { userId },
+    });
 
+    if (address) {
       if (userAddress) {
         await this.prisma.address.update({
           where: { userId },
@@ -135,7 +135,7 @@ export class UserService {
       }
     }
 
-    if (address === null) {
+    if (userAddress && address === null) {
       await this.prisma.address.delete({
         where: { userId },
       });

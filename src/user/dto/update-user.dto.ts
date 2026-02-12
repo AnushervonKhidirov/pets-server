@@ -2,13 +2,13 @@ import type { NullableJsonNullValueInput } from 'prisma/generated/prisma/interna
 
 import {
   IsPhoneNumber,
-  IsJSON,
   IsString,
   IsNumber,
   Min,
   Max,
   ValidateNested,
   IsOptional,
+  IsArray,
 } from 'class-validator';
 import { ApiProperty, ApiSchema, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
@@ -56,13 +56,13 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   phone?: string;
 
   @ApiProperty({
-    example: JSON.stringify([
-      { name: 'Telegram', value: '@username' },
-      { name: 'WatsApp', value: '@username' },
-    ]),
+    example: [
+      { name: 'Telegram', value: 'username' },
+      { name: 'WatsApp', value: 'username' },
+    ],
     required: false,
   })
-  @IsJSON()
+  @IsArray()
   @IsOptional()
   contacts?: NullableJsonNullValueInput;
 
