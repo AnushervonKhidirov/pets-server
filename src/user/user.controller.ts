@@ -38,10 +38,10 @@ const userExample1 = {
   phone: '+992715303256',
   firstName: 'firstName',
   lastName: 'lastName',
-  contacts: JSON.stringify([
+  contacts: [
     { name: 'Telegram', value: '@username' },
     { name: 'WatsApp', value: '@username' },
-  ]),
+  ],
   address: {
     id: 1,
     address: 'some address, appartment number',
