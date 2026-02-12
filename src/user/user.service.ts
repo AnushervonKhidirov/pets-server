@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { exceptionHandler } from '@helper/exception.helper';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, AddressDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -84,22 +84,7 @@ export class UserService {
     try {
       const { address, ...userData } = data;
 
-      if (address) {
-        const userAddress = await this.prisma.address.findUnique({
-          where: { userId },
-        });
-
-        if (userAddress) {
-          await this.prisma.address.update({
-            where: { userId },
-            data: address,
-          });
-        } else {
-          await this.prisma.address.create({
-            data: { ...address, userId },
-          });
-        }
-      }
+      await this.addressHandler(userId, address);
 
       const user = await this.prisma.user.update({
         where,
@@ -129,6 +114,31 @@ export class UserService {
       return [user, null];
     } catch (err) {
       return exceptionHandler(err);
+    }
+  }
+
+  private async addressHandler(userId: number, address?: AddressDto | null) {
+    if (address) {
+      const userAddress = await this.prisma.address.findUnique({
+        where: { userId },
+      });
+
+      if (userAddress) {
+        await this.prisma.address.update({
+          where: { userId },
+          data: address,
+        });
+      } else {
+        await this.prisma.address.create({
+          data: { ...address, userId },
+        });
+      }
+    }
+
+    if (address === null) {
+      await this.prisma.address.delete({
+        where: { userId },
+      });
     }
   }
 }

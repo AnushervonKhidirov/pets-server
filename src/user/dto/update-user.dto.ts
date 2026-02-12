@@ -1,7 +1,6 @@
 import type { NullableJsonNullValueInput } from 'prisma/generated/prisma/internal/prismaNamespace';
 
 import {
-  IsOptional,
   IsPhoneNumber,
   IsJSON,
   IsString,
@@ -9,6 +8,7 @@ import {
   Min,
   Max,
   ValidateNested,
+  IsOptional,
 } from 'class-validator';
 import { ApiProperty, ApiSchema, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
@@ -38,7 +38,8 @@ export class AddressDto {
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ example: '+992715303256', required: false })
   @IsPhoneNumber('TJ')
-  @Transform(({ obj }: { obj: { phone: string } }) => {
+  @Transform(({ obj }: { obj: { phone: string | null } }) => {
+    if (!obj.phone) return obj.phone;
     if ('phone' in obj) {
       const formattedNumber = parsePhoneNumberFromString(
         obj.phone,
@@ -71,7 +72,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     },
     required: false,
   })
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => AddressDto)
   @IsOptional()
   address?: AddressDto;
