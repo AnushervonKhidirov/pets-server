@@ -25,13 +25,15 @@ export class AddressDto {
   @IsNumber()
   @Min(-90)
   @Max(90)
-  latitude: number;
+  @IsOptional()
+  latitude?: number;
 
   @ApiProperty({ example: 90.4123124123 })
   @IsNumber()
   @Min(-180)
   @Max(180)
-  longitude: number;
+  @IsOptional()
+  longitude?: number;
 }
 
 @ApiSchema({ name: 'Update user DTO' })

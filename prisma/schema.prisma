@@ -28,8 +28,8 @@ model User {
 model Address {
   id        Int    @id @default(autoincrement())
   address   String
-  latitude  Float
-  longitude Float
+  latitude  Float?
+  longitude Float?
   userId    Int    @unique @map("user_id")
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
