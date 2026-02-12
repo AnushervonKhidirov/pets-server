@@ -17,14 +17,17 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 import { CreateUserDto } from './create-user.dto';
 
 export class AddressDto {
+  @ApiProperty({ example: 'some address, appartment number' })
   @IsString()
   address: string;
 
+  @ApiProperty({ example: 40.4123124123 })
   @IsNumber()
   @Min(-90)
   @Max(90)
   latitude: number;
 
+  @ApiProperty({ example: 90.4123124123 })
   @IsNumber()
   @Min(-180)
   @Max(180)
@@ -66,6 +69,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
       latitude: 40.4123124123,
       longitude: 90.4123124123,
     },
+    required: false,
   })
   @ValidateNested()
   @Type(() => AddressDto)
