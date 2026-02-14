@@ -95,6 +95,10 @@ export class TokenService {
         { secret: this.config.accessSecret },
       );
 
+      await this.prisma.token.findFirstOrThrow({
+        where: { userId: decoded.sub },
+      });
+
       return [decoded, null];
     } catch (err) {
       return exceptionHandler(this.tokenErrorsToHttpException(err));
@@ -111,6 +115,8 @@ export class TokenService {
           secret: this.config.refreshSecret,
         },
       );
+
+      await this.prisma.token.findUniqueOrThrow({ where: { refreshToken } });
 
       return [decoded, null];
     } catch (err) {
