@@ -81,6 +81,7 @@ export class AuthController {
       email: decodedUser.email,
       firstName: decodedUser.given_name,
       lastName: decodedUser.family_name,
+      avatar: decodedUser.picture,
       authType: AuthType.Google,
     });
 

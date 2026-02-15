@@ -79,6 +79,7 @@ export const UserScalarFieldEnum = {
   password: 'password',
   firstName: 'firstName',
   lastName: 'lastName',
+  avatar: 'avatar',
   contacts: 'contacts',
   authType: 'authType',
   createdAt: 'createdAt',
@@ -154,7 +155,8 @@ export const UserOrderByRelevanceFieldEnum = {
   phone: 'phone',
   password: 'password',
   firstName: 'firstName',
-  lastName: 'lastName'
+  lastName: 'lastName',
+  avatar: 'avatar'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
