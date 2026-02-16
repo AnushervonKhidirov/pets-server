@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { BreedService } from '../service/breed.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiQuery } from '@nestjs/swagger';
 
 import { CreateBreedDto, CreateManyBreedDto } from '../dto/create-breed.dto';
 import { UpdateBreedDto } from '../dto/update-breed.dto';
@@ -38,6 +38,7 @@ export class BreedController {
     return breed;
   }
 
+  @ApiQuery({ example: 1, name: 'petTypeId', required: false })
   @ApiResponse({ example: breedExample })
   @Get()
   async findMany(
