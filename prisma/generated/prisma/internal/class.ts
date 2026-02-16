@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../prisma/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  phone     String?  @db.VarChar(20)\n  password  String?\n  firstName String   @map(\"first_name\") @db.VarChar(30)\n  lastName  String?  @map(\"last_name\") @db.VarChar(30)\n  avatar    String?\n  contacts  Json?\n  authType  AuthType\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamp(0)\n  updatedAt DateTime @updatedAt @map(\"updated_at\") @db.Timestamp(0)\n  tokens    Token[]\n  address   Address?\n\n  @@map(\"user\")\n}\n\nmodel Address {\n  id        Int     @id @default(autoincrement())\n  address   String?\n  latitude  Float?\n  longitude Float?\n  userId    Int     @unique @map(\"user_id\")\n  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"address\")\n}\n\nmodel Token {\n  refreshToken String   @unique\n  userId       Int      @map(\"user_id\")\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiredAt    DateTime @map(\"expired_at\") @db.Timestamp(0)\n\n  @@map(\"token\")\n}\n\nenum AuthType {\n  Local\n  Google\n  Yandex\n}\n",
+  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../prisma/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  phone     String?  @db.VarChar(20)\n  password  String?\n  firstName String   @map(\"first_name\") @db.VarChar(30)\n  lastName  String?  @map(\"last_name\") @db.VarChar(30)\n  avatar    String?\n  contacts  Json?\n  authType  AuthType\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamp(0)\n  updatedAt DateTime @updatedAt @map(\"updated_at\") @db.Timestamp(0)\n  tokens    Token[]\n  address   Address?\n\n  @@map(\"user\")\n}\n\nmodel Address {\n  id        Int     @id @default(autoincrement())\n  address   String?\n  latitude  Float?\n  longitude Float?\n  userId    Int     @unique @map(\"user_id\")\n  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"address\")\n}\n\nmodel Token {\n  refreshToken String   @unique\n  userId       Int      @map(\"user_id\")\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiredAt    DateTime @map(\"expired_at\") @db.Timestamp(0)\n\n  @@map(\"token\")\n}\n\nmodel Pets {\n  id          Int      @id @default(autoincrement())\n  name        String   @db.VarChar(30)\n  sex         Sex\n  birthday    DateTime\n  microchipId String   @map(\"microchip_id\")\n  petType     PetType  @relation(fields: [petTypeId], references: [id])\n  petTypeId   Int      @map(\"pet_type_id\")\n  breed       Breed    @relation(fields: [breedId], references: [id])\n  breedId     Int      @map(\"breed_id\")\n\n  @@map(\"pets\")\n}\n\nmodel PetType {\n  id     Int     @id @default(autoincrement())\n  en     String  @unique @db.VarChar(50)\n  ru     String  @unique @db.VarChar(50)\n  breeds Breed[]\n  pets   Pets[]\n\n  @@map(\"pet_type\")\n}\n\nmodel Breed {\n  id        Int     @id @default(autoincrement())\n  en        String  @unique @db.VarChar(50)\n  ru        String  @unique @db.VarChar(50)\n  petType   PetType @relation(fields: [petTypeId], references: [id])\n  petTypeId Int     @map(\"pet_type_id\")\n  pets      Pets[]\n\n  @@map(\"breed\")\n}\n\nenum AuthType {\n  Local\n  Google\n  Yandex\n}\n\nenum Sex {\n  Male\n  Female\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"first_name\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"last_name\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contacts\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"authType\",\"kind\":\"enum\",\"type\":\"AuthType\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"tokens\",\"kind\":\"object\",\"type\":\"Token\",\"relationName\":\"TokenToUser\"},{\"name\":\"address\",\"kind\":\"object\",\"type\":\"Address\",\"relationName\":\"AddressToUser\"}],\"dbName\":\"user\"},\"Address\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AddressToUser\"}],\"dbName\":\"address\"},\"Token\":{\"fields\":[{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TokenToUser\"},{\"name\":\"expiredAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"expired_at\"}],\"dbName\":\"token\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"first_name\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"last_name\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contacts\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"authType\",\"kind\":\"enum\",\"type\":\"AuthType\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"tokens\",\"kind\":\"object\",\"type\":\"Token\",\"relationName\":\"TokenToUser\"},{\"name\":\"address\",\"kind\":\"object\",\"type\":\"Address\",\"relationName\":\"AddressToUser\"}],\"dbName\":\"user\"},\"Address\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AddressToUser\"}],\"dbName\":\"address\"},\"Token\":{\"fields\":[{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TokenToUser\"},{\"name\":\"expiredAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"expired_at\"}],\"dbName\":\"token\"},\"Pets\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sex\",\"kind\":\"enum\",\"type\":\"Sex\"},{\"name\":\"birthday\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"microchipId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"microchip_id\"},{\"name\":\"petType\",\"kind\":\"object\",\"type\":\"PetType\",\"relationName\":\"PetTypeToPets\"},{\"name\":\"petTypeId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"pet_type_id\"},{\"name\":\"breed\",\"kind\":\"object\",\"type\":\"Breed\",\"relationName\":\"BreedToPets\"},{\"name\":\"breedId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"breed_id\"}],\"dbName\":\"pets\"},\"PetType\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"en\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ru\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"breeds\",\"kind\":\"object\",\"type\":\"Breed\",\"relationName\":\"BreedToPetType\"},{\"name\":\"pets\",\"kind\":\"object\",\"type\":\"Pets\",\"relationName\":\"PetTypeToPets\"}],\"dbName\":\"pet_type\"},\"Breed\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"en\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ru\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"petType\",\"kind\":\"object\",\"type\":\"PetType\",\"relationName\":\"BreedToPetType\"},{\"name\":\"petTypeId\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"pet_type_id\"},{\"name\":\"pets\",\"kind\":\"object\",\"type\":\"Pets\",\"relationName\":\"BreedToPets\"}],\"dbName\":\"breed\"}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -205,6 +205,36 @@ export interface PrismaClient<
     * ```
     */
   get token(): Prisma.TokenDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.pets`: Exposes CRUD operations for the **Pets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pets
+    * const pets = await prisma.pets.findMany()
+    * ```
+    */
+  get pets(): Prisma.PetsDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.petType`: Exposes CRUD operations for the **PetType** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PetTypes
+    * const petTypes = await prisma.petType.findMany()
+    * ```
+    */
+  get petType(): Prisma.PetTypeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.breed`: Exposes CRUD operations for the **Breed** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Breeds
+    * const breeds = await prisma.breed.findMany()
+    * ```
+    */
+  get breed(): Prisma.BreedDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

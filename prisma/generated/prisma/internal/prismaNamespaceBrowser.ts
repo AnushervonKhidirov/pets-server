@@ -53,7 +53,10 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Address: 'Address',
-  Token: 'Token'
+  Token: 'Token',
+  Pets: 'Pets',
+  PetType: 'PetType',
+  Breed: 'Breed'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -107,6 +110,38 @@ export const TokenScalarFieldEnum = {
 } as const
 
 export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
+
+
+export const PetsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sex: 'sex',
+  birthday: 'birthday',
+  microchipId: 'microchipId',
+  petTypeId: 'petTypeId',
+  breedId: 'breedId'
+} as const
+
+export type PetsScalarFieldEnum = (typeof PetsScalarFieldEnum)[keyof typeof PetsScalarFieldEnum]
+
+
+export const PetTypeScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type PetTypeScalarFieldEnum = (typeof PetTypeScalarFieldEnum)[keyof typeof PetTypeScalarFieldEnum]
+
+
+export const BreedScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru',
+  petTypeId: 'petTypeId'
+} as const
+
+export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof BreedScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -174,4 +209,28 @@ export const TokenOrderByRelevanceFieldEnum = {
 } as const
 
 export type TokenOrderByRelevanceFieldEnum = (typeof TokenOrderByRelevanceFieldEnum)[keyof typeof TokenOrderByRelevanceFieldEnum]
+
+
+export const PetsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  microchipId: 'microchipId'
+} as const
+
+export type PetsOrderByRelevanceFieldEnum = (typeof PetsOrderByRelevanceFieldEnum)[keyof typeof PetsOrderByRelevanceFieldEnum]
+
+
+export const PetTypeOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type PetTypeOrderByRelevanceFieldEnum = (typeof PetTypeOrderByRelevanceFieldEnum)[keyof typeof PetTypeOrderByRelevanceFieldEnum]
+
+
+export const BreedOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldEnum)[keyof typeof BreedOrderByRelevanceFieldEnum]
 

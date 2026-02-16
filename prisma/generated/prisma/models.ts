@@ -11,4 +11,7 @@
 export type * from './models/User.js'
 export type * from './models/Address.js'
 export type * from './models/Token.js'
+export type * from './models/Pets.js'
+export type * from './models/PetType.js'
+export type * from './models/Breed.js'
 export type * from './commonInputTypes.js'

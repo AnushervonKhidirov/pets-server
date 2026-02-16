@@ -52,3 +52,18 @@ export type Address = Prisma.AddressModel
  * 
  */
 export type Token = Prisma.TokenModel
+/**
+ * Model Pets
+ * 
+ */
+export type Pets = Prisma.PetsModel
+/**
+ * Model PetType
+ * 
+ */
+export type PetType = Prisma.PetTypeModel
+/**
+ * Model Breed
+ * 
+ */
+export type Breed = Prisma.BreedModel

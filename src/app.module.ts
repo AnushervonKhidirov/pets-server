@@ -6,6 +6,7 @@ import { TokenModule } from './token/token.module';
 import { ScheduledTaskModule } from './scheduled-task/scheduled-task.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { PetModule } from './pet/pet.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
     ScheduledTaskModule,
     AuthModule,
     UserModule,
+    PetModule,
   ],
   controllers: [],
   providers: [],
