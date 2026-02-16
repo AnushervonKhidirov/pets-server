@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   Body,
+  Query,
   ParseIntPipe,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { ApiResponse } from '@nestjs/swagger';
 
 import { CreateBreedDto, CreateManyBreedDto } from '../dto/create-breed.dto';
 import { UpdateBreedDto } from '../dto/update-breed.dto';
+import { BreedQueryDto } from '../dto/breed-query.dto';
 
 const breedExample = [
   { petTypeId: 1, en: 'Maine Coon', ru: 'Мейн-кун' },
@@ -38,8 +40,11 @@ export class BreedController {
 
   @ApiResponse({ example: breedExample })
   @Get()
-  async findMany() {
-    const [breeds, err] = await this.breedService.findMany();
+  async findMany(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    where: BreedQueryDto,
+  ) {
+    const [breeds, err] = await this.breedService.findMany({ where });
     if (err) throw err;
     return breeds;
   }
