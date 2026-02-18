@@ -1,4 +1,5 @@
-import type { Request, Express } from 'express';
+import type { Request, Response } from 'express';
+import type { Prisma } from 'prisma/generated/prisma/client';
 
 import {
   Controller,
@@ -18,17 +19,19 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
-import { PetService } from '../service/pet.service';
+
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { PetService } from '../service/pet.service';
+import { StorageService } from 'src/storage/storage.service';
 
 import { CreatePetDto } from '../dto/create-pet.dto';
 import { UpdatePetDto } from '../dto/update-pet.dto';
 import { QueryPetDto } from '../dto/query-pet.dto';
 import { TokenDecoded } from 'src/token/token.type';
-import { Prisma } from 'prisma/generated/prisma/client';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 const petExample = [];
 
@@ -46,7 +49,10 @@ const petInclude: Prisma.PetsInclude = {
 
 @Controller('pet')
 export class PetController {
-  constructor(private readonly petService: PetService) {}
+  constructor(
+    private readonly petService: PetService,
+    private readonly storageService: StorageService,
+  ) {}
 
   @ApiResponse({ example: petExample[0] })
   @UseGuards(AuthGuard)
@@ -147,13 +153,15 @@ export class PetController {
       omit: petOmit,
       include: petInclude,
     });
+
     if (err) throw err;
     return petType;
   }
 
-  @Post('file')
+  @Post('image')
   @UseInterceptors(FileInterceptor('image'))
-  setImage(
+  @UseGuards(AuthGuard)
+  async setImage(
     @Req() req: Request,
     @Query('petId', ParseIntPipe) petId: number,
     @UploadedFile(
@@ -162,5 +170,34 @@ export class PetController {
       }),
     )
     file: Express.Multer.File,
-  ) {}
+  ) {
+    const tokenDecoded = req['user'] as TokenDecoded | undefined;
+    if (!tokenDecoded) throw new UnauthorizedException();
+
+    const [pet, err] = await this.petService.findOne({
+      where: { id: petId, userId: tokenDecoded.sub },
+    });
+
+    if (err) throw err;
+
+    const filename = `pet-${pet.id}`;
+
+    await this.storageService.upload(file, 'pets', filename);
+
+    const [, updateErr] = await this.petService.update({
+      where: { id: petId, userId: tokenDecoded.sub },
+      data: { image: filename },
+    });
+
+    if (updateErr) throw updateErr;
+    return { image: filename };
+  }
+
+  @Get('image/:filename')
+  async getImage(
+    @Param('filename') filename: string,
+    @Res() response: Response,
+  ) {
+    await this.storageService.get('pets', filename, response);
+  }
 }
