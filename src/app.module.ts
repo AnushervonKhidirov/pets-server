@@ -1,6 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 
+import { StorageModule } from './storage/storage.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TokenModule } from './token/token.module';
 import { ScheduledTaskModule } from './scheduled-task/scheduled-task.module';
@@ -11,6 +12,7 @@ import { PetModule } from './pet/pet.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: getEnv(), isGlobal: true }),
+    StorageModule,
     PrismaModule,
     TokenModule,
     ScheduledTaskModule,
