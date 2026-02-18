@@ -25,7 +25,7 @@ export class CreateManyBreedDto {
       {
         petTypeId: 1,
         en: 'Scottish Fold',
-        ru: 'Скоттиш фолд (Шотландская вислоухая)',
+        ru: 'Шотландская вислоухая',
       },
     ],
   })
