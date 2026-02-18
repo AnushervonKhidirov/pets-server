@@ -30,12 +30,14 @@ export type PetsAvgAggregateOutputType = {
   id: number | null
   petTypeId: number | null
   breedId: number | null
+  userId: number | null
 }
 
 export type PetsSumAggregateOutputType = {
   id: number | null
   petTypeId: number | null
   breedId: number | null
+  userId: number | null
 }
 
 export type PetsMinAggregateOutputType = {
@@ -46,6 +48,9 @@ export type PetsMinAggregateOutputType = {
   microchipId: string | null
   petTypeId: number | null
   breedId: number | null
+  userId: number | null
+  image: string | null
+  lost: boolean | null
 }
 
 export type PetsMaxAggregateOutputType = {
@@ -56,6 +61,9 @@ export type PetsMaxAggregateOutputType = {
   microchipId: string | null
   petTypeId: number | null
   breedId: number | null
+  userId: number | null
+  image: string | null
+  lost: boolean | null
 }
 
 export type PetsCountAggregateOutputType = {
@@ -66,6 +74,9 @@ export type PetsCountAggregateOutputType = {
   microchipId: number
   petTypeId: number
   breedId: number
+  userId: number
+  image: number
+  lost: number
   _all: number
 }
 
@@ -74,12 +85,14 @@ export type PetsAvgAggregateInputType = {
   id?: true
   petTypeId?: true
   breedId?: true
+  userId?: true
 }
 
 export type PetsSumAggregateInputType = {
   id?: true
   petTypeId?: true
   breedId?: true
+  userId?: true
 }
 
 export type PetsMinAggregateInputType = {
@@ -90,6 +103,9 @@ export type PetsMinAggregateInputType = {
   microchipId?: true
   petTypeId?: true
   breedId?: true
+  userId?: true
+  image?: true
+  lost?: true
 }
 
 export type PetsMaxAggregateInputType = {
@@ -100,6 +116,9 @@ export type PetsMaxAggregateInputType = {
   microchipId?: true
   petTypeId?: true
   breedId?: true
+  userId?: true
+  image?: true
+  lost?: true
 }
 
 export type PetsCountAggregateInputType = {
@@ -110,6 +129,9 @@ export type PetsCountAggregateInputType = {
   microchipId?: true
   petTypeId?: true
   breedId?: true
+  userId?: true
+  image?: true
+  lost?: true
   _all?: true
 }
 
@@ -202,11 +224,14 @@ export type PetsGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type PetsGroupByOutputType = {
   id: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date
-  microchipId: string
+  sex: $Enums.Sex | null
+  birthday: Date | null
+  microchipId: string | null
   petTypeId: number
-  breedId: number
+  breedId: number | null
+  userId: number
+  image: string | null
+  lost: boolean
   _count: PetsCountAggregateOutputType | null
   _avg: PetsAvgAggregateOutputType | null
   _sum: PetsSumAggregateOutputType | null
@@ -235,25 +260,33 @@ export type PetsWhereInput = {
   NOT?: Prisma.PetsWhereInput | Prisma.PetsWhereInput[]
   id?: Prisma.IntFilter<"Pets"> | number
   name?: Prisma.StringFilter<"Pets"> | string
-  sex?: Prisma.EnumSexFilter<"Pets"> | $Enums.Sex
-  birthday?: Prisma.DateTimeFilter<"Pets"> | Date | string
-  microchipId?: Prisma.StringFilter<"Pets"> | string
+  sex?: Prisma.EnumSexNullableFilter<"Pets"> | $Enums.Sex | null
+  birthday?: Prisma.DateTimeNullableFilter<"Pets"> | Date | string | null
+  microchipId?: Prisma.StringNullableFilter<"Pets"> | string | null
   petTypeId?: Prisma.IntFilter<"Pets"> | number
-  breedId?: Prisma.IntFilter<"Pets"> | number
+  breedId?: Prisma.IntNullableFilter<"Pets"> | number | null
+  userId?: Prisma.IntFilter<"Pets"> | number
+  image?: Prisma.StringNullableFilter<"Pets"> | string | null
+  lost?: Prisma.BoolFilter<"Pets"> | boolean
   petType?: Prisma.XOR<Prisma.PetTypeScalarRelationFilter, Prisma.PetTypeWhereInput>
-  breed?: Prisma.XOR<Prisma.BreedScalarRelationFilter, Prisma.BreedWhereInput>
+  breed?: Prisma.XOR<Prisma.BreedNullableScalarRelationFilter, Prisma.BreedWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type PetsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  sex?: Prisma.SortOrder
-  birthday?: Prisma.SortOrder
-  microchipId?: Prisma.SortOrder
+  sex?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthday?: Prisma.SortOrderInput | Prisma.SortOrder
+  microchipId?: Prisma.SortOrderInput | Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
-  breedId?: Prisma.SortOrder
+  breedId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  lost?: Prisma.SortOrder
   petType?: Prisma.PetTypeOrderByWithRelationInput
   breed?: Prisma.BreedOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
   _relevance?: Prisma.PetsOrderByRelevanceInput
 }
 
@@ -263,23 +296,30 @@ export type PetsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PetsWhereInput[]
   NOT?: Prisma.PetsWhereInput | Prisma.PetsWhereInput[]
   name?: Prisma.StringFilter<"Pets"> | string
-  sex?: Prisma.EnumSexFilter<"Pets"> | $Enums.Sex
-  birthday?: Prisma.DateTimeFilter<"Pets"> | Date | string
-  microchipId?: Prisma.StringFilter<"Pets"> | string
+  sex?: Prisma.EnumSexNullableFilter<"Pets"> | $Enums.Sex | null
+  birthday?: Prisma.DateTimeNullableFilter<"Pets"> | Date | string | null
+  microchipId?: Prisma.StringNullableFilter<"Pets"> | string | null
   petTypeId?: Prisma.IntFilter<"Pets"> | number
-  breedId?: Prisma.IntFilter<"Pets"> | number
+  breedId?: Prisma.IntNullableFilter<"Pets"> | number | null
+  userId?: Prisma.IntFilter<"Pets"> | number
+  image?: Prisma.StringNullableFilter<"Pets"> | string | null
+  lost?: Prisma.BoolFilter<"Pets"> | boolean
   petType?: Prisma.XOR<Prisma.PetTypeScalarRelationFilter, Prisma.PetTypeWhereInput>
-  breed?: Prisma.XOR<Prisma.BreedScalarRelationFilter, Prisma.BreedWhereInput>
+  breed?: Prisma.XOR<Prisma.BreedNullableScalarRelationFilter, Prisma.BreedWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type PetsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  sex?: Prisma.SortOrder
-  birthday?: Prisma.SortOrder
-  microchipId?: Prisma.SortOrder
+  sex?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthday?: Prisma.SortOrderInput | Prisma.SortOrder
+  microchipId?: Prisma.SortOrderInput | Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
-  breedId?: Prisma.SortOrder
+  breedId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  lost?: Prisma.SortOrder
   _count?: Prisma.PetsCountOrderByAggregateInput
   _avg?: Prisma.PetsAvgOrderByAggregateInput
   _max?: Prisma.PetsMaxOrderByAggregateInput
@@ -293,76 +333,109 @@ export type PetsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PetsScalarWhereWithAggregatesInput | Prisma.PetsScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Pets"> | number
   name?: Prisma.StringWithAggregatesFilter<"Pets"> | string
-  sex?: Prisma.EnumSexWithAggregatesFilter<"Pets"> | $Enums.Sex
-  birthday?: Prisma.DateTimeWithAggregatesFilter<"Pets"> | Date | string
-  microchipId?: Prisma.StringWithAggregatesFilter<"Pets"> | string
+  sex?: Prisma.EnumSexNullableWithAggregatesFilter<"Pets"> | $Enums.Sex | null
+  birthday?: Prisma.DateTimeNullableWithAggregatesFilter<"Pets"> | Date | string | null
+  microchipId?: Prisma.StringNullableWithAggregatesFilter<"Pets"> | string | null
   petTypeId?: Prisma.IntWithAggregatesFilter<"Pets"> | number
-  breedId?: Prisma.IntWithAggregatesFilter<"Pets"> | number
+  breedId?: Prisma.IntNullableWithAggregatesFilter<"Pets"> | number | null
+  userId?: Prisma.IntWithAggregatesFilter<"Pets"> | number
+  image?: Prisma.StringNullableWithAggregatesFilter<"Pets"> | string | null
+  lost?: Prisma.BoolWithAggregatesFilter<"Pets"> | boolean
 }
 
 export type PetsCreateInput = {
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  image?: string | null
+  lost?: boolean
   petType: Prisma.PetTypeCreateNestedOneWithoutPetsInput
-  breed: Prisma.BreedCreateNestedOneWithoutPetsInput
+  breed?: Prisma.BreedCreateNestedOneWithoutPetsInput
+  user: Prisma.UserCreateNestedOneWithoutPetsInput
 }
 
 export type PetsUncheckedCreateInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
   petTypeId: number
-  breedId: number
+  breedId?: number | null
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   petType?: Prisma.PetTypeUpdateOneRequiredWithoutPetsNestedInput
-  breed?: Prisma.BreedUpdateOneRequiredWithoutPetsNestedInput
+  breed?: Prisma.BreedUpdateOneWithoutPetsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutPetsNestedInput
 }
 
 export type PetsUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  breedId?: Prisma.IntFieldUpdateOperationsInput | number
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PetsCreateManyInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
   petTypeId: number
-  breedId: number
+  breedId?: number | null
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PetsUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  breedId?: Prisma.IntFieldUpdateOperationsInput | number
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type PetsListRelationFilter = {
+  every?: Prisma.PetsWhereInput
+  some?: Prisma.PetsWhereInput
+  none?: Prisma.PetsWhereInput
+}
+
+export type PetsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type PetsOrderByRelevanceInput = {
@@ -379,12 +452,16 @@ export type PetsCountOrderByAggregateInput = {
   microchipId?: Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
   breedId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  lost?: Prisma.SortOrder
 }
 
 export type PetsAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
   breedId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type PetsMaxOrderByAggregateInput = {
@@ -395,6 +472,9 @@ export type PetsMaxOrderByAggregateInput = {
   microchipId?: Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
   breedId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  lost?: Prisma.SortOrder
 }
 
 export type PetsMinOrderByAggregateInput = {
@@ -405,26 +485,78 @@ export type PetsMinOrderByAggregateInput = {
   microchipId?: Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
   breedId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  lost?: Prisma.SortOrder
 }
 
 export type PetsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   petTypeId?: Prisma.SortOrder
   breedId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
-export type PetsListRelationFilter = {
-  every?: Prisma.PetsWhereInput
-  some?: Prisma.PetsWhereInput
-  none?: Prisma.PetsWhereInput
+export type PetsCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput> | Prisma.PetsCreateWithoutUserInput[] | Prisma.PetsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.PetsCreateOrConnectWithoutUserInput | Prisma.PetsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.PetsCreateManyUserInputEnvelope
+  connect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
 }
 
-export type PetsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type PetsUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput> | Prisma.PetsCreateWithoutUserInput[] | Prisma.PetsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.PetsCreateOrConnectWithoutUserInput | Prisma.PetsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.PetsCreateManyUserInputEnvelope
+  connect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
 }
 
-export type EnumSexFieldUpdateOperationsInput = {
-  set?: $Enums.Sex
+export type PetsUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput> | Prisma.PetsCreateWithoutUserInput[] | Prisma.PetsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.PetsCreateOrConnectWithoutUserInput | Prisma.PetsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.PetsUpsertWithWhereUniqueWithoutUserInput | Prisma.PetsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.PetsCreateManyUserInputEnvelope
+  set?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  disconnect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  delete?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  connect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  update?: Prisma.PetsUpdateWithWhereUniqueWithoutUserInput | Prisma.PetsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.PetsUpdateManyWithWhereWithoutUserInput | Prisma.PetsUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
+}
+
+export type PetsUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput> | Prisma.PetsCreateWithoutUserInput[] | Prisma.PetsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.PetsCreateOrConnectWithoutUserInput | Prisma.PetsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.PetsUpsertWithWhereUniqueWithoutUserInput | Prisma.PetsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.PetsCreateManyUserInputEnvelope
+  set?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  disconnect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  delete?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  connect?: Prisma.PetsWhereUniqueInput | Prisma.PetsWhereUniqueInput[]
+  update?: Prisma.PetsUpdateWithWhereUniqueWithoutUserInput | Prisma.PetsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.PetsUpdateManyWithWhereWithoutUserInput | Prisma.PetsUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
+}
+
+export type NullableEnumSexFieldUpdateOperationsInput = {
+  set?: $Enums.Sex | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type PetsCreateNestedManyWithoutPetTypeInput = {
@@ -511,21 +643,92 @@ export type PetsUncheckedUpdateManyWithoutBreedNestedInput = {
   deleteMany?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
 }
 
+export type PetsCreateWithoutUserInput = {
+  name: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  image?: string | null
+  lost?: boolean
+  petType: Prisma.PetTypeCreateNestedOneWithoutPetsInput
+  breed?: Prisma.BreedCreateNestedOneWithoutPetsInput
+}
+
+export type PetsUncheckedCreateWithoutUserInput = {
+  id?: number
+  name: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  petTypeId: number
+  breedId?: number | null
+  image?: string | null
+  lost?: boolean
+}
+
+export type PetsCreateOrConnectWithoutUserInput = {
+  where: Prisma.PetsWhereUniqueInput
+  create: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput>
+}
+
+export type PetsCreateManyUserInputEnvelope = {
+  data: Prisma.PetsCreateManyUserInput | Prisma.PetsCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type PetsUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.PetsWhereUniqueInput
+  update: Prisma.XOR<Prisma.PetsUpdateWithoutUserInput, Prisma.PetsUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.PetsCreateWithoutUserInput, Prisma.PetsUncheckedCreateWithoutUserInput>
+}
+
+export type PetsUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.PetsWhereUniqueInput
+  data: Prisma.XOR<Prisma.PetsUpdateWithoutUserInput, Prisma.PetsUncheckedUpdateWithoutUserInput>
+}
+
+export type PetsUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.PetsScalarWhereInput
+  data: Prisma.XOR<Prisma.PetsUpdateManyMutationInput, Prisma.PetsUncheckedUpdateManyWithoutUserInput>
+}
+
+export type PetsScalarWhereInput = {
+  AND?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
+  OR?: Prisma.PetsScalarWhereInput[]
+  NOT?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
+  id?: Prisma.IntFilter<"Pets"> | number
+  name?: Prisma.StringFilter<"Pets"> | string
+  sex?: Prisma.EnumSexNullableFilter<"Pets"> | $Enums.Sex | null
+  birthday?: Prisma.DateTimeNullableFilter<"Pets"> | Date | string | null
+  microchipId?: Prisma.StringNullableFilter<"Pets"> | string | null
+  petTypeId?: Prisma.IntFilter<"Pets"> | number
+  breedId?: Prisma.IntNullableFilter<"Pets"> | number | null
+  userId?: Prisma.IntFilter<"Pets"> | number
+  image?: Prisma.StringNullableFilter<"Pets"> | string | null
+  lost?: Prisma.BoolFilter<"Pets"> | boolean
+}
+
 export type PetsCreateWithoutPetTypeInput = {
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
-  breed: Prisma.BreedCreateNestedOneWithoutPetsInput
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  image?: string | null
+  lost?: boolean
+  breed?: Prisma.BreedCreateNestedOneWithoutPetsInput
+  user: Prisma.UserCreateNestedOneWithoutPetsInput
 }
 
 export type PetsUncheckedCreateWithoutPetTypeInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
-  breedId: number
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  breedId?: number | null
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsCreateOrConnectWithoutPetTypeInput = {
@@ -554,34 +757,27 @@ export type PetsUpdateManyWithWhereWithoutPetTypeInput = {
   data: Prisma.XOR<Prisma.PetsUpdateManyMutationInput, Prisma.PetsUncheckedUpdateManyWithoutPetTypeInput>
 }
 
-export type PetsScalarWhereInput = {
-  AND?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
-  OR?: Prisma.PetsScalarWhereInput[]
-  NOT?: Prisma.PetsScalarWhereInput | Prisma.PetsScalarWhereInput[]
-  id?: Prisma.IntFilter<"Pets"> | number
-  name?: Prisma.StringFilter<"Pets"> | string
-  sex?: Prisma.EnumSexFilter<"Pets"> | $Enums.Sex
-  birthday?: Prisma.DateTimeFilter<"Pets"> | Date | string
-  microchipId?: Prisma.StringFilter<"Pets"> | string
-  petTypeId?: Prisma.IntFilter<"Pets"> | number
-  breedId?: Prisma.IntFilter<"Pets"> | number
-}
-
 export type PetsCreateWithoutBreedInput = {
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  image?: string | null
+  lost?: boolean
   petType: Prisma.PetTypeCreateNestedOneWithoutPetsInput
+  user: Prisma.UserCreateNestedOneWithoutPetsInput
 }
 
 export type PetsUncheckedCreateWithoutBreedInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
   petTypeId: number
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsCreateOrConnectWithoutBreedInput = {
@@ -610,74 +806,145 @@ export type PetsUpdateManyWithWhereWithoutBreedInput = {
   data: Prisma.XOR<Prisma.PetsUpdateManyMutationInput, Prisma.PetsUncheckedUpdateManyWithoutBreedInput>
 }
 
+export type PetsCreateManyUserInput = {
+  id?: number
+  name: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  petTypeId: number
+  breedId?: number | null
+  image?: string | null
+  lost?: boolean
+}
+
+export type PetsUpdateWithoutUserInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  petType?: Prisma.PetTypeUpdateOneRequiredWithoutPetsNestedInput
+  breed?: Prisma.BreedUpdateOneWithoutPetsNestedInput
+}
+
+export type PetsUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type PetsUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
 export type PetsCreateManyPetTypeInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
-  breedId: number
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
+  breedId?: number | null
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsUpdateWithoutPetTypeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
-  breed?: Prisma.BreedUpdateOneRequiredWithoutPetsNestedInput
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  breed?: Prisma.BreedUpdateOneWithoutPetsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutPetsNestedInput
 }
 
 export type PetsUncheckedUpdateWithoutPetTypeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
-  breedId?: Prisma.IntFieldUpdateOperationsInput | number
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PetsUncheckedUpdateManyWithoutPetTypeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
-  breedId?: Prisma.IntFieldUpdateOperationsInput | number
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  breedId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PetsCreateManyBreedInput = {
   id?: number
   name: string
-  sex: $Enums.Sex
-  birthday: Date | string
-  microchipId: string
+  sex?: $Enums.Sex | null
+  birthday?: Date | string | null
+  microchipId?: string | null
   petTypeId: number
+  userId: number
+  image?: string | null
+  lost?: boolean
 }
 
 export type PetsUpdateWithoutBreedInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   petType?: Prisma.PetTypeUpdateOneRequiredWithoutPetsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutPetsNestedInput
 }
 
 export type PetsUncheckedUpdateWithoutBreedInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PetsUncheckedUpdateManyWithoutBreedInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
-  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  microchipId?: Prisma.StringFieldUpdateOperationsInput | string
+  sex?: Prisma.NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  microchipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lost?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -690,8 +957,12 @@ export type PetsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   microchipId?: boolean
   petTypeId?: boolean
   breedId?: boolean
+  userId?: boolean
+  image?: boolean
+  lost?: boolean
   petType?: boolean | Prisma.PetTypeDefaultArgs<ExtArgs>
-  breed?: boolean | Prisma.BreedDefaultArgs<ExtArgs>
+  breed?: boolean | Prisma.Pets$breedArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pets"]>
 
 
@@ -704,28 +975,36 @@ export type PetsSelectScalar = {
   microchipId?: boolean
   petTypeId?: boolean
   breedId?: boolean
+  userId?: boolean
+  image?: boolean
+  lost?: boolean
 }
 
-export type PetsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "sex" | "birthday" | "microchipId" | "petTypeId" | "breedId", ExtArgs["result"]["pets"]>
+export type PetsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "sex" | "birthday" | "microchipId" | "petTypeId" | "breedId" | "userId" | "image" | "lost", ExtArgs["result"]["pets"]>
 export type PetsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   petType?: boolean | Prisma.PetTypeDefaultArgs<ExtArgs>
-  breed?: boolean | Prisma.BreedDefaultArgs<ExtArgs>
+  breed?: boolean | Prisma.Pets$breedArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $PetsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Pets"
   objects: {
     petType: Prisma.$PetTypePayload<ExtArgs>
-    breed: Prisma.$BreedPayload<ExtArgs>
+    breed: Prisma.$BreedPayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
-    sex: $Enums.Sex
-    birthday: Date
-    microchipId: string
+    sex: $Enums.Sex | null
+    birthday: Date | null
+    microchipId: string | null
     petTypeId: number
-    breedId: number
+    breedId: number | null
+    userId: number
+    image: string | null
+    lost: boolean
   }, ExtArgs["result"]["pets"]>
   composites: {}
 }
@@ -1067,7 +1346,8 @@ readonly fields: PetsFieldRefs;
 export interface Prisma__PetsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   petType<T extends Prisma.PetTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PetTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__PetTypeClient<runtime.Types.Result.GetResult<Prisma.$PetTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  breed<T extends Prisma.BreedDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BreedDefaultArgs<ExtArgs>>): Prisma.Prisma__BreedClient<runtime.Types.Result.GetResult<Prisma.$BreedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  breed<T extends Prisma.Pets$breedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Pets$breedArgs<ExtArgs>>): Prisma.Prisma__BreedClient<runtime.Types.Result.GetResult<Prisma.$BreedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1104,6 +1384,9 @@ export interface PetsFieldRefs {
   readonly microchipId: Prisma.FieldRef<"Pets", 'String'>
   readonly petTypeId: Prisma.FieldRef<"Pets", 'Int'>
   readonly breedId: Prisma.FieldRef<"Pets", 'Int'>
+  readonly userId: Prisma.FieldRef<"Pets", 'Int'>
+  readonly image: Prisma.FieldRef<"Pets", 'String'>
+  readonly lost: Prisma.FieldRef<"Pets", 'Boolean'>
 }
     
 
@@ -1444,6 +1727,25 @@ export type PetsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Pets to delete.
    */
   limit?: number
+}
+
+/**
+ * Pets.breed
+ */
+export type Pets$breedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Breed
+   */
+  select?: Prisma.BreedSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Breed
+   */
+  omit?: Prisma.BreedOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BreedInclude<ExtArgs> | null
+  where?: Prisma.BreedWhereInput
 }
 
 /**

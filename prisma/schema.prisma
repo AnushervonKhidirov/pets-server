@@ -22,6 +22,7 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
   tokens    Token[]
   address   Address?
+  pets      Pets[]
 
   @@map("user")
 }
@@ -47,15 +48,19 @@ model Token {
 }
 
 model Pets {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(30)
-  sex         Sex
-  birthday    DateTime
-  microchipId String   @map("microchip_id")
-  petType     PetType  @relation(fields: [petTypeId], references: [id])
-  petTypeId   Int      @map("pet_type_id")
-  breed       Breed    @relation(fields: [breedId], references: [id])
-  breedId     Int      @map("breed_id")
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(30)
+  sex         Sex?
+  birthday    DateTime?
+  microchipId String?   @map("microchip_id")
+  petType     PetType   @relation(fields: [petTypeId], references: [id])
+  petTypeId   Int
+  breed       Breed?    @relation(fields: [breedId], references: [id])
+  breedId     Int?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  image       String?
+  lost        Boolean   @default(false)
 
   @@map("pets")
 }

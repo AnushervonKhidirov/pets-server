@@ -262,6 +262,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tokens?: Prisma.TokenListRelationFilter
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
+  pets?: Prisma.PetsListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -278,6 +279,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   tokens?: Prisma.TokenOrderByRelationAggregateInput
   address?: Prisma.AddressOrderByWithRelationInput
+  pets?: Prisma.PetsOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -298,6 +300,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tokens?: Prisma.TokenListRelationFilter
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
+  pets?: Prisma.PetsListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -349,6 +352,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   address?: Prisma.AddressCreateNestedOneWithoutUserInput
+  pets?: Prisma.PetsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -365,6 +369,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   address?: Prisma.AddressUncheckedCreateNestedOneWithoutUserInput
+  pets?: Prisma.PetsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -380,6 +385,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   address?: Prisma.AddressUpdateOneWithoutUserNestedInput
+  pets?: Prisma.PetsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -396,6 +402,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   address?: Prisma.AddressUncheckedUpdateOneWithoutUserNestedInput
+  pets?: Prisma.PetsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -550,6 +557,20 @@ export type UserUpdateOneRequiredWithoutTokensNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTokensInput, Prisma.UserUpdateWithoutTokensInput>, Prisma.UserUncheckedUpdateWithoutTokensInput>
 }
 
+export type UserCreateNestedOneWithoutPetsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPetsInput, Prisma.UserUncheckedCreateWithoutPetsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPetsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPetsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPetsInput, Prisma.UserUncheckedCreateWithoutPetsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPetsInput
+  upsert?: Prisma.UserUpsertWithoutPetsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPetsInput, Prisma.UserUpdateWithoutPetsInput>, Prisma.UserUncheckedUpdateWithoutPetsInput>
+}
+
 export type UserCreateWithoutAddressInput = {
   email: string
   phone?: string | null
@@ -562,6 +583,7 @@ export type UserCreateWithoutAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  pets?: Prisma.PetsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAddressInput = {
@@ -577,6 +599,7 @@ export type UserUncheckedCreateWithoutAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  pets?: Prisma.PetsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAddressInput = {
@@ -607,6 +630,7 @@ export type UserUpdateWithoutAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  pets?: Prisma.PetsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressInput = {
@@ -622,6 +646,7 @@ export type UserUncheckedUpdateWithoutAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  pets?: Prisma.PetsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTokensInput = {
@@ -636,6 +661,7 @@ export type UserCreateWithoutTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   address?: Prisma.AddressCreateNestedOneWithoutUserInput
+  pets?: Prisma.PetsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTokensInput = {
@@ -651,6 +677,7 @@ export type UserUncheckedCreateWithoutTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   address?: Prisma.AddressUncheckedCreateNestedOneWithoutUserInput
+  pets?: Prisma.PetsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTokensInput = {
@@ -681,6 +708,7 @@ export type UserUpdateWithoutTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   address?: Prisma.AddressUpdateOneWithoutUserNestedInput
+  pets?: Prisma.PetsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTokensInput = {
@@ -696,6 +724,85 @@ export type UserUncheckedUpdateWithoutTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   address?: Prisma.AddressUncheckedUpdateOneWithoutUserNestedInput
+  pets?: Prisma.PetsUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPetsInput = {
+  email: string
+  phone?: string | null
+  password?: string | null
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  contacts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  authType: $Enums.AuthType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  address?: Prisma.AddressCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPetsInput = {
+  id?: number
+  email: string
+  phone?: string | null
+  password?: string | null
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  contacts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  authType: $Enums.AuthType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  address?: Prisma.AddressUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPetsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPetsInput, Prisma.UserUncheckedCreateWithoutPetsInput>
+}
+
+export type UserUpsertWithoutPetsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPetsInput, Prisma.UserUncheckedUpdateWithoutPetsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPetsInput, Prisma.UserUncheckedCreateWithoutPetsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPetsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPetsInput, Prisma.UserUncheckedUpdateWithoutPetsInput>
+}
+
+export type UserUpdateWithoutPetsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contacts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  authType?: Prisma.EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  address?: Prisma.AddressUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPetsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contacts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  authType?: Prisma.EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  address?: Prisma.AddressUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -705,10 +812,12 @@ export type UserUncheckedUpdateWithoutTokensInput = {
 
 export type UserCountOutputType = {
   tokens: number
+  pets: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tokens?: boolean | UserCountOutputTypeCountTokensArgs
+  pets?: boolean | UserCountOutputTypeCountPetsArgs
 }
 
 /**
@@ -728,6 +837,13 @@ export type UserCountOutputTypeCountTokensArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.TokenWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PetsWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -743,6 +859,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
   address?: boolean | Prisma.User$addressArgs<ExtArgs>
+  pets?: boolean | Prisma.User$petsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -766,6 +883,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
   address?: boolean | Prisma.User$addressArgs<ExtArgs>
+  pets?: boolean | Prisma.User$petsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -774,6 +892,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     tokens: Prisma.$TokenPayload<ExtArgs>[]
     address: Prisma.$AddressPayload<ExtArgs> | null
+    pets: Prisma.$PetsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1129,6 +1248,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tokens<T extends Prisma.User$tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   address<T extends Prisma.User$addressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressArgs<ExtArgs>>): Prisma.Prisma__AddressClient<runtime.Types.Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pets<T extends Prisma.User$petsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$petsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1552,6 +1672,30 @@ export type User$addressArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.AddressInclude<ExtArgs> | null
   where?: Prisma.AddressWhereInput
+}
+
+/**
+ * User.pets
+ */
+export type User$petsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Pets
+   */
+  select?: Prisma.PetsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Pets
+   */
+  omit?: Prisma.PetsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PetsInclude<ExtArgs> | null
+  where?: Prisma.PetsWhereInput
+  orderBy?: Prisma.PetsOrderByWithRelationInput | Prisma.PetsOrderByWithRelationInput[]
+  cursor?: Prisma.PetsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PetsScalarFieldEnum | Prisma.PetsScalarFieldEnum[]
 }
 
 /**

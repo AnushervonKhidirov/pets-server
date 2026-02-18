@@ -888,7 +888,10 @@ export const PetsScalarFieldEnum = {
   birthday: 'birthday',
   microchipId: 'microchipId',
   petTypeId: 'petTypeId',
-  breedId: 'breedId'
+  breedId: 'breedId',
+  userId: 'userId',
+  image: 'image',
+  lost: 'lost'
 } as const
 
 export type PetsScalarFieldEnum = (typeof PetsScalarFieldEnum)[keyof typeof PetsScalarFieldEnum]
@@ -982,7 +985,8 @@ export type TokenOrderByRelevanceFieldEnum = (typeof TokenOrderByRelevanceFieldE
 
 export const PetsOrderByRelevanceFieldEnum = {
   name: 'name',
-  microchipId: 'microchipId'
+  microchipId: 'microchipId',
+  image: 'image'
 } as const
 
 export type PetsOrderByRelevanceFieldEnum = (typeof PetsOrderByRelevanceFieldEnum)[keyof typeof PetsOrderByRelevanceFieldEnum]
@@ -1063,6 +1067,13 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Sex'
  */
 export type EnumSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Sex'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 /**

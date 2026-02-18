@@ -309,9 +309,9 @@ export type BreedUncheckedUpdateManyInput = {
   petTypeId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type BreedScalarRelationFilter = {
-  is?: Prisma.BreedWhereInput
-  isNot?: Prisma.BreedWhereInput
+export type BreedNullableScalarRelationFilter = {
+  is?: Prisma.BreedWhereInput | null
+  isNot?: Prisma.BreedWhereInput | null
 }
 
 export type BreedListRelationFilter = {
@@ -367,10 +367,12 @@ export type BreedCreateNestedOneWithoutPetsInput = {
   connect?: Prisma.BreedWhereUniqueInput
 }
 
-export type BreedUpdateOneRequiredWithoutPetsNestedInput = {
+export type BreedUpdateOneWithoutPetsNestedInput = {
   create?: Prisma.XOR<Prisma.BreedCreateWithoutPetsInput, Prisma.BreedUncheckedCreateWithoutPetsInput>
   connectOrCreate?: Prisma.BreedCreateOrConnectWithoutPetsInput
   upsert?: Prisma.BreedUpsertWithoutPetsInput
+  disconnect?: Prisma.BreedWhereInput | boolean
+  delete?: Prisma.BreedWhereInput | boolean
   connect?: Prisma.BreedWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BreedUpdateToOneWithWhereWithoutPetsInput, Prisma.BreedUpdateWithoutPetsInput>, Prisma.BreedUncheckedUpdateWithoutPetsInput>
 }
