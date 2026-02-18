@@ -23,7 +23,7 @@ const petTypeExample = [
   { id: 2, en: 'Dog', ru: 'Собака' },
 ];
 
-@Controller('pet/type')
+@Controller('pet-type')
 export class PetTypeController {
   constructor(private readonly petTypeService: PetTypeService) {}
 

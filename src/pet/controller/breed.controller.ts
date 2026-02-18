@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { BreedService } from '../service/breed.service';
-import { ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 
 import { CreateBreedDto, CreateManyBreedDto } from '../dto/create-breed.dto';
 import { UpdateBreedDto } from '../dto/update-breed.dto';
@@ -22,11 +22,11 @@ const breedExample = [
   {
     petTypeId: 1,
     en: 'Scottish Fold',
-    ru: 'Скоттиш фолд (Шотландская вислоухая)',
+    ru: 'Шотландская вислоухая',
   },
 ];
 
-@Controller('pet/breed')
+@Controller('pet-breed')
 export class BreedController {
   constructor(private readonly breedService: BreedService) {}
 
@@ -38,7 +38,6 @@ export class BreedController {
     return breed;
   }
 
-  @ApiQuery({ example: 1, name: 'petTypeId', required: false })
   @ApiResponse({ example: breedExample })
   @Get()
   async findMany(
