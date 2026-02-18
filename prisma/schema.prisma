@@ -50,6 +50,7 @@ model Token {
 model Pets {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(30)
+  about       String?   @db.Text
   sex         Sex?
   birthday    DateTime?
   microchipId String?   @map("microchip_id")
