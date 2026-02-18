@@ -49,6 +49,8 @@ const petInclude: Prisma.PetsInclude = {
 
 @Controller('pet')
 export class PetController {
+  private readonly storageFolder = 'pets';
+
   constructor(
     private readonly petService: PetService,
     private readonly storageService: StorageService,
@@ -182,7 +184,7 @@ export class PetController {
 
     const filename = `pet-${pet.id}`;
 
-    await this.storageService.upload(file, 'pets', filename);
+    await this.storageService.upload(file, this.storageFolder, filename);
 
     const [, updateErr] = await this.petService.update({
       where: { id: petId, userId: tokenDecoded.sub },
@@ -198,6 +200,6 @@ export class PetController {
     @Param('filename') filename: string,
     @Res() response: Response,
   ) {
-    await this.storageService.get('pets', filename, response);
+    await this.storageService.get(this.storageFolder, filename, response);
   }
 }
