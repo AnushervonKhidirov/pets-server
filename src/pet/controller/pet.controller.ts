@@ -43,7 +43,12 @@ const petInclude: Prisma.PetsInclude = {
   breed: true,
   petType: true,
   user: {
-    select: { email: true, phone: true, firstName: true, address: true },
+    omit: {
+      password: true,
+      authType: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   },
 };
 
@@ -67,25 +72,26 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [petType, err] = await this.petService.findMany({
+    const [pet, err] = await this.petService.findMany({
       where: { ...where, userId: tokenDecoded.sub },
       omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
-    return petType;
+    return pet;
   }
 
   @ApiResponse({ example: petExample[0] })
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const [petType, err] = await this.petService.findOne({
+    const [pet, err] = await this.petService.findOne({
       where: { id },
       omit: petOmit,
       include: petInclude,
     });
+
     if (err) throw err;
-    return petType;
+    return pet;
   }
 
   @ApiResponse({ example: petExample })
@@ -94,13 +100,13 @@ export class PetController {
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     where: QueryPetDto,
   ) {
-    const [petTypes, err] = await this.petService.findMany({
+    const [pets, err] = await this.petService.findMany({
       where,
       omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
-    return petTypes;
+    return pets;
   }
 
   @ApiResponse({ example: petExample[0] })
@@ -113,13 +119,13 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [petType, err] = await this.petService.create({
+    const [pet, err] = await this.petService.create({
       data: { ...data, userId: tokenDecoded.sub },
       omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
-    return petType;
+    return pet;
   }
 
   @ApiResponse({ example: petExample[0] })
@@ -133,14 +139,14 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [petType, err] = await this.petService.update({
+    const [pet, err] = await this.petService.update({
       where: { id, userId: tokenDecoded.sub },
       data,
       omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
-    return petType;
+    return pet;
   }
 
   @ApiResponse({ example: petExample[0] })
@@ -150,14 +156,14 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [petType, err] = await this.petService.delete({
+    const [pet, err] = await this.petService.delete({
       where: { id, userId: tokenDecoded.sub },
       omit: petOmit,
       include: petInclude,
     });
 
     if (err) throw err;
-    return petType;
+    return pet;
   }
 
   @Post('image')
