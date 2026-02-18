@@ -40,7 +40,7 @@ export class StorageService {
     const [exists] = await remoteFile.exists();
     if (!exists) throw new NotFoundException();
 
-    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Content-Type', remoteFile.metadata.contentType ?? 'image/*');
     remoteFile.createReadStream().pipe(res);
   }
 }
