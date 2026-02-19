@@ -49,6 +49,7 @@ const petInclude: Prisma.PetsInclude = {
       createdAt: true,
       updatedAt: true,
     },
+    include: { address: { omit: { userId: true } } },
   },
 };
 
@@ -166,12 +167,12 @@ export class PetController {
     return pet;
   }
 
-  @Post('image')
+  @Post('image/:petId')
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(AuthGuard)
   async setImage(
     @Req() req: Request,
-    @Query('petId', ParseIntPipe) petId: number,
+    @Param('petId', ParseIntPipe) petId: number,
     @UploadedFile(
       new ParseFilePipe({
         validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 })],
@@ -207,5 +208,28 @@ export class PetController {
     @Res() response: Response,
   ) {
     await this.storageService.get(this.storageFolder, filename, response);
+  }
+
+  @Delete('image/:petId')
+  @UseGuards(AuthGuard)
+  async deleteImage(
+    @Req() req: Request,
+    @Param('petId', ParseIntPipe) petId: number,
+  ) {
+    const tokenDecoded = req['user'] as TokenDecoded | undefined;
+    if (!tokenDecoded) throw new UnauthorizedException();
+
+    const [pet, err] = await this.petService.update({
+      where: { id: petId, userId: tokenDecoded.sub },
+      data: { image: null },
+      omit: petOmit,
+      include: petInclude,
+    });
+
+    if (err) throw err;
+
+    if (pet.image) {
+      await this.storageService.delete(this.storageFolder, pet.image);
+    }
   }
 }
