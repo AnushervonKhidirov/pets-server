@@ -33,7 +33,49 @@ import { UpdatePetDto } from '../dto/update-pet.dto';
 import { QueryPetDto } from '../dto/query-pet.dto';
 import { TokenDecoded } from 'src/token/token.type';
 
-const petExample = [];
+const petExample = [
+  {
+    id: 1,
+    name: 'Фобос',
+    about: 'Хитрожопая скотина',
+    sex: 'Male',
+    birthday: '2021-07-01T19:00:00.000Z',
+    microchipId: '00433555635422',
+    petTypeId: 1,
+    breedId: 147,
+    image: 'pet-1',
+    lost: false,
+    breed: {
+      id: 147,
+      en: 'European Shorthair',
+      ru: 'Европейская короткошерстная',
+      petTypeId: 1,
+    },
+    petType: {
+      id: 1,
+      en: 'Cat',
+      ru: 'Кошка',
+    },
+    user: {
+      id: 1,
+      email: 'your_email1@gmail.com',
+      phone: '+992715303256',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      avatar: null,
+      contacts: [
+        { name: 'Telegram', value: '@username' },
+        { name: 'WatsApp', value: '@username' },
+      ],
+      address: {
+        id: 1,
+        address: 'some address, appartment number',
+        latitude: 40.4123124123,
+        longitude: 90.4123124123,
+      },
+    },
+  },
+];
 
 const petOmit: Prisma.PetsOmit = {
   userId: true,
