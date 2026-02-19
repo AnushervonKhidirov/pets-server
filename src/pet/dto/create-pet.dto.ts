@@ -50,4 +50,10 @@ export class CreatePetDto {
   @IsBoolean()
   @IsOptional()
   lost?: boolean;
+
+  @ApiProperty({ example: new Date('11/1/2025').toDateString() })
+  @IsDate()
+  @IsOptional()
+  @Type(() => Date)
+  lostAt?: Date;
 }

@@ -62,6 +62,7 @@ model Pets {
   userId      Int
   image       String?
   lost        Boolean   @default(false)
+  lostAt      DateTime?
 
   @@map("pets")
 }
