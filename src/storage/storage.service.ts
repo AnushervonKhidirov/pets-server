@@ -43,4 +43,10 @@ export class StorageService {
     res.setHeader('Content-Type', remoteFile.metadata.contentType ?? 'image/*');
     remoteFile.createReadStream().pipe(res);
   }
+
+  async delete(folder: string, filename: string) {
+    const bucket = this.storage.bucket(this.bucketName);
+    const remoteFile = bucket.file(`${folder}/${filename}`);
+    await remoteFile.delete({ ignoreNotFound: true });
+  }
 }
