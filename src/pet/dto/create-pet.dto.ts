@@ -33,4 +33,9 @@ export class CreatePetDto {
   @IsInt()
   @IsOptional()
   breedId?: number;
+
+  @ApiProperty({ example: 'Хитрожопая скотина' })
+  @IsString()
+  @IsOptional()
+  about?: string;
 }
