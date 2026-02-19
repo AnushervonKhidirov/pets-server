@@ -261,14 +261,22 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [pet, err] = await this.petService.update({
+    const [pet, err] = await this.petService.findOne({
+      where: { id: petId, userId: tokenDecoded.sub },
+      omit: petOmit,
+      include: petInclude,
+    });
+
+    if (err) throw err;
+
+    const [, updateErr] = await this.petService.update({
       where: { id: petId, userId: tokenDecoded.sub },
       data: { image: null },
       omit: petOmit,
       include: petInclude,
     });
 
-    if (err) throw err;
+    if (updateErr) throw updateErr;
 
     if (pet.image) {
       await this.storageService.delete(this.storageFolder, pet.image);
