@@ -38,6 +38,7 @@ const userExample1 = {
   phone: '+992715303256',
   firstName: 'firstName',
   lastName: 'lastName',
+  avatar: null,
   contacts: [
     { name: 'Telegram', value: '@username' },
     { name: 'WatsApp', value: '@username' },
