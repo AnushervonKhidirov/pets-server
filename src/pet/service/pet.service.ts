@@ -3,13 +3,19 @@ import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { StorageService } from 'src/storage/storage.service';
 
 import { exceptionHandler } from '@helper/exception.helper';
 import { CreatePetDto } from '../dto/create-pet.dto';
 
 @Injectable()
 export class PetService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly storageFolder = 'pets';
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storageService: StorageService,
+  ) {}
 
   async findOne({
     where,
@@ -123,6 +129,10 @@ export class PetService {
       });
 
       if (!pet) throw new NotFoundException('Pet not found');
+
+      if (pet.image) {
+        await this.storageService.delete(this.storageFolder, pet.image);
+      }
 
       return [pet, null];
     } catch (err) {
