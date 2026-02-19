@@ -33,57 +33,56 @@ import { UpdatePetDto } from '../dto/update-pet.dto';
 import { QueryPetDto } from '../dto/query-pet.dto';
 import { TokenDecoded } from 'src/token/token.type';
 
-const petExample = [
-  {
-    id: 1,
-    name: 'Фобос',
-    about: 'Хитрожопая скотина',
-    sex: 'Male',
-    birthday: '2021-07-01T19:00:00.000Z',
-    microchipId: '00433555635422',
+const petExample = {
+  id: 1,
+  name: 'Фобос',
+  about: 'Хитрожопая скотина',
+  sex: 'Male',
+  birthday: '2021-07-01T19:00:00.000Z',
+  microchipId: '00433555635422',
+  petTypeId: 1,
+  breedId: 147,
+  image: 'pet-1',
+  lost: false,
+  breed: {
+    id: 147,
+    en: 'European Shorthair',
+    ru: 'Европейская короткошерстная',
     petTypeId: 1,
-    breedId: 147,
-    image: 'pet-1',
-    lost: false,
-    breed: {
-      id: 147,
-      en: 'European Shorthair',
-      ru: 'Европейская короткошерстная',
-      petTypeId: 1,
-    },
-    petType: {
-      id: 1,
-      en: 'Cat',
-      ru: 'Кошка',
-    },
-    user: {
-      id: 1,
-      email: 'your_email1@gmail.com',
-      phone: '+992715303256',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      avatar: null,
-      contacts: [
-        { name: 'Telegram', value: '@username' },
-        { name: 'WatsApp', value: '@username' },
-      ],
-      address: {
-        id: 1,
-        address: 'some address, appartment number',
-        latitude: 40.4123124123,
-        longitude: 90.4123124123,
-      },
-    },
   },
-];
+  petType: {
+    id: 1,
+    en: 'Cat',
+    ru: 'Кошка',
+  },
+  userId: 1,
+};
 
-const petOmit: Prisma.PetsOmit = {
-  userId: true,
+const userExample = {
+  id: 1,
+  email: 'your_email1@gmail.com',
+  phone: '+992715303256',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  avatar: null,
+  contacts: [
+    { name: 'Telegram', value: '@username' },
+    { name: 'WatsApp', value: '@username' },
+  ],
+  address: {
+    id: 1,
+    address: 'some address, appartment number',
+    latitude: 40.4123124123,
+    longitude: 90.4123124123,
+  },
 };
 
 const petInclude: Prisma.PetsInclude = {
   breed: true,
   petType: true,
+};
+
+const petUserInclude: Prisma.PetsInclude = {
   user: {
     omit: {
       password: true,
@@ -104,7 +103,7 @@ export class PetController {
     private readonly storageService: StorageService,
   ) {}
 
-  @ApiResponse({ example: petExample[0] })
+  @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Get('my')
   async findMy(
@@ -117,27 +116,25 @@ export class PetController {
 
     const [pet, err] = await this.petService.findMany({
       where: { ...where, userId: tokenDecoded.sub },
-      omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
     return pet;
   }
 
-  @ApiResponse({ example: petExample[0] })
+  @ApiResponse({ example: { ...petExample, user: userExample } })
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const [pet, err] = await this.petService.findOne({
       where: { id },
-      omit: petOmit,
-      include: petInclude,
+      include: { ...petInclude, ...petUserInclude },
     });
 
     if (err) throw err;
     return pet;
   }
 
-  @ApiResponse({ example: petExample })
+  @ApiResponse({ example: [petExample] })
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
@@ -145,14 +142,13 @@ export class PetController {
   ) {
     const [pets, err] = await this.petService.findMany({
       where,
-      omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
     return pets;
   }
 
-  @ApiResponse({ example: petExample[0] })
+  @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Post()
   async create(
@@ -164,14 +160,13 @@ export class PetController {
 
     const [pet, err] = await this.petService.create({
       data: { ...data, userId: tokenDecoded.sub },
-      omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
     return pet;
   }
 
-  @ApiResponse({ example: petExample[0] })
+  @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Patch(':id')
   async update(
@@ -185,14 +180,13 @@ export class PetController {
     const [pet, err] = await this.petService.update({
       where: { id, userId: tokenDecoded.sub },
       data,
-      omit: petOmit,
       include: petInclude,
     });
     if (err) throw err;
     return pet;
   }
 
-  @ApiResponse({ example: petExample[0] })
+  @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Delete(':id')
   async delete(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
@@ -201,7 +195,6 @@ export class PetController {
 
     const [pet, err] = await this.petService.delete({
       where: { id, userId: tokenDecoded.sub },
-      omit: petOmit,
       include: petInclude,
     });
 
@@ -263,7 +256,6 @@ export class PetController {
 
     const [pet, err] = await this.petService.findOne({
       where: { id: petId, userId: tokenDecoded.sub },
-      omit: petOmit,
       include: petInclude,
     });
 
@@ -272,7 +264,6 @@ export class PetController {
     const [, updateErr] = await this.petService.update({
       where: { id: petId, userId: tokenDecoded.sub },
       data: { image: null },
-      omit: petOmit,
       include: petInclude,
     });
 
