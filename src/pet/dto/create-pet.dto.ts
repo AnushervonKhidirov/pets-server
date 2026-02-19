@@ -1,6 +1,13 @@
 import { Sex } from 'prisma/generated/prisma/enums';
 
-import { IsEnum, IsString, IsInt, IsDate, IsOptional } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsInt,
+  IsDate,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -38,4 +45,9 @@ export class CreatePetDto {
   @IsString()
   @IsOptional()
   about?: string;
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  lost?: boolean;
 }
