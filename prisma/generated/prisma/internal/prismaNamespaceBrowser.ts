@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   Address: 'Address',
   Token: 'Token',
-  Pets: 'Pets',
+  Pet: 'Pet',
+  LostInfo: 'LostInfo',
   PetType: 'PetType',
   Breed: 'Breed'
 } as const
@@ -112,7 +113,7 @@ export const TokenScalarFieldEnum = {
 export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
 
 
-export const PetsScalarFieldEnum = {
+export const PetScalarFieldEnum = {
   id: 'id',
   name: 'name',
   about: 'about',
@@ -127,7 +128,18 @@ export const PetsScalarFieldEnum = {
   lostAt: 'lostAt'
 } as const
 
-export type PetsScalarFieldEnum = (typeof PetsScalarFieldEnum)[keyof typeof PetsScalarFieldEnum]
+export type PetScalarFieldEnum = (typeof PetScalarFieldEnum)[keyof typeof PetScalarFieldEnum]
+
+
+export const LostInfoScalarFieldEnum = {
+  id: 'id',
+  lostAt: 'lostAt',
+  details: 'details',
+  address: 'address',
+  petId: 'petId'
+} as const
+
+export type LostInfoScalarFieldEnum = (typeof LostInfoScalarFieldEnum)[keyof typeof LostInfoScalarFieldEnum]
 
 
 export const PetTypeScalarFieldEnum = {
@@ -216,14 +228,22 @@ export const TokenOrderByRelevanceFieldEnum = {
 export type TokenOrderByRelevanceFieldEnum = (typeof TokenOrderByRelevanceFieldEnum)[keyof typeof TokenOrderByRelevanceFieldEnum]
 
 
-export const PetsOrderByRelevanceFieldEnum = {
+export const PetOrderByRelevanceFieldEnum = {
   name: 'name',
   about: 'about',
   microchipId: 'microchipId',
   image: 'image'
 } as const
 
-export type PetsOrderByRelevanceFieldEnum = (typeof PetsOrderByRelevanceFieldEnum)[keyof typeof PetsOrderByRelevanceFieldEnum]
+export type PetOrderByRelevanceFieldEnum = (typeof PetOrderByRelevanceFieldEnum)[keyof typeof PetOrderByRelevanceFieldEnum]
+
+
+export const LostInfoOrderByRelevanceFieldEnum = {
+  details: 'details',
+  address: 'address'
+} as const
+
+export type LostInfoOrderByRelevanceFieldEnum = (typeof LostInfoOrderByRelevanceFieldEnum)[keyof typeof LostInfoOrderByRelevanceFieldEnum]
 
 
 export const PetTypeOrderByRelevanceFieldEnum = {

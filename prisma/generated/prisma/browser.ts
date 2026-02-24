@@ -33,10 +33,15 @@ export type Address = Prisma.AddressModel
  */
 export type Token = Prisma.TokenModel
 /**
- * Model Pets
+ * Model Pet
  * 
  */
-export type Pets = Prisma.PetsModel
+export type Pet = Prisma.PetModel
+/**
+ * Model LostInfo
+ * 
+ */
+export type LostInfo = Prisma.LostInfoModel
 /**
  * Model PetType
  * 

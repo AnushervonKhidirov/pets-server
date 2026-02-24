@@ -22,7 +22,7 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
   tokens    Token[]
   address   Address?
-  pets      Pets[]
+  pets      Pet[]
 
   @@map("user")
 }
@@ -47,7 +47,7 @@ model Token {
   @@map("token")
 }
 
-model Pets {
+model Pet {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(30)
   about       String?   @db.Text
@@ -63,8 +63,20 @@ model Pets {
   image       String?
   lost        Boolean   @default(false)
   lostAt      DateTime?
+  lostInfo    LostInfo?
 
   @@map("pets")
+}
+
+model LostInfo {
+  id      Int      @id @default(autoincrement())
+  lostAt  DateTime
+  details String   @db.VarChar(255)
+  address String   @db.VarChar(255)
+  petId   Int      @unique
+  pet     Pet      @relation(fields: [petId], references: [id])
+
+  @@map("lost_info")
 }
 
 model PetType {
@@ -72,7 +84,7 @@ model PetType {
   en     String  @unique @db.VarChar(50)
   ru     String  @unique @db.VarChar(50)
   breeds Breed[]
-  pets   Pets[]
+  pets   Pet[]
 
   @@map("pet_type")
 }
@@ -83,7 +95,7 @@ model Breed {
   ru        String  @unique @db.VarChar(50)
   petType   PetType @relation(fields: [petTypeId], references: [id])
   petTypeId Int     @map("pet_type_id")
-  pets      Pets[]
+  pets      Pet[]
 
   @@map("breed")
 }

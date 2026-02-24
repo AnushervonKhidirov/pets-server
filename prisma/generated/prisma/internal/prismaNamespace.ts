@@ -387,7 +387,8 @@ export const ModelName = {
   User: 'User',
   Address: 'Address',
   Token: 'Token',
-  Pets: 'Pets',
+  Pet: 'Pet',
+  LostInfo: 'LostInfo',
   PetType: 'PetType',
   Breed: 'Breed'
 } as const
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "token" | "pets" | "petType" | "breed"
+    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -607,69 +608,135 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Pets: {
-      payload: Prisma.$PetsPayload<ExtArgs>
-      fields: Prisma.PetsFieldRefs
+    Pet: {
+      payload: Prisma.$PetPayload<ExtArgs>
+      fields: Prisma.PetFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.PetsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload> | null
+          args: Prisma.PetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.PetsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         findFirst: {
-          args: Prisma.PetsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload> | null
+          args: Prisma.PetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.PetsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         findMany: {
-          args: Prisma.PetsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>[]
+          args: Prisma.PetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>[]
         }
         create: {
-          args: Prisma.PetsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         createMany: {
-          args: Prisma.PetsCreateManyArgs<ExtArgs>
+          args: Prisma.PetCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         delete: {
-          args: Prisma.PetsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         update: {
-          args: Prisma.PetsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         deleteMany: {
-          args: Prisma.PetsDeleteManyArgs<ExtArgs>
+          args: Prisma.PetDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.PetsUpdateManyArgs<ExtArgs>
+          args: Prisma.PetUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         upsert: {
-          args: Prisma.PetsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetsPayload>
+          args: Prisma.PetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PetPayload>
         }
         aggregate: {
-          args: Prisma.PetsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePets>
+          args: Prisma.PetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePet>
         }
         groupBy: {
-          args: Prisma.PetsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PetsGroupByOutputType>[]
+          args: Prisma.PetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PetGroupByOutputType>[]
         }
         count: {
-          args: Prisma.PetsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PetsCountAggregateOutputType> | number
+          args: Prisma.PetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PetCountAggregateOutputType> | number
+        }
+      }
+    }
+    LostInfo: {
+      payload: Prisma.$LostInfoPayload<ExtArgs>
+      fields: Prisma.LostInfoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LostInfoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LostInfoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        findFirst: {
+          args: Prisma.LostInfoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LostInfoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        findMany: {
+          args: Prisma.LostInfoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>[]
+        }
+        create: {
+          args: Prisma.LostInfoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        createMany: {
+          args: Prisma.LostInfoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.LostInfoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        update: {
+          args: Prisma.LostInfoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        deleteMany: {
+          args: Prisma.LostInfoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LostInfoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.LostInfoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostInfoPayload>
+        }
+        aggregate: {
+          args: Prisma.LostInfoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLostInfo>
+        }
+        groupBy: {
+          args: Prisma.LostInfoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LostInfoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LostInfoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LostInfoCountAggregateOutputType> | number
         }
       }
     }
@@ -881,7 +948,7 @@ export const TokenScalarFieldEnum = {
 export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
 
 
-export const PetsScalarFieldEnum = {
+export const PetScalarFieldEnum = {
   id: 'id',
   name: 'name',
   about: 'about',
@@ -896,7 +963,18 @@ export const PetsScalarFieldEnum = {
   lostAt: 'lostAt'
 } as const
 
-export type PetsScalarFieldEnum = (typeof PetsScalarFieldEnum)[keyof typeof PetsScalarFieldEnum]
+export type PetScalarFieldEnum = (typeof PetScalarFieldEnum)[keyof typeof PetScalarFieldEnum]
+
+
+export const LostInfoScalarFieldEnum = {
+  id: 'id',
+  lostAt: 'lostAt',
+  details: 'details',
+  address: 'address',
+  petId: 'petId'
+} as const
+
+export type LostInfoScalarFieldEnum = (typeof LostInfoScalarFieldEnum)[keyof typeof LostInfoScalarFieldEnum]
 
 
 export const PetTypeScalarFieldEnum = {
@@ -985,14 +1063,22 @@ export const TokenOrderByRelevanceFieldEnum = {
 export type TokenOrderByRelevanceFieldEnum = (typeof TokenOrderByRelevanceFieldEnum)[keyof typeof TokenOrderByRelevanceFieldEnum]
 
 
-export const PetsOrderByRelevanceFieldEnum = {
+export const PetOrderByRelevanceFieldEnum = {
   name: 'name',
   about: 'about',
   microchipId: 'microchipId',
   image: 'image'
 } as const
 
-export type PetsOrderByRelevanceFieldEnum = (typeof PetsOrderByRelevanceFieldEnum)[keyof typeof PetsOrderByRelevanceFieldEnum]
+export type PetOrderByRelevanceFieldEnum = (typeof PetOrderByRelevanceFieldEnum)[keyof typeof PetOrderByRelevanceFieldEnum]
+
+
+export const LostInfoOrderByRelevanceFieldEnum = {
+  details: 'details',
+  address: 'address'
+} as const
+
+export type LostInfoOrderByRelevanceFieldEnum = (typeof LostInfoOrderByRelevanceFieldEnum)[keyof typeof LostInfoOrderByRelevanceFieldEnum]
 
 
 export const PetTypeOrderByRelevanceFieldEnum = {
@@ -1177,7 +1263,8 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   address?: Prisma.AddressOmit
   token?: Prisma.TokenOmit
-  pets?: Prisma.PetsOmit
+  pet?: Prisma.PetOmit
+  lostInfo?: Prisma.LostInfoOmit
   petType?: Prisma.PetTypeOmit
   breed?: Prisma.BreedOmit
 }

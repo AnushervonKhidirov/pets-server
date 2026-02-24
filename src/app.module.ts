@@ -8,6 +8,7 @@ import { ScheduledTaskModule } from './scheduled-task/scheduled-task.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PetModule } from './pet/pet.module';
+import { LostInfoModule } from './lost-info/lost-info.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PetModule } from './pet/pet.module';
     AuthModule,
     UserModule,
     PetModule,
+    LostInfoModule,
   ],
   controllers: [],
   providers: [],
