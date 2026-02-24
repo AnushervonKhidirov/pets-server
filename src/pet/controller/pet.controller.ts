@@ -78,6 +78,7 @@ const userExample = {
 };
 
 const petInclude: Prisma.PetInclude = {
+  lostInfo: true,
   breed: true,
   petType: true,
 };
