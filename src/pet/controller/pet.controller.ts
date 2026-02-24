@@ -77,12 +77,12 @@ const userExample = {
   },
 };
 
-const petInclude: Prisma.PetsInclude = {
+const petInclude: Prisma.PetInclude = {
   breed: true,
   petType: true,
 };
 
-const petUserInclude: Prisma.PetsInclude = {
+const petUserInclude: Prisma.PetInclude = {
   user: {
     omit: {
       password: true,

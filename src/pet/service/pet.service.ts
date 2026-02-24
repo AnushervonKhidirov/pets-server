@@ -1,4 +1,4 @@
-import type { Prisma, Pets } from 'prisma/generated/prisma/client';
+import type { Prisma, Pet } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -22,12 +22,12 @@ export class PetService {
     omit,
     include,
   }: {
-    where: Prisma.PetsWhereUniqueInput;
-    omit?: Prisma.PetsOmit;
-    include?: Prisma.PetsInclude;
-  }): ReturnWithErrPromise<Pets> {
+    where: Prisma.PetWhereUniqueInput;
+    omit?: Prisma.PetOmit;
+    include?: Prisma.PetInclude;
+  }): ReturnWithErrPromise<Pet> {
     try {
-      const pet = await this.prisma.pets.findUnique({
+      const pet = await this.prisma.pet.findUnique({
         where,
         omit,
         include,
@@ -46,12 +46,12 @@ export class PetService {
     omit,
     include,
   }: {
-    where?: Prisma.PetsWhereInput;
-    omit?: Prisma.PetsOmit;
-    include?: Prisma.PetsInclude;
-  } = {}): ReturnWithErrPromise<Pets[]> {
+    where?: Prisma.PetWhereInput;
+    omit?: Prisma.PetOmit;
+    include?: Prisma.PetInclude;
+  } = {}): ReturnWithErrPromise<Pet[]> {
     try {
-      const pets = await this.prisma.pets.findMany({
+      const pets = await this.prisma.pet.findMany({
         where,
         omit,
         include,
@@ -69,11 +69,11 @@ export class PetService {
     include,
   }: {
     data: CreatePetDto & { userId: number };
-    omit?: Prisma.PetsOmit;
-    include?: Prisma.PetsInclude;
-  }): ReturnWithErrPromise<Pets> {
+    omit?: Prisma.PetOmit;
+    include?: Prisma.PetInclude;
+  }): ReturnWithErrPromise<Pet> {
     try {
-      const pet = await this.prisma.pets.create({
+      const pet = await this.prisma.pet.create({
         data,
         omit,
         include,
@@ -91,13 +91,13 @@ export class PetService {
     omit,
     include,
   }: {
-    where: Prisma.PetsWhereUniqueInput;
-    data: Prisma.PetsUpdateInput;
-    omit?: Prisma.PetsOmit;
-    include?: Prisma.PetsInclude;
-  }): ReturnWithErrPromise<Pets> {
+    where: Prisma.PetWhereUniqueInput;
+    data: Prisma.PetUpdateInput;
+    omit?: Prisma.PetOmit;
+    include?: Prisma.PetInclude;
+  }): ReturnWithErrPromise<Pet> {
     try {
-      const pet = await this.prisma.pets.update({
+      const pet = await this.prisma.pet.update({
         where,
         data,
         omit,
@@ -117,12 +117,12 @@ export class PetService {
     omit,
     include,
   }: {
-    where: Prisma.PetsWhereUniqueInput;
-    omit?: Prisma.PetsOmit;
-    include?: Prisma.PetsInclude;
-  }): ReturnWithErrPromise<Pets> {
+    where: Prisma.PetWhereUniqueInput;
+    omit?: Prisma.PetOmit;
+    include?: Prisma.PetInclude;
+  }): ReturnWithErrPromise<Pet> {
     try {
-      const pet = await this.prisma.pets.delete({
+      const pet = await this.prisma.pet.delete({
         where,
         omit,
         include,
