@@ -29,10 +29,11 @@ export class LostInfoController {
     private readonly petService: PetService,
   ) {}
 
-  @Post()
+  @Post(':petId')
   @UseGuards(AuthGuard)
   async create(
     @Req() req: Request,
+    @Param('petId', ParseIntPipe) petId: number,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: CreateLostInfoDto,
   ) {
@@ -40,12 +41,15 @@ export class LostInfoController {
     if (!tokenDecoded) throw new UnauthorizedException();
 
     const [, petErr] = await this.petService.findOne({
-      where: { id: data.petId, userId: tokenDecoded.sub },
+      where: { id: petId, userId: tokenDecoded.sub },
     });
 
     if (petErr) throw petErr;
 
-    const [lostInfo, err] = await this.lostInfoService.create({ data });
+    const [lostInfo, err] = await this.lostInfoService.create({
+      data: { ...data, pet: { connect: { id: petId } } },
+    });
+
     if (err) throw err;
     return lostInfo;
   }
@@ -62,9 +66,10 @@ export class LostInfoController {
     if (!tokenDecoded) throw new UnauthorizedException();
 
     const [lostInfo, err] = await this.lostInfoService.update({
-      where: { petId, pet: { userId: tokenDecoded.sub } },
+      where: { petId },
       data,
     });
+
     if (err) throw err;
     return lostInfo;
   }

@@ -4,9 +4,6 @@ import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-import { CreateLostInfoDto } from './dto/create-lost-info.dto';
-import { UpdateLostInfoDto } from './dto/update-lost-info.dto';
-
 import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
@@ -64,7 +61,7 @@ export class LostInfoService {
     include,
     omit,
   }: {
-    data: CreateLostInfoDto;
+    data: Prisma.LostInfoCreateInput;
     include?: Prisma.LostInfoInclude;
     omit?: Prisma.LostInfoOmit;
   }): ReturnWithErrPromise<LostInfo> {
@@ -88,7 +85,7 @@ export class LostInfoService {
     omit,
   }: {
     where: Prisma.LostInfoWhereUniqueInput;
-    data: UpdateLostInfoDto;
+    data: Prisma.LostInfoUpdateInput;
     include?: Prisma.LostInfoInclude;
     omit?: Prisma.LostInfoOmit;
   }): ReturnWithErrPromise<LostInfo> {
