@@ -958,9 +958,7 @@ export const PetScalarFieldEnum = {
   petTypeId: 'petTypeId',
   breedId: 'breedId',
   userId: 'userId',
-  image: 'image',
-  lost: 'lost',
-  lostAt: 'lostAt'
+  image: 'image'
 } as const
 
 export type PetScalarFieldEnum = (typeof PetScalarFieldEnum)[keyof typeof PetScalarFieldEnum]
@@ -1156,13 +1154,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Sex'
  */
 export type EnumSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Sex'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 /**

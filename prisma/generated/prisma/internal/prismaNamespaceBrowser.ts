@@ -123,9 +123,7 @@ export const PetScalarFieldEnum = {
   petTypeId: 'petTypeId',
   breedId: 'breedId',
   userId: 'userId',
-  image: 'image',
-  lost: 'lost',
-  lostAt: 'lostAt'
+  image: 'image'
 } as const
 
 export type PetScalarFieldEnum = (typeof PetScalarFieldEnum)[keyof typeof PetScalarFieldEnum]
