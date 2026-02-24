@@ -15,5 +15,6 @@ import { BreedController } from './controller/breed.controller';
   imports: [StorageModule, PrismaModule, TokenModule],
   providers: [PetService, PetTypeService, BreedService],
   controllers: [PetController, PetTypeController, BreedController],
+  exports: [PetService],
 })
 export class PetModule {}
