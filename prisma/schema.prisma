@@ -69,10 +69,10 @@ model Pet {
 model LostInfo {
   id      Int      @id @default(autoincrement())
   lostAt  DateTime
-  details String   @db.VarChar(255)
-  address String   @db.VarChar(255)
+  details String?  @db.VarChar(255)
+  address String?  @db.VarChar(255)
   petId   Int      @unique
-  pet     Pet      @relation(fields: [petId], references: [id])
+  pet     Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
 
   @@map("lost_info")
 }

@@ -1,4 +1,7 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiSchema, PartialType, OmitType } from '@nestjs/swagger';
 import { CreateLostInfoDto } from './create-lost-info.dto';
 
-export class UpdateLostInfoDto extends PartialType(CreateLostInfoDto) {}
+@ApiSchema({ name: 'Update Lost Info DTO' })
+export class UpdateLostInfoDto extends PartialType(
+  OmitType(CreateLostInfoDto, ['petId']),
+) {}

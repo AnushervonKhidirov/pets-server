@@ -1,18 +1,19 @@
 import { IsString, IsDate, IsInt, IsOptional } from 'class-validator';
+import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
 
+@ApiSchema({ name: 'Create Lost Info DTO' })
 export class CreateLostInfoDto {
   @ApiProperty({ example: 1 })
   @IsInt()
   petId: number;
 
-  @ApiProperty({ example: 'lost details' })
+  @ApiProperty({ example: 'lost details', required: false })
   @IsString()
   @IsOptional()
   details?: string;
 
-  @ApiProperty({ example: 'some address' })
+  @ApiProperty({ example: 'some address', required: false })
   @IsString()
   @IsOptional()
   address?: string;
