@@ -16,20 +16,21 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 
 import { CreateUserDto } from './create-user.dto';
 
+@ApiSchema({ name: 'Address Dto' })
 export class AddressDto {
-  @ApiProperty({ example: 'some address, appartment number' })
+  @ApiProperty({ example: 'some address, appartment number', required: false })
   @IsString()
   @IsOptional()
   address?: string;
 
-  @ApiProperty({ example: 40.4123124123 })
+  @ApiProperty({ example: 40.4123124123, required: false })
   @IsNumber()
   @Min(-90)
   @Max(90)
   @IsOptional()
   latitude?: number;
 
-  @ApiProperty({ example: 90.4123124123 })
+  @ApiProperty({ example: 90.4123124123, required: false })
   @IsNumber()
   @Min(-180)
   @Max(180)
