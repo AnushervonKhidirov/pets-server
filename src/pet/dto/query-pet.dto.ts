@@ -1,6 +1,14 @@
 import { Sex } from 'prisma/generated/prisma/enums';
 
-import { IsEnum, IsString, IsDate, IsInt, IsOptional } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsDate,
+  IsInt,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class QueryPetDto {
@@ -41,4 +49,20 @@ export class QueryPetDto {
   @IsInt()
   @IsOptional()
   breedId?: number;
+
+  @ApiProperty({ example: true, required: false })
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true')
+  lost?: boolean;
+
+  @ApiProperty({ example: 50, required: false })
+  @IsInt()
+  @IsOptional()
+  skip?: number;
+
+  @ApiProperty({ example: 10, required: false })
+  @IsInt()
+  @IsOptional()
+  take?: number;
 }
