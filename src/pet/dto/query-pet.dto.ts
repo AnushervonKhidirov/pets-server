@@ -8,12 +8,13 @@ import {
   IsOptional,
   IsBoolean,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class QueryPetDto {
   @ApiProperty({ example: 1, required: false })
   @IsInt()
+  @Type(() => Number)
   @IsOptional()
   userId?: number;
 
@@ -42,11 +43,13 @@ export class QueryPetDto {
 
   @ApiProperty({ example: 1, required: false })
   @IsInt()
+  @Type(() => Number)
   @IsOptional()
   petTypeId?: number;
 
   @ApiProperty({ example: 3, required: false })
   @IsInt()
+  @Type(() => Number)
   @IsOptional()
   breedId?: number;
 
@@ -58,11 +61,13 @@ export class QueryPetDto {
 
   @ApiProperty({ example: 50, required: false })
   @IsInt()
+  @Type(() => Number)
   @IsOptional()
   skip?: number;
 
   @ApiProperty({ example: 10, required: false })
   @IsInt()
+  @Type(() => Number)
   @IsOptional()
   take?: number;
 }
