@@ -17,6 +17,23 @@ export class PetService {
     private readonly storageService: StorageService,
   ) {}
 
+  async count({
+    where,
+    skip,
+    take,
+  }: {
+    where?: Prisma.PetWhereInput;
+    skip?: number;
+    take?: number;
+  } = {}): ReturnWithErrPromise<{ total: number }> {
+    try {
+      const total = await this.prisma.pet.count({ where, skip, take });
+      return [{ total }, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async findOne({
     where,
     omit,
@@ -45,16 +62,22 @@ export class PetService {
     where,
     omit,
     include,
+    skip,
+    take,
   }: {
     where?: Prisma.PetWhereInput;
     omit?: Prisma.PetOmit;
     include?: Prisma.PetInclude;
+    skip?: number;
+    take?: number;
   } = {}): ReturnWithErrPromise<Pet[]> {
     try {
       const pets = await this.prisma.pet.findMany({
         where,
         omit,
         include,
+        skip,
+        take,
       });
 
       return [pets, null];

@@ -104,20 +104,59 @@ export class PetController {
     private readonly storageService: StorageService,
   ) {}
 
+  @ApiResponse({ example: 423 })
+  @Get('count')
+  async count(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    query: QueryPetDto,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { skip, take, lost, ...where } = query;
+
+    const [pets, err] = await this.petService.count({
+      where: { ...where, lostInfo: lost ? { isNot: null } : undefined },
+    });
+    if (err) throw err;
+    return pets;
+  }
+
+  @ApiResponse({ example: petExample })
+  @UseGuards(AuthGuard)
+  @Get('my/:id')
+  async findMyOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const tokenDecoded = req['user'] as TokenDecoded | undefined;
+    if (!tokenDecoded) throw new UnauthorizedException();
+
+    const [pet, err] = await this.petService.findOne({
+      where: { id, userId: tokenDecoded.sub },
+      include: petInclude,
+    });
+    if (err) throw err;
+    return pet;
+  }
+
   @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Get('my')
-  async findMy(
+  async findMyMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    where: QueryPetDto,
+    query: QueryPetDto,
     @Req() req: Request,
   ) {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
+    const { skip, take, lost, ...where } = query;
+
     const [pet, err] = await this.petService.findMany({
-      where: { ...where, userId: tokenDecoded.sub },
+      where: {
+        ...where,
+        userId: tokenDecoded.sub,
+        lostInfo: lost ? { isNot: null } : undefined,
+      },
       include: petInclude,
+      skip,
+      take,
     });
     if (err) throw err;
     return pet;
@@ -139,11 +178,15 @@ export class PetController {
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    where: QueryPetDto,
+    query: QueryPetDto,
   ) {
+    const { skip, take, lost, ...where } = query;
+
     const [pets, err] = await this.petService.findMany({
-      where,
+      where: { ...where, lostInfo: lost ? { isNot: null } : undefined },
       include: petInclude,
+      skip,
+      take,
     });
     if (err) throw err;
     return pets;
