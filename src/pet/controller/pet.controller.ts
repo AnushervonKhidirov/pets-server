@@ -184,7 +184,7 @@ export class PetController {
 
     const [pets, err] = await this.petService.findMany({
       where: { ...where, lostInfo: lost ? { isNot: null } : undefined },
-      include: petInclude,
+      include: { ...petInclude, ...petUserInclude },
       skip,
       take,
     });
