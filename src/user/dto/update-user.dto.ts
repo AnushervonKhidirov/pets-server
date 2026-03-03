@@ -42,17 +42,16 @@ export class AddressDto {
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ example: '+992715303256', required: false })
   @IsPhoneNumber('TJ')
-  @Transform(({ obj }: { obj: { phone: string | null } }) => {
-    if (!obj.phone) return obj.phone;
-    if ('phone' in obj) {
-      const formattedNumber = parsePhoneNumberFromString(
-        obj.phone,
-        'TJ',
-      )?.number.toString();
+  @Transform(({ value }: { value: string | null }) => {
+    if (!value) return value;
 
-      obj.phone = formattedNumber ?? obj.phone;
-      return obj.phone;
-    }
+    const formattedNumber = parsePhoneNumberFromString(
+      value,
+      'TJ',
+    )?.number.toString();
+
+    value = formattedNumber ?? value;
+    return value;
   })
   @IsOptional()
   phone?: string;
