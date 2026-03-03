@@ -57,7 +57,8 @@ export const ModelName = {
   Pet: 'Pet',
   LostInfo: 'LostInfo',
   PetType: 'PetType',
-  Breed: 'Breed'
+  Breed: 'Breed',
+  VetClinic: 'VetClinic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -159,6 +160,20 @@ export const BreedScalarFieldEnum = {
 export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof BreedScalarFieldEnum]
 
 
+export const VetClinicScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  contacts: 'contacts',
+  about: 'about',
+  image: 'image'
+} as const
+
+export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -173,6 +188,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const JsonNullValueFilter = {
@@ -258,4 +280,14 @@ export const BreedOrderByRelevanceFieldEnum = {
 } as const
 
 export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldEnum)[keyof typeof BreedOrderByRelevanceFieldEnum]
+
+
+export const VetClinicOrderByRelevanceFieldEnum = {
+  name: 'name',
+  address: 'address',
+  about: 'about',
+  image: 'image'
+} as const
+
+export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]
 

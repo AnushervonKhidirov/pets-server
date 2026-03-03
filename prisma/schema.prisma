@@ -98,6 +98,19 @@ model Breed {
   @@map("breed")
 }
 
+model VetClinic {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(50)
+  address   String
+  latitude  Float
+  longitude Float
+  contacts  Json
+  about     String? @db.Text
+  image     String?
+
+  @@map("vet_clinic")
+}
+
 enum AuthType {
   Local
   Google

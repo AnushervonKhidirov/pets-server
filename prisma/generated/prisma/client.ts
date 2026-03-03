@@ -72,3 +72,8 @@ export type PetType = Prisma.PetTypeModel
  * 
  */
 export type Breed = Prisma.BreedModel
+/**
+ * Model VetClinic
+ * 
+ */
+export type VetClinic = Prisma.VetClinicModel

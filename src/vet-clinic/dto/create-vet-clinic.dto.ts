@@ -1,0 +1,51 @@
+import {
+  IsString,
+  IsNumber,
+  IsPhoneNumber,
+  IsArray,
+  ArrayNotEmpty,
+  IsOptional,
+} from 'class-validator';
+
+import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import parsePhoneNumberFromString from 'libphonenumber-js';
+
+export class CreateVetClinicDto {
+  @IsString()
+  @ApiProperty({ example: 'vet clinic name' })
+  name: string;
+
+  @IsString()
+  @ApiProperty({ example: 'vet clinic address' })
+  address: string;
+
+  @IsNumber()
+  @ApiProperty({ example: 40.4123124123 })
+  latitude: number;
+
+  @IsNumber()
+  @ApiProperty({ example: 90.4123124123 })
+  longitude: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsPhoneNumber('TJ', { each: true })
+  @ApiProperty({ example: ['+992715303256'] })
+  @Transform(({ value }: { value: string[] }) => {
+    return value.map((phone) => {
+      const formattedNumber = parsePhoneNumberFromString(
+        phone,
+        'TJ',
+      )?.number.toString();
+
+      return formattedNumber ?? phone;
+    });
+  })
+  contacts: string[];
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ example: 'about vet clinic', required: false })
+  about?: string;
+}

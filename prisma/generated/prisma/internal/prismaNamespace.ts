@@ -390,7 +390,8 @@ export const ModelName = {
   Pet: 'Pet',
   LostInfo: 'LostInfo',
   PetType: 'PetType',
-  Breed: 'Breed'
+  Breed: 'Breed',
+  VetClinic: 'VetClinic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed"
+    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -872,6 +873,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VetClinic: {
+      payload: Prisma.$VetClinicPayload<ExtArgs>
+      fields: Prisma.VetClinicFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VetClinicFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VetClinicFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        findFirst: {
+          args: Prisma.VetClinicFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VetClinicFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        findMany: {
+          args: Prisma.VetClinicFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>[]
+        }
+        create: {
+          args: Prisma.VetClinicCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        createMany: {
+          args: Prisma.VetClinicCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.VetClinicDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        update: {
+          args: Prisma.VetClinicUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        deleteMany: {
+          args: Prisma.VetClinicDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VetClinicUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.VetClinicUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetClinicPayload>
+        }
+        aggregate: {
+          args: Prisma.VetClinicAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVetClinic>
+        }
+        groupBy: {
+          args: Prisma.VetClinicGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VetClinicGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VetClinicCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VetClinicCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -994,6 +1061,20 @@ export const BreedScalarFieldEnum = {
 export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof BreedScalarFieldEnum]
 
 
+export const VetClinicScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  contacts: 'contacts',
+  about: 'about',
+  image: 'image'
+} as const
+
+export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1008,6 +1089,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const JsonNullValueFilter = {
@@ -1093,6 +1181,16 @@ export const BreedOrderByRelevanceFieldEnum = {
 } as const
 
 export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldEnum)[keyof typeof BreedOrderByRelevanceFieldEnum]
+
+
+export const VetClinicOrderByRelevanceFieldEnum = {
+  name: 'name',
+  address: 'address',
+  about: 'about',
+  image: 'image'
+} as const
+
+export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]
 
 
 
@@ -1258,6 +1356,7 @@ export type GlobalOmitConfig = {
   lostInfo?: Prisma.LostInfoOmit
   petType?: Prisma.PetTypeOmit
   breed?: Prisma.BreedOmit
+  vetClinic?: Prisma.VetClinicOmit
 }
 
 /* Types for Logging */
