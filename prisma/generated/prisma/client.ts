@@ -77,3 +77,8 @@ export type Breed = Prisma.BreedModel
  * 
  */
 export type VetClinic = Prisma.VetClinicModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel

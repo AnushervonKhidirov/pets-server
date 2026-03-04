@@ -111,6 +111,16 @@ model VetClinic {
   @@map("vet_clinic")
 }
 
+model Message {
+  id      Int     @id @default(autoincrement())
+  topic   String  @db.VarChar(50)
+  phone   String  @db.VarChar(20)
+  message String  @db.Text
+  watched Boolean @default(false)
+
+  @@map("message")
+}
+
 enum AuthType {
   Local
   Google

@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { PetModule } from './pet/pet.module';
 import { LostInfoModule } from './lost-info/lost-info.module';
 import { VetClinicModule } from './vet-clinic/vet-clinic.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { VetClinicModule } from './vet-clinic/vet-clinic.module';
     PetModule,
     LostInfoModule,
     VetClinicModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [],

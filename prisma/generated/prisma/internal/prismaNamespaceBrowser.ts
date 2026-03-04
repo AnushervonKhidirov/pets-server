@@ -58,7 +58,8 @@ export const ModelName = {
   LostInfo: 'LostInfo',
   PetType: 'PetType',
   Breed: 'Breed',
-  VetClinic: 'VetClinic'
+  VetClinic: 'VetClinic',
+  Message: 'Message'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -172,6 +173,17 @@ export const VetClinicScalarFieldEnum = {
 } as const
 
 export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  topic: 'topic',
+  phone: 'phone',
+  message: 'message',
+  watched: 'watched'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -290,4 +302,13 @@ export const VetClinicOrderByRelevanceFieldEnum = {
 } as const
 
 export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]
+
+
+export const MessageOrderByRelevanceFieldEnum = {
+  topic: 'topic',
+  phone: 'phone',
+  message: 'message'
+} as const
+
+export type MessageOrderByRelevanceFieldEnum = (typeof MessageOrderByRelevanceFieldEnum)[keyof typeof MessageOrderByRelevanceFieldEnum]
 
