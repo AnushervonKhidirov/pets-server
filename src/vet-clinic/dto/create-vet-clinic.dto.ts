@@ -7,10 +7,11 @@ import {
   IsOptional,
 } from 'class-validator';
 
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 
+@ApiSchema({ name: 'Create Vet Clinic Dto' })
 export class CreateVetClinicDto {
   @IsString()
   @ApiProperty({ example: 'vet clinic name' })

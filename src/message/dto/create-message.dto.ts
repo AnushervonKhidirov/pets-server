@@ -1,8 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsString, IsPhoneNumber } from 'class-validator';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 
+@ApiSchema({ name: 'Create Message Dto' })
 export class CreateMessageDto {
   @ApiProperty({ example: 'Сообщить об ошибке' })
   @IsString()
@@ -23,7 +24,7 @@ export class CreateMessageDto {
   })
   phone: string;
 
-  @ApiProperty({ example: 'Сообщить об ошибке' })
+  @ApiProperty({ example: 'У вас тут ошибка' })
   @IsString()
   message: string;
 }

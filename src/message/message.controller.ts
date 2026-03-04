@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 
 import { MessageService } from './message.service';
 
@@ -17,10 +18,28 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { QueryMessageDto } from './dto/query-message.dto';
 
+const messages = [
+  {
+    id: 1,
+    topic: 'some topic 1',
+    phone: '+992715303256',
+    message: 'some message 1',
+    watched: false,
+  },
+  {
+    id: 2,
+    topic: 'some topic 2',
+    phone: '+992715303254',
+    message: 'some message 2',
+    watched: true,
+  },
+];
+
 @Controller('message')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
+  @ApiResponse({ example: messages[0] })
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const [message, err] = await this.messageService.findOne({ where: { id } });
@@ -28,6 +47,7 @@ export class MessageController {
     return message;
   }
 
+  @ApiResponse({ example: messages })
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
@@ -45,9 +65,8 @@ export class MessageController {
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: CreateMessageDto,
   ) {
-    const [messages, err] = await this.messageService.create({ data });
+    const [, err] = await this.messageService.create({ data });
     if (err) throw err;
-    return messages;
   }
 
   @Patch(':id')
@@ -56,12 +75,11 @@ export class MessageController {
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: UpdateMessageDto,
   ) {
-    const [messages, err] = await this.messageService.update({
+    const [, err] = await this.messageService.update({
       where: { id },
       data,
     });
     if (err) throw err;
-    return messages;
   }
 
   @Delete(':id')
