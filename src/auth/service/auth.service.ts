@@ -1,19 +1,19 @@
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens } from 'src/token/token.type';
-import { Prisma, AuthType } from 'prisma/generated/prisma/client';
+import type { Prisma, User } from 'prisma/generated/prisma/client';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { AuthType } from 'prisma/generated/prisma/client';
 import { TokenService } from 'src/token/token.service';
 import { UserService } from 'src/user/user.service';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { SignInDto } from './dto/sign-in.dto';
-import { SignOutDto } from './dto/sign-out.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { SignInDto } from '../dto/sign-in.dto';
+import { SignOutDto } from '../dto/sign-out.dto';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
 import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
-import { User } from 'prisma/generated/prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -172,6 +172,7 @@ export class AuthService {
       const [token, tokenErr] = await this.generateToken({
         id: decodedToken.sub,
         email: decodedToken.email,
+        role: decodedToken.role,
       });
       if (tokenErr) throw tokenErr;
 
@@ -184,11 +185,13 @@ export class AuthService {
   private async generateToken({
     id,
     email,
-  }: Pick<User, 'id' | 'email'>): ReturnWithErrPromise<Tokens> {
+    role,
+  }: Pick<User, 'id' | 'email' | 'role'>): ReturnWithErrPromise<Tokens> {
     try {
       const [tokens, tokenErr] = await this.tokenService.generate({
         sub: id,
-        email: email,
+        email,
+        role,
       });
 
       if (tokenErr) throw tokenErr;

@@ -28,7 +28,7 @@ export function exceptionHandler(err: unknown): [null, HttpException] {
 }
 
 function prismaErrHandler(err: PrismaClientKnownRequestError) {
-  const Error: {
+  const PrismaError: {
     [key: PrismaClientKnownRequestError['code']]: HttpException;
   } = {
     P2025: new NotFoundException(`Database Error. Code ${err.code}`),
@@ -36,11 +36,11 @@ function prismaErrHandler(err: PrismaClientKnownRequestError) {
     P2003: new BadRequestException(`Database Error. Code ${err.code}`),
   };
 
-  if (!Error[err.code]) {
+  if (!PrismaError[err.code]) {
     return new InternalServerErrorException(`Database Error. Code ${err.code}`);
   }
 
-  return Error[err.code];
+  return PrismaError[err.code];
 }
 
 function isPrismaError(err: unknown) {

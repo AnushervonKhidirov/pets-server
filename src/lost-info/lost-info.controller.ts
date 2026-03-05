@@ -14,7 +14,7 @@ import {
   UseGuards,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 import { LostInfoService } from './lost-info.service';
 import { PetService } from 'src/pet/service/pet.service';

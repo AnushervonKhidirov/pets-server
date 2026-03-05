@@ -24,7 +24,9 @@ import {
 
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/auth.guard';
+
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+
 import { PetService } from '../service/pet.service';
 import { StorageService } from 'src/storage/storage.service';
 
