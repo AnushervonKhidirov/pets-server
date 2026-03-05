@@ -89,7 +89,8 @@ export const UserScalarFieldEnum = {
   contacts: 'contacts',
   authType: 'authType',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  role: 'role'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

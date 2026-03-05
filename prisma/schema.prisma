@@ -20,6 +20,7 @@ model User {
   authType  AuthType
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  role      Role     @default(User)
   tokens    Token[]
   address   Address?
   pets      Pet[]
@@ -39,7 +40,7 @@ model Address {
 }
 
 model Token {
-  refreshToken String   @unique
+  refreshToken String   @unique @db.VarChar(250)
   userId       Int      @map("user_id")
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiredAt    DateTime @map("expired_at") @db.Timestamp(0)
@@ -130,4 +131,9 @@ enum AuthType {
 enum Sex {
   Male
   Female
+}
+
+enum Role {
+  User
+  Admin
 }
