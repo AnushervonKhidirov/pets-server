@@ -2,10 +2,12 @@ import type { Response } from 'express';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Storage } from '@google-cloud/storage';
+import { join } from 'node:path';
 
 @Injectable()
 export class StorageService {
   private readonly storage: Storage;
+  private readonly apiEndpoint = 'https://storage.googleapis.com';
   private readonly bucketName = process.env.GOOGLE_BUCKET_NAME!;
 
   constructor() {
@@ -14,7 +16,7 @@ export class StorageService {
 
   async upload(file: Express.Multer.File, folder: string, filename: string) {
     const bucket = this.storage.bucket(this.bucketName);
-    const blob = bucket.file(`${folder}/${filename}`);
+    const blob = bucket.file(join(folder, filename));
 
     const blobStream = blob.createWriteStream({
       resumable: false,
@@ -25,8 +27,12 @@ export class StorageService {
       blobStream.on('error', (err) => reject(err));
 
       blobStream.on('finish', () => {
-        const publicUrl = `https://storage.googleapis.com/${this.bucketName}/${blob.name}`;
-        resolve({ message: 'Загружено!', url: publicUrl });
+        const publicUrl = new URL(
+          join(this.bucketName, blob.name),
+          this.apiEndpoint,
+        );
+
+        resolve({ message: 'Загружено!', url: publicUrl.href });
       });
 
       blobStream.end(file.buffer);
@@ -35,7 +41,7 @@ export class StorageService {
 
   async get(folder: string, filename: string, res: Response) {
     const bucket = this.storage.bucket(this.bucketName);
-    const remoteFile = bucket.file(`${folder}/${filename}`);
+    const remoteFile = bucket.file(join(folder, filename));
 
     const [exists] = await remoteFile.exists();
     if (!exists) throw new NotFoundException();
