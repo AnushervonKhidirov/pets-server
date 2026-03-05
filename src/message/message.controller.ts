@@ -9,8 +9,13 @@ import {
   Body,
   ParseIntPipe,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/auth/decorator/role.decorator';
 
 import { MessageService } from './message.service';
 
@@ -40,6 +45,8 @@ export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
   @ApiResponse({ example: messages[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const [message, err] = await this.messageService.findOne({ where: { id } });
@@ -48,6 +55,8 @@ export class MessageController {
   }
 
   @ApiResponse({ example: messages })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
@@ -70,6 +79,8 @@ export class MessageController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
@@ -83,6 +94,8 @@ export class MessageController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   async delete(@Param('id', ParseIntPipe) id: number) {
     const [, err] = await this.messageService.delete({
       where: { id },

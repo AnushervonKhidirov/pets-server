@@ -25,6 +25,7 @@ const userOmit: Prisma.UserOmit = {
   password: true,
   createdAt: true,
   updatedAt: true,
+  role: true,
 };
 
 const userInclude: Prisma.UserInclude = {
@@ -66,8 +67,6 @@ const userExample2 = {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('me')
-  @UseGuards(AuthGuard)
   @ApiResponse({
     examples: {
       user_1: { summary: 'Full data', value: userExample1 },
@@ -75,6 +74,8 @@ export class UserController {
     },
     status: 200,
   })
+  @UseGuards(AuthGuard)
+  @Get('me')
   async findMe(@Req() req: Request) {
     const { sub } = this.getUserFromRequest(req);
 
@@ -88,11 +89,11 @@ export class UserController {
     return user;
   }
 
-  @Get()
   @ApiResponse({
     example: [userExample1, userExample2],
     status: 200,
   })
+  @Get()
   async findMany() {
     const [users, err] = await this.userService.findMany({
       omit: userOmit,
@@ -102,7 +103,6 @@ export class UserController {
     return users;
   }
 
-  @Get(':id')
   @ApiResponse({
     examples: {
       user_1: { summary: 'Full data', value: userExample1 },
@@ -110,6 +110,7 @@ export class UserController {
     },
     status: 200,
   })
+  @Get(':id')
   async findOne(@Param('id', new ParseIntPipe()) id: number) {
     const [user, err] = await this.userService.findOne({
       where: { id },
@@ -121,8 +122,6 @@ export class UserController {
     return user;
   }
 
-  @Patch()
-  @UseGuards(AuthGuard)
   @ApiResponse({
     examples: {
       user_1: { summary: 'Full data', value: userExample1 },
@@ -130,6 +129,8 @@ export class UserController {
     },
     status: 200,
   })
+  @UseGuards(AuthGuard)
+  @Patch()
   async update(
     @Req() req: Request,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
@@ -151,7 +152,6 @@ export class UserController {
     return user;
   }
 
-  @Delete()
   @ApiResponse({
     examples: {
       user_1: { summary: 'Full data', value: userExample1 },
@@ -159,6 +159,8 @@ export class UserController {
     },
     status: 200,
   })
+  @UseGuards(AuthGuard)
+  @Delete()
   async delete(@Req() req: Request) {
     const { sub } = this.getUserFromRequest(req);
 

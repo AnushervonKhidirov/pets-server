@@ -258,9 +258,9 @@ export class PetController {
     return pet;
   }
 
-  @Post('image/:petId')
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(AuthGuard)
+  @Post('image/:petId')
   async setImage(
     @Req() req: Request,
     @Param('petId', ParseIntPipe) petId: number,
@@ -301,8 +301,8 @@ export class PetController {
     await this.storageService.get(this.storageFolder, filename, response);
   }
 
-  @Delete('image/:petId')
   @UseGuards(AuthGuard)
+  @Delete('image/:petId')
   async deleteImage(
     @Req() req: Request,
     @Param('petId', ParseIntPipe) petId: number,

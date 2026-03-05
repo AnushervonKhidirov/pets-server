@@ -8,9 +8,15 @@ import {
   Body,
   ParseIntPipe,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { PetTypeService } from '../service/pet-type.service';
 import { ApiResponse } from '@nestjs/swagger';
+
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/auth/decorator/role.decorator';
+
+import { PetTypeService } from '../service/pet-type.service';
 
 import {
   CreateManyPetTypeDto,
@@ -44,6 +50,8 @@ export class PetTypeController {
   }
 
   @ApiResponse({ example: { count: petTypeExample.length } })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Post('many')
   async createMany(
     @Body(new ValidationPipe({ whitelist: true })) data: CreateManyPetTypeDto,
@@ -56,6 +64,8 @@ export class PetTypeController {
   }
 
   @ApiResponse({ example: petTypeExample[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Post()
   async create(
     @Body(new ValidationPipe({ whitelist: true })) data: CreatePetTypeDto,
@@ -66,6 +76,8 @@ export class PetTypeController {
   }
 
   @ApiResponse({ example: petTypeExample[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -80,6 +92,8 @@ export class PetTypeController {
   }
 
   @ApiResponse({ example: petTypeExample[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     const [petType, err] = await this.petTypeService.delete({ where: { id } });

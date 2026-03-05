@@ -8,8 +8,14 @@ import {
   Body,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/auth/decorator/role.decorator';
+
 import { VetClinicService } from './vet-clinic.service';
 
 import { CreateVetClinicDto } from './dto/create-vet-clinic.dto';
@@ -50,8 +56,6 @@ export class VetClinicController {
       where: { id },
     });
 
-    console.log(err);
-
     if (err) throw err;
     return vetClinic;
   }
@@ -65,6 +69,8 @@ export class VetClinicController {
   }
 
   @ApiResponse({ example: vetClinicsExample[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Post()
   async create(
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
@@ -76,6 +82,8 @@ export class VetClinicController {
   }
 
   @ApiResponse({ example: vetClinicsExample[0] })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -90,6 +98,8 @@ export class VetClinicController {
     return vetClinic;
   }
 
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     const [, err] = await this.vetClinicService.delete({

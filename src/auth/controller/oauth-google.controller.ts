@@ -52,8 +52,6 @@ export class OAuthGoogleController {
       await this.oauthGoogleService.authCallback(body);
     if (decodeErr) throw decodeErr;
 
-    console.log(decodeErr);
-
     const [user, userErr] = await this.userService.findOne({
       where: { email: decodedUser.email },
     });

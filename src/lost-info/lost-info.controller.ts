@@ -29,8 +29,8 @@ export class LostInfoController {
     private readonly petService: PetService,
   ) {}
 
-  @Post(':petId')
   @UseGuards(AuthGuard)
+  @Post(':petId')
   async create(
     @Req() req: Request,
     @Param('petId', ParseIntPipe) petId: number,
@@ -54,8 +54,8 @@ export class LostInfoController {
     return lostInfo;
   }
 
-  @Patch(':petId')
   @UseGuards(AuthGuard)
+  @Patch(':petId')
   async update(
     @Req() req: Request,
     @Param('petId', ParseIntPipe) petId: number,
@@ -74,8 +74,8 @@ export class LostInfoController {
     return lostInfo;
   }
 
-  @Delete(':petId')
   @UseGuards(AuthGuard)
+  @Delete(':petId')
   async delete(
     @Req() req: Request,
     @Param('petId', ParseIntPipe) petId: number,

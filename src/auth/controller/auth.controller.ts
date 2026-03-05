@@ -18,8 +18,8 @@ const tokenExample: Tokens = {
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Post('sign-up')
   @ApiResponse({ example: tokenExample, status: 200 })
+  @Post('sign-up')
   async signUp(
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: CreateUserDto,
@@ -29,8 +29,8 @@ export class AuthController {
     return token;
   }
 
-  @Post('sign-in')
   @ApiResponse({ example: tokenExample, status: 200 })
+  @Post('sign-in')
   async signIn(
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: SignInDto,
