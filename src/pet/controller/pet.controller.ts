@@ -180,10 +180,20 @@ export class PetController {
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryPetDto,
   ) {
-    const { skip, take, lost, ...where } = query;
+    const { skip, take, lost, name, microchipId, ...where } = query;
 
     const [pets, err] = await this.petService.findMany({
-      where: { ...where, lostInfo: lost ? { isNot: null } : undefined },
+      where: {
+        ...where,
+        OR:
+          name || microchipId
+            ? [
+                { name: { contains: name } },
+                { microchipId: { contains: microchipId } },
+              ]
+            : undefined,
+        lostInfo: lost ? { isNot: null } : undefined,
+      },
       include: { ...petInclude, ...petUserInclude },
       skip,
       take,
