@@ -6,6 +6,7 @@ import { TokenModule } from 'src/token/token.module';
 import { UserModule } from 'src/user/user.module';
 
 import { AuthController } from './controller/auth.controller';
+import { OAuthGoogleController } from './controller/oauth-google.controller';
 
 import { AuthService } from './service/auth.service';
 import { OAuthGoogleService } from './service/oauth-google.service';
@@ -20,7 +21,7 @@ import oauthGoogleConfig from './config/oauth-google.config';
     TokenModule,
     UserModule,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, OAuthGoogleController],
   providers: [AuthService, OAuthGoogleService],
 })
 export class AuthModule {}
