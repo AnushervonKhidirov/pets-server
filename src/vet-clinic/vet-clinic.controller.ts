@@ -98,13 +98,15 @@ export class VetClinicController {
     return vetClinic;
   }
 
+  @ApiResponse({ example: vetClinicsExample[0] })
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(['Admin'])
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    const [, err] = await this.vetClinicService.delete({
+    const [vetClinic, err] = await this.vetClinicService.delete({
       where: { id },
     });
     if (err) throw err;
+    return vetClinic;
   }
 }
