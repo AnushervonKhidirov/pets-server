@@ -1,3 +1,4 @@
+import type { Request } from 'express';
 import type { Tokens } from 'src/token/token.type';
 
 import {
@@ -8,6 +9,8 @@ import {
   ValidationPipe,
   HttpCode,
   HttpStatus,
+  Req,
+  BadRequestException,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthType } from 'prisma/generated/prisma/enums';
@@ -36,8 +39,11 @@ export class OAuthGoogleController {
     status: 200,
     example: { url: 'https://accounts.google.com/o/oauth2/v2/auth' },
   })
-  googleUrl() {
-    const [url, err] = this.oauthGoogleService.generateAuthUrl();
+  googleUrl(@Req() request: Request) {
+    const origin = request.headers.origin;
+    if (!origin) throw new BadRequestException('Origin not found');
+
+    const [url, err] = this.oauthGoogleService.generateAuthUrl(origin);
     if (err) throw err;
     return { url };
   }
@@ -46,10 +52,17 @@ export class OAuthGoogleController {
   @HttpCode(200)
   @ApiResponse({ example: tokenExample, status: 200 })
   async googleCallback(
+    @Req() request: Request,
     @Body(new ValidationPipe({ whitelist: true })) body: GoogleCallbackDto,
   ) {
-    const [decodedUser, decodeErr] =
-      await this.oauthGoogleService.authCallback(body);
+    const origin = request.headers.origin;
+    if (!origin) throw new BadRequestException('Origin not found');
+
+    const [decodedUser, decodeErr] = await this.oauthGoogleService.authCallback(
+      body.code,
+      origin,
+    );
+
     if (decodeErr) throw decodeErr;
 
     const [user, userErr] = await this.userService.findOne({

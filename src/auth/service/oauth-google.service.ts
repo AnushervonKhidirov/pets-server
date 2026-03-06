@@ -12,7 +12,6 @@ import { Injectable, Inject, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { stringify } from 'node:querystring';
 
-import { GoogleCallbackDto } from '../dto/google-callback.dto';
 import oauthGoogleConfig from '../config/oauth-google.config';
 import { exceptionHandler } from '@helper/exception.helper';
 
@@ -28,11 +27,13 @@ export class OAuthGoogleService {
     private readonly jwtService: JwtService,
   ) {}
 
-  generateAuthUrl(): ReturnWithErr<string> {
+  generateAuthUrl(origin: string): ReturnWithErr<string> {
     try {
+      const redirectUri = new URL(this.config.redirectUri, origin).href;
+
       const params = {
         client_id: this.config.clientId,
-        redirect_uri: this.config.redirectUri,
+        redirect_uri: redirectUri,
         response_type: this.config.responseType,
         scope: this.config.scope.join(' '),
       };
@@ -44,14 +45,17 @@ export class OAuthGoogleService {
     }
   }
 
-  async authCallback({
-    code,
-  }: GoogleCallbackDto): ReturnWithErrPromise<OAuthGoogleTokenDecoded> {
+  async authCallback(
+    code: string,
+    origin: string,
+  ): ReturnWithErrPromise<OAuthGoogleTokenDecoded> {
     try {
+      const redirectUri = new URL(this.config.redirectUri, origin).href;
+
       const params = {
         client_id: this.config.clientId,
         client_secret: this.config.clientSecret,
-        redirect_uri: this.config.redirectUri,
+        redirect_uri: redirectUri,
         grant_type: this.config.grantType,
         code,
       };
