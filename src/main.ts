@@ -6,8 +6,12 @@ import { HttpExceptionFilter } from './filter/exception.filter';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, {
+    cors: { origin: ['http://localhost:3000', 'http://localhost:3001'] },
+  });
+
   const { httpAdapter } = app.get(HttpAdapterHost);
+
   const config = new DocumentBuilder()
     .setTitle('Pets')
     .setVersion('1.0')
