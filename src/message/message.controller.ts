@@ -78,28 +78,32 @@ export class MessageController {
     if (err) throw err;
   }
 
-  @Patch(':id')
+  @ApiResponse({ example: messages })
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(['Admin'])
+  @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: UpdateMessageDto,
   ) {
-    const [, err] = await this.messageService.update({
+    const [message, err] = await this.messageService.update({
       where: { id },
       data,
     });
     if (err) throw err;
+    return message;
   }
 
-  @Delete(':id')
+  @ApiResponse({ example: messages })
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(['Admin'])
+  @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    const [, err] = await this.messageService.delete({
+    const [message, err] = await this.messageService.delete({
       where: { id },
     });
     if (err) throw err;
+    return message;
   }
 }
