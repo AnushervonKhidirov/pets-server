@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { MailerModule } from 'src/mailer/mailer.module';
+import { VerificationCodeModule } from 'src/verification-code/verification-code.module';
 import { TokenModule } from 'src/token/token.module';
 import { UserModule } from 'src/user/user.module';
 
@@ -20,6 +21,7 @@ import oauthGoogleConfig from './config/oauth-google.config';
     JwtModule,
     PrismaModule,
     MailerModule,
+    VerificationCodeModule,
     TokenModule,
     UserModule,
   ],

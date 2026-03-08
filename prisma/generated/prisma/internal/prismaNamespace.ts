@@ -1222,7 +1222,6 @@ export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeo
 
 
 export const VerifyMailScalarFieldEnum = {
-  id: 'id',
   email: 'email',
   code: 'code',
   expiredAt: 'expiredAt'
