@@ -1,5 +1,5 @@
 import type { ConfigType } from '@nestjs/config';
-import type { Prisma, Token } from 'prisma/generated/prisma/client';
+import type { Token } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens, TokenPayload, TokenDecoded } from './token.type';
 
@@ -11,11 +11,11 @@ import dayjs from 'dayjs';
 import tokenConfig from './token.config';
 import { exceptionHandler } from '@helper/exception.helper';
 
-const accessExpiresIn = dayjs.duration(30, 'm');
-const refreshExpiresIn = dayjs.duration(3, 'd');
-
 @Injectable()
 export class TokenService {
+  private readonly accessExpiresIn = dayjs.duration(30, 'm');
+  private readonly refreshExpiresIn = dayjs.duration(3, 'd');
+
   constructor(
     @Inject(tokenConfig.KEY)
     private readonly config: ConfigType<typeof tokenConfig>,
@@ -27,11 +27,11 @@ export class TokenService {
     try {
       const accessToken = await this.jwtService.signAsync(payload, {
         secret: this.config.accessSecret,
-        expiresIn: accessExpiresIn.asSeconds(),
+        expiresIn: this.accessExpiresIn.asSeconds(),
       });
       const refreshToken = await this.jwtService.signAsync(payload, {
         secret: this.config.refreshSecret,
-        expiresIn: refreshExpiresIn.asSeconds(),
+        expiresIn: this.refreshExpiresIn.asSeconds(),
       });
 
       return [{ accessToken, refreshToken }, null];
@@ -45,7 +45,7 @@ export class TokenService {
     refreshToken: string,
   ): ReturnWithErrPromise<Token> {
     try {
-      const expiredAt = dayjs().add(refreshExpiresIn).toDate();
+      const expiredAt = dayjs().add(this.refreshExpiresIn).toDate();
       const token = await this.prisma.token.create({
         data: { refreshToken, expiredAt, userId },
       });
@@ -74,13 +74,13 @@ export class TokenService {
     }
   }
 
-  async deleteExpiredTokens(): ReturnWithErrPromise<Prisma.BatchPayload> {
+  async deleteExpired(): ReturnWithErrPromise {
     try {
-      const tokens = await this.prisma.token.deleteMany({
+      await this.prisma.token.deleteMany({
         where: { expiredAt: { lte: new Date() } },
       });
 
-      return [tokens, null];
+      return [null, null];
     } catch (err) {
       return exceptionHandler(err);
     }
