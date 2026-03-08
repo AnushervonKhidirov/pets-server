@@ -4,28 +4,77 @@ import type { Prisma, User } from 'prisma/generated/prisma/client';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthType } from 'prisma/generated/prisma/client';
+
+import { PrismaService } from 'src/prisma/prisma.service';
 import { TokenService } from 'src/token/token.service';
 import { UserService } from 'src/user/user.service';
+import { MailerService } from 'src/mailer/mailer.service';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignOutDto } from '../dto/sign-out.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
+import dayjs from 'dayjs';
 import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
+
+const verifyExpiresIn = dayjs.duration(10, 'm');
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly tokenService: TokenService,
+    private readonly mailerService: MailerService,
   ) {}
 
-  async signUpWithPassword(
-    userData: CreateUserDto,
-  ): ReturnWithErrPromise<Tokens> {
+  async verifyEmail(email: string): ReturnWithErrPromise {
     try {
+      const code = Math.floor(Math.random() * 999_999);
+      const websiteName = 'HomePaw';
+
+      const [, err] = await this.mailerService.send({
+        to: email,
+        subject: `Ваш код подтверджения: ${code}`,
+        text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${websiteName}. ${code} Код действителен в течение ${verifyExpiresIn.asMinutes()} минут.`,
+        html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${websiteName}.</p> <h1>${code}</h1><p>Код действителен в течение ${verifyExpiresIn.asMinutes()} минут.</p>`,
+      });
+
+      if (err) throw err;
+
+      await this.prisma.verifyMail.create({
+        data: {
+          email,
+          code,
+          expiredAt: dayjs().add(verifyExpiresIn).toDate(),
+        },
+      });
+
+      return [null, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  async signUpWithPassword({
+    code,
+    ...userData
+  }: CreateUserDto): ReturnWithErrPromise<Tokens> {
+    try {
+      const verifyData = await this.prisma.verifyMail.findUnique({
+        where: { code, email: userData.email },
+      });
+
+      if (!verifyData) {
+        throw new BadRequestException('Wrong verification code!');
+      }
+
+      if (dayjs(verifyData.expiredAt).diff(dayjs()) < 0) {
+        throw new BadRequestException('Verification code expired!');
+      }
+
       const hashPassword = await hash(userData.password, 10);
 
       const [user, userErr] = await this.userService.create({
@@ -38,6 +87,8 @@ export class AuthService {
       });
 
       if (userErr) throw userErr;
+
+      await this.prisma.verifyMail.delete({ where: { code } });
 
       const [tokens, tokenErr] = await this.generateToken(user);
       if (tokenErr) throw tokenErr;

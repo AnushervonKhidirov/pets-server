@@ -1,8 +1,19 @@
-import { IsString, IsEmail, IsOptional, IsNotEmpty } from 'class-validator';
+import {
+  IsInt,
+  IsString,
+  IsEmail,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 
 @ApiSchema({ name: 'Create user DTO' })
 export class CreateUserDto {
+  @ApiProperty({ example: '999 999', required: false })
+  @IsInt()
+  @IsNotEmpty()
+  code: number;
+
   @ApiProperty({ example: 'your_email@gmail.com' })
   @IsEmail()
   @IsNotEmpty()

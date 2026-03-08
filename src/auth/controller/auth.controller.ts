@@ -6,6 +6,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AuthService } from '../service/auth.service';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignOutDto } from '../dto/sign-out.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
@@ -18,6 +19,16 @@ const tokenExample: Tokens = {
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('verify-email')
+  async verifyEmail(
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: VerifyEmailDto,
+  ) {
+    const [, err] = await this.authService.verifyEmail(data.email);
+    if (err) throw err;
+  }
+
   @ApiResponse({ example: tokenExample, status: 200 })
   @Post('sign-up')
   async signUp(

@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
+  email     String   @unique @db.VarChar(255)
   phone     String?  @db.VarChar(20)
   password  String?
   firstName String   @map("first_name") @db.VarChar(30)
@@ -120,6 +120,15 @@ model Message {
   watched Boolean @default(false)
 
   @@map("message")
+}
+
+model VerifyMail {
+  id        Int      @id @default(autoincrement())
+  email     String   @db.VarChar(255)
+  code      Int      @unique
+  expiredAt DateTime @map("expired_at") @db.Timestamp(0)
+
+  @@map("verify_mail")
 }
 
 enum AuthType {

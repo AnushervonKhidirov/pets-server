@@ -392,7 +392,8 @@ export const ModelName = {
   PetType: 'PetType',
   Breed: 'Breed',
   VetClinic: 'VetClinic',
-  Message: 'Message'
+  Message: 'Message',
+  VerifyMail: 'VerifyMail'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message"
+    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message" | "verifyMail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1006,6 +1007,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VerifyMail: {
+      payload: Prisma.$VerifyMailPayload<ExtArgs>
+      fields: Prisma.VerifyMailFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VerifyMailFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VerifyMailFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        findFirst: {
+          args: Prisma.VerifyMailFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VerifyMailFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        findMany: {
+          args: Prisma.VerifyMailFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>[]
+        }
+        create: {
+          args: Prisma.VerifyMailCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        createMany: {
+          args: Prisma.VerifyMailCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.VerifyMailDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        update: {
+          args: Prisma.VerifyMailUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        deleteMany: {
+          args: Prisma.VerifyMailDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VerifyMailUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.VerifyMailUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerifyMailPayload>
+        }
+        aggregate: {
+          args: Prisma.VerifyMailAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVerifyMail>
+        }
+        groupBy: {
+          args: Prisma.VerifyMailGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VerifyMailGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VerifyMailCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VerifyMailCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1154,6 +1221,16 @@ export const MessageScalarFieldEnum = {
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
+export const VerifyMailScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiredAt: 'expiredAt'
+} as const
+
+export type VerifyMailScalarFieldEnum = (typeof VerifyMailScalarFieldEnum)[keyof typeof VerifyMailScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1279,6 +1356,13 @@ export const MessageOrderByRelevanceFieldEnum = {
 } as const
 
 export type MessageOrderByRelevanceFieldEnum = (typeof MessageOrderByRelevanceFieldEnum)[keyof typeof MessageOrderByRelevanceFieldEnum]
+
+
+export const VerifyMailOrderByRelevanceFieldEnum = {
+  email: 'email'
+} as const
+
+export type VerifyMailOrderByRelevanceFieldEnum = (typeof VerifyMailOrderByRelevanceFieldEnum)[keyof typeof VerifyMailOrderByRelevanceFieldEnum]
 
 
 
@@ -1460,6 +1544,7 @@ export type GlobalOmitConfig = {
   breed?: Prisma.BreedOmit
   vetClinic?: Prisma.VetClinicOmit
   message?: Prisma.MessageOmit
+  verifyMail?: Prisma.VerifyMailOmit
 }
 
 /* Types for Logging */

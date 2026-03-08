@@ -59,7 +59,8 @@ export const ModelName = {
   PetType: 'PetType',
   Breed: 'Breed',
   VetClinic: 'VetClinic',
-  Message: 'Message'
+  Message: 'Message',
+  VerifyMail: 'VerifyMail'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -187,6 +188,16 @@ export const MessageScalarFieldEnum = {
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
+export const VerifyMailScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiredAt: 'expiredAt'
+} as const
+
+export type VerifyMailScalarFieldEnum = (typeof VerifyMailScalarFieldEnum)[keyof typeof VerifyMailScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -312,4 +323,11 @@ export const MessageOrderByRelevanceFieldEnum = {
 } as const
 
 export type MessageOrderByRelevanceFieldEnum = (typeof MessageOrderByRelevanceFieldEnum)[keyof typeof MessageOrderByRelevanceFieldEnum]
+
+
+export const VerifyMailOrderByRelevanceFieldEnum = {
+  email: 'email'
+} as const
+
+export type VerifyMailOrderByRelevanceFieldEnum = (typeof VerifyMailOrderByRelevanceFieldEnum)[keyof typeof VerifyMailOrderByRelevanceFieldEnum]
 

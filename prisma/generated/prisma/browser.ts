@@ -62,3 +62,8 @@ export type VetClinic = Prisma.VetClinicModel
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model VerifyMail
+ * 
+ */
+export type VerifyMail = Prisma.VerifyMailModel
