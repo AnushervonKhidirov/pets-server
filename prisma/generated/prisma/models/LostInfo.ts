@@ -27,17 +27,14 @@ export type AggregateLostInfo = {
 }
 
 export type LostInfoAvgAggregateOutputType = {
-  id: number | null
   petId: number | null
 }
 
 export type LostInfoSumAggregateOutputType = {
-  id: number | null
   petId: number | null
 }
 
 export type LostInfoMinAggregateOutputType = {
-  id: number | null
   lostAt: Date | null
   details: string | null
   address: string | null
@@ -45,7 +42,6 @@ export type LostInfoMinAggregateOutputType = {
 }
 
 export type LostInfoMaxAggregateOutputType = {
-  id: number | null
   lostAt: Date | null
   details: string | null
   address: string | null
@@ -53,7 +49,6 @@ export type LostInfoMaxAggregateOutputType = {
 }
 
 export type LostInfoCountAggregateOutputType = {
-  id: number
   lostAt: number
   details: number
   address: number
@@ -63,17 +58,14 @@ export type LostInfoCountAggregateOutputType = {
 
 
 export type LostInfoAvgAggregateInputType = {
-  id?: true
   petId?: true
 }
 
 export type LostInfoSumAggregateInputType = {
-  id?: true
   petId?: true
 }
 
 export type LostInfoMinAggregateInputType = {
-  id?: true
   lostAt?: true
   details?: true
   address?: true
@@ -81,7 +73,6 @@ export type LostInfoMinAggregateInputType = {
 }
 
 export type LostInfoMaxAggregateInputType = {
-  id?: true
   lostAt?: true
   details?: true
   address?: true
@@ -89,7 +80,6 @@ export type LostInfoMaxAggregateInputType = {
 }
 
 export type LostInfoCountAggregateInputType = {
-  id?: true
   lostAt?: true
   details?: true
   address?: true
@@ -184,7 +174,6 @@ export type LostInfoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type LostInfoGroupByOutputType = {
-  id: number
   lostAt: Date
   details: string | null
   address: string | null
@@ -215,7 +204,6 @@ export type LostInfoWhereInput = {
   AND?: Prisma.LostInfoWhereInput | Prisma.LostInfoWhereInput[]
   OR?: Prisma.LostInfoWhereInput[]
   NOT?: Prisma.LostInfoWhereInput | Prisma.LostInfoWhereInput[]
-  id?: Prisma.IntFilter<"LostInfo"> | number
   lostAt?: Prisma.DateTimeFilter<"LostInfo"> | Date | string
   details?: Prisma.StringNullableFilter<"LostInfo"> | string | null
   address?: Prisma.StringNullableFilter<"LostInfo"> | string | null
@@ -224,7 +212,6 @@ export type LostInfoWhereInput = {
 }
 
 export type LostInfoOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
   lostAt?: Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -234,7 +221,6 @@ export type LostInfoOrderByWithRelationInput = {
 }
 
 export type LostInfoWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
   petId?: number
   AND?: Prisma.LostInfoWhereInput | Prisma.LostInfoWhereInput[]
   OR?: Prisma.LostInfoWhereInput[]
@@ -243,10 +229,9 @@ export type LostInfoWhereUniqueInput = Prisma.AtLeast<{
   details?: Prisma.StringNullableFilter<"LostInfo"> | string | null
   address?: Prisma.StringNullableFilter<"LostInfo"> | string | null
   pet?: Prisma.XOR<Prisma.PetScalarRelationFilter, Prisma.PetWhereInput>
-}, "id" | "petId">
+}, "petId">
 
 export type LostInfoOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
   lostAt?: Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -262,7 +247,6 @@ export type LostInfoScalarWhereWithAggregatesInput = {
   AND?: Prisma.LostInfoScalarWhereWithAggregatesInput | Prisma.LostInfoScalarWhereWithAggregatesInput[]
   OR?: Prisma.LostInfoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LostInfoScalarWhereWithAggregatesInput | Prisma.LostInfoScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"LostInfo"> | number
   lostAt?: Prisma.DateTimeWithAggregatesFilter<"LostInfo"> | Date | string
   details?: Prisma.StringNullableWithAggregatesFilter<"LostInfo"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"LostInfo"> | string | null
@@ -277,7 +261,6 @@ export type LostInfoCreateInput = {
 }
 
 export type LostInfoUncheckedCreateInput = {
-  id?: number
   lostAt: Date | string
   details?: string | null
   address?: string | null
@@ -292,7 +275,6 @@ export type LostInfoUpdateInput = {
 }
 
 export type LostInfoUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   lostAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -300,7 +282,6 @@ export type LostInfoUncheckedUpdateInput = {
 }
 
 export type LostInfoCreateManyInput = {
-  id?: number
   lostAt: Date | string
   details?: string | null
   address?: string | null
@@ -314,7 +295,6 @@ export type LostInfoUpdateManyMutationInput = {
 }
 
 export type LostInfoUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   lostAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -333,7 +313,6 @@ export type LostInfoOrderByRelevanceInput = {
 }
 
 export type LostInfoCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   lostAt?: Prisma.SortOrder
   details?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -341,12 +320,10 @@ export type LostInfoCountOrderByAggregateInput = {
 }
 
 export type LostInfoAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   petId?: Prisma.SortOrder
 }
 
 export type LostInfoMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   lostAt?: Prisma.SortOrder
   details?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -354,7 +331,6 @@ export type LostInfoMaxOrderByAggregateInput = {
 }
 
 export type LostInfoMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   lostAt?: Prisma.SortOrder
   details?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -362,7 +338,6 @@ export type LostInfoMinOrderByAggregateInput = {
 }
 
 export type LostInfoSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   petId?: Prisma.SortOrder
 }
 
@@ -405,7 +380,6 @@ export type LostInfoCreateWithoutPetInput = {
 }
 
 export type LostInfoUncheckedCreateWithoutPetInput = {
-  id?: number
   lostAt: Date | string
   details?: string | null
   address?: string | null
@@ -434,7 +408,6 @@ export type LostInfoUpdateWithoutPetInput = {
 }
 
 export type LostInfoUncheckedUpdateWithoutPetInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   lostAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -443,7 +416,6 @@ export type LostInfoUncheckedUpdateWithoutPetInput = {
 
 
 export type LostInfoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   lostAt?: boolean
   details?: boolean
   address?: boolean
@@ -454,14 +426,13 @@ export type LostInfoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 
 export type LostInfoSelectScalar = {
-  id?: boolean
   lostAt?: boolean
   details?: boolean
   address?: boolean
   petId?: boolean
 }
 
-export type LostInfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "lostAt" | "details" | "address" | "petId", ExtArgs["result"]["lostInfo"]>
+export type LostInfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"lostAt" | "details" | "address" | "petId", ExtArgs["result"]["lostInfo"]>
 export type LostInfoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pet?: boolean | Prisma.PetDefaultArgs<ExtArgs>
 }
@@ -472,7 +443,6 @@ export type $LostInfoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     pet: Prisma.$PetPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
     lostAt: Date
     details: string | null
     address: string | null
@@ -560,8 +530,8 @@ export interface LostInfoDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 LostInfos
    * const lostInfos = await prisma.lostInfo.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const lostInfoWithIdOnly = await prisma.lostInfo.findMany({ select: { id: true } })
+   * // Only select the `lostAt`
+   * const lostInfoWithLostAtOnly = await prisma.lostInfo.findMany({ select: { lostAt: true } })
    * 
    */
   findMany<T extends LostInfoFindManyArgs>(args?: Prisma.SelectSubset<T, LostInfoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LostInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -847,7 +817,6 @@ export interface Prisma__LostInfoClient<T, Null = never, ExtArgs extends runtime
  * Fields of the LostInfo model
  */
 export interface LostInfoFieldRefs {
-  readonly id: Prisma.FieldRef<"LostInfo", 'Int'>
   readonly lostAt: Prisma.FieldRef<"LostInfo", 'DateTime'>
   readonly details: Prisma.FieldRef<"LostInfo", 'String'>
   readonly address: Prisma.FieldRef<"LostInfo", 'String'>

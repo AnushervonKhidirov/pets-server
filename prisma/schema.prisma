@@ -68,7 +68,6 @@ model Pet {
 }
 
 model LostInfo {
-  id      Int      @id @default(autoincrement())
   lostAt  DateTime
   details String?  @db.VarChar(255)
   address String?  @db.VarChar(255)

@@ -134,7 +134,6 @@ export type PetScalarFieldEnum = (typeof PetScalarFieldEnum)[keyof typeof PetSca
 
 
 export const LostInfoScalarFieldEnum = {
-  id: 'id',
   lostAt: 'lostAt',
   details: 'details',
   address: 'address',
