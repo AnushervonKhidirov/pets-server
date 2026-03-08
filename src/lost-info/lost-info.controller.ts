@@ -17,17 +17,13 @@ import {
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 import { LostInfoService } from './lost-info.service';
-import { PetService } from 'src/pet/service/pet.service';
 
 import { CreateLostInfoDto } from './dto/create-lost-info.dto';
 import { UpdateLostInfoDto } from './dto/update-lost-info.dto';
 
 @Controller('lost-info')
 export class LostInfoController {
-  constructor(
-    private readonly lostInfoService: LostInfoService,
-    private readonly petService: PetService,
-  ) {}
+  constructor(private readonly lostInfoService: LostInfoService) {}
 
   @UseGuards(AuthGuard)
   @Post(':petId')
@@ -40,13 +36,8 @@ export class LostInfoController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const [, petErr] = await this.petService.findOne({
-      where: { id: petId, userId: tokenDecoded.sub },
-    });
-
-    if (petErr) throw petErr;
-
-    const [lostInfo, err] = await this.lostInfoService.create({
+    const [lostInfo, err] = await this.lostInfoService.upsert({
+      where: { petId, pet: { userId: tokenDecoded.sub } },
       data: { ...data, pet: { connect: { id: petId } } },
     });
 

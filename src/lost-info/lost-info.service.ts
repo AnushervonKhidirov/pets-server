@@ -103,6 +103,32 @@ export class LostInfoService {
     }
   }
 
+  async upsert({
+    where,
+    data,
+    include,
+    omit,
+  }: {
+    where: Prisma.LostInfoWhereUniqueInput;
+    data: Prisma.LostInfoCreateInput;
+    include?: Prisma.LostInfoInclude;
+    omit?: Prisma.LostInfoOmit;
+  }): ReturnWithErrPromise<LostInfo> {
+    try {
+      const lostInfo = await this.prisma.lostInfo.upsert({
+        where,
+        update: data,
+        create: data,
+        include,
+        omit,
+      });
+
+      return [lostInfo, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async delete({
     where,
     include,
