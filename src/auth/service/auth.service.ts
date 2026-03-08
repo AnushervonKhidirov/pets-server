@@ -5,7 +5,6 @@ import type { Prisma, User } from 'prisma/generated/prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthType } from 'prisma/generated/prisma/client';
 
-import { PrismaService } from 'src/prisma/prisma.service';
 import { TokenService } from 'src/token/token.service';
 import { UserService } from 'src/user/user.service';
 import { MailerService } from 'src/mailer/mailer.service';
@@ -22,7 +21,6 @@ import { exceptionHandler } from '@helper/exception.helper';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly tokenService: TokenService,
     private readonly mailerService: MailerService,
@@ -33,16 +31,11 @@ export class AuthService {
     try {
       const { code, expiredAt } = this.verificationCodeService.generate();
 
-      const expInMin = this.verificationCodeService.verifyExpiresIn.asMinutes();
-
-      const [, err] = await this.mailerService.send({
+      await this.mailerService.sendVerificationCode({
         to: email,
-        subject: `Ваш код подтверджения: ${code}`,
-        text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в HomePaw. ${code} Код действителен в течение ${expInMin} минут.`,
-        html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в HomePaw.</p> <h1>${code}</h1><p>Код действителен в течение ${expInMin} минут.</p>`,
+        code,
+        expiresIn: this.verificationCodeService.verifyExpiresIn,
       });
-
-      if (err) throw err;
 
       await this.verificationCodeService.upsert({ email, code, expiredAt });
 
