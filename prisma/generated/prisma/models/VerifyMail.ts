@@ -28,25 +28,23 @@ export type AggregateVerifyMail = {
 
 export type VerifyMailAvgAggregateOutputType = {
   id: number | null
-  code: number | null
 }
 
 export type VerifyMailSumAggregateOutputType = {
   id: number | null
-  code: number | null
 }
 
 export type VerifyMailMinAggregateOutputType = {
   id: number | null
   email: string | null
-  code: number | null
+  code: string | null
   expiredAt: Date | null
 }
 
 export type VerifyMailMaxAggregateOutputType = {
   id: number | null
   email: string | null
-  code: number | null
+  code: string | null
   expiredAt: Date | null
 }
 
@@ -61,12 +59,10 @@ export type VerifyMailCountAggregateOutputType = {
 
 export type VerifyMailAvgAggregateInputType = {
   id?: true
-  code?: true
 }
 
 export type VerifyMailSumAggregateInputType = {
   id?: true
-  code?: true
 }
 
 export type VerifyMailMinAggregateInputType = {
@@ -180,7 +176,7 @@ export type VerifyMailGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type VerifyMailGroupByOutputType = {
   id: number
   email: string
-  code: number
+  code: string
   expiredAt: Date
   _count: VerifyMailCountAggregateOutputType | null
   _avg: VerifyMailAvgAggregateOutputType | null
@@ -210,7 +206,7 @@ export type VerifyMailWhereInput = {
   NOT?: Prisma.VerifyMailWhereInput | Prisma.VerifyMailWhereInput[]
   id?: Prisma.IntFilter<"VerifyMail"> | number
   email?: Prisma.StringFilter<"VerifyMail"> | string
-  code?: Prisma.IntFilter<"VerifyMail"> | number
+  code?: Prisma.StringFilter<"VerifyMail"> | string
   expiredAt?: Prisma.DateTimeFilter<"VerifyMail"> | Date | string
 }
 
@@ -224,7 +220,7 @@ export type VerifyMailOrderByWithRelationInput = {
 
 export type VerifyMailWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  code?: number
+  code?: string
   AND?: Prisma.VerifyMailWhereInput | Prisma.VerifyMailWhereInput[]
   OR?: Prisma.VerifyMailWhereInput[]
   NOT?: Prisma.VerifyMailWhereInput | Prisma.VerifyMailWhereInput[]
@@ -250,53 +246,53 @@ export type VerifyMailScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VerifyMailScalarWhereWithAggregatesInput | Prisma.VerifyMailScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"VerifyMail"> | number
   email?: Prisma.StringWithAggregatesFilter<"VerifyMail"> | string
-  code?: Prisma.IntWithAggregatesFilter<"VerifyMail"> | number
+  code?: Prisma.StringWithAggregatesFilter<"VerifyMail"> | string
   expiredAt?: Prisma.DateTimeWithAggregatesFilter<"VerifyMail"> | Date | string
 }
 
 export type VerifyMailCreateInput = {
   email: string
-  code: number
+  code: string
   expiredAt: Date | string
 }
 
 export type VerifyMailUncheckedCreateInput = {
   id?: number
   email: string
-  code: number
+  code: string
   expiredAt: Date | string
 }
 
 export type VerifyMailUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   expiredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VerifyMailUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   expiredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VerifyMailCreateManyInput = {
   id?: number
   email: string
-  code: number
+  code: string
   expiredAt: Date | string
 }
 
 export type VerifyMailUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   expiredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VerifyMailUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   expiredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -315,7 +311,6 @@ export type VerifyMailCountOrderByAggregateInput = {
 
 export type VerifyMailAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
 }
 
 export type VerifyMailMaxOrderByAggregateInput = {
@@ -334,7 +329,6 @@ export type VerifyMailMinOrderByAggregateInput = {
 
 export type VerifyMailSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
 }
 
 
@@ -363,7 +357,7 @@ export type $VerifyMailPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     email: string
-    code: number
+    code: string
     expiredAt: Date
   }, ExtArgs["result"]["verifyMail"]>
   composites: {}
@@ -736,7 +730,7 @@ export interface Prisma__VerifyMailClient<T, Null = never, ExtArgs extends runti
 export interface VerifyMailFieldRefs {
   readonly id: Prisma.FieldRef<"VerifyMail", 'Int'>
   readonly email: Prisma.FieldRef<"VerifyMail", 'String'>
-  readonly code: Prisma.FieldRef<"VerifyMail", 'Int'>
+  readonly code: Prisma.FieldRef<"VerifyMail", 'String'>
   readonly expiredAt: Prisma.FieldRef<"VerifyMail", 'DateTime'>
 }
     

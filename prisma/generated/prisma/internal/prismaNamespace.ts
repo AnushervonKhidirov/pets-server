@@ -1359,7 +1359,8 @@ export type MessageOrderByRelevanceFieldEnum = (typeof MessageOrderByRelevanceFi
 
 
 export const VerifyMailOrderByRelevanceFieldEnum = {
-  email: 'email'
+  email: 'email',
+  code: 'code'
 } as const
 
 export type VerifyMailOrderByRelevanceFieldEnum = (typeof VerifyMailOrderByRelevanceFieldEnum)[keyof typeof VerifyMailOrderByRelevanceFieldEnum]

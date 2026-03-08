@@ -32,7 +32,7 @@ export class AuthService {
 
   async verifyEmail(email: string): ReturnWithErrPromise {
     try {
-      const code = Math.floor(Math.random() * 999_999);
+      const code = Math.floor(Math.random() * 999_999).toString();
       const websiteName = 'HomePaw';
 
       const [, err] = await this.mailerService.send({

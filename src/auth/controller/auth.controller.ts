@@ -1,6 +1,12 @@
 import type { Tokens } from 'src/token/token.type';
 
-import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { AuthService } from '../service/auth.service';
@@ -10,6 +16,7 @@ import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignOutDto } from '../dto/sign-out.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { UserService } from 'src/user/user.service';
 
 const tokenExample: Tokens = {
   accessToken: 'your.access.token',
@@ -18,7 +25,10 @@ const tokenExample: Tokens = {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('verify-email')
   async verifyEmail(
@@ -27,6 +37,20 @@ export class AuthController {
   ) {
     const [, err] = await this.authService.verifyEmail(data.email);
     if (err) throw err;
+  }
+
+  @Post('is-email-exist')
+  async isEmailExist(
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: VerifyEmailDto,
+  ) {
+    const [user] = await this.userService.findOne({
+      where: { email: data.email },
+    });
+
+    if (user) {
+      throw new BadRequestException('User with this email already exist');
+    }
   }
 
   @ApiResponse({ example: tokenExample, status: 200 })

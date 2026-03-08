@@ -125,7 +125,7 @@ model Message {
 model VerifyMail {
   id        Int      @id @default(autoincrement())
   email     String   @db.VarChar(255)
-  code      Int      @unique
+  code      String   @unique
   expiredAt DateTime @map("expired_at") @db.Timestamp(0)
 
   @@map("verify_mail")
