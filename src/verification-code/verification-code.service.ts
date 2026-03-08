@@ -1,7 +1,11 @@
 import type { Prisma } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import dayjs from 'dayjs';
 
@@ -38,7 +42,34 @@ export class VerificationCodeService {
     }
   }
 
-  async delete({ email }: { email: string }) {
+  async verify({
+    email,
+    code,
+  }: Prisma.VerifyMailWhereUniqueInput): ReturnWithErrPromise {
+    try {
+      const verifyData = await this.prisma.verifyMail.findUnique({
+        where: { email },
+      });
+
+      if (!verifyData) {
+        throw new NotFoundException('Verification code not found!');
+      }
+
+      if (verifyData.code !== code) {
+        throw new BadRequestException('Wrong verification code!');
+      }
+
+      if (dayjs(verifyData.expiredAt).diff(dayjs()) < 0) {
+        throw new BadRequestException('Verification code expired!');
+      }
+
+      return [null, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  async delete({ email }: Prisma.VerifyMailWhereUniqueInput) {
     try {
       await this.prisma.verifyMail.delete({ where: { email } });
 

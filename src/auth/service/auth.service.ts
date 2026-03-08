@@ -2,11 +2,7 @@ import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens } from 'src/token/token.type';
 import type { Prisma, User } from 'prisma/generated/prisma/client';
 
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthType } from 'prisma/generated/prisma/client';
 
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -20,7 +16,6 @@ import { SignInDto } from '../dto/sign-in.dto';
 import { SignOutDto } from '../dto/sign-out.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
-import dayjs from 'dayjs';
 import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
 
@@ -62,21 +57,10 @@ export class AuthService {
     ...userData
   }: CreateUserDto): ReturnWithErrPromise<Tokens> {
     try {
-      const verifyData = await this.prisma.verifyMail.findUnique({
-        where: { email: userData.email },
+      await this.verificationCodeService.verify({
+        email: userData.email,
+        code,
       });
-
-      if (!verifyData) {
-        throw new NotFoundException('Verification code not found!');
-      }
-
-      if (verifyData.code !== code) {
-        throw new BadRequestException('Wrong verification code!');
-      }
-
-      if (dayjs(verifyData.expiredAt).diff(dayjs()) < 0) {
-        throw new BadRequestException('Verification code expired!');
-      }
 
       const hashPassword = await hash(userData.password, 10);
 
@@ -91,7 +75,7 @@ export class AuthService {
 
       if (userErr) throw userErr;
 
-      await this.prisma.verifyMail.delete({ where: { email: userData.email } });
+      await this.verificationCodeService.delete({ email: userData.email });
 
       const [tokens, tokenErr] = await this.generateToken(user);
       if (tokenErr) throw tokenErr;
@@ -112,7 +96,7 @@ export class AuthService {
 
       if (!user.password) {
         throw new BadRequestException(
-          "You don't password, please contact with support team",
+          "You don't enter password, please contact with support team",
         );
       }
 
