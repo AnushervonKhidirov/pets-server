@@ -29,12 +29,11 @@ model User {
 }
 
 model Address {
-  id        Int     @id @default(autoincrement())
+  userId    Int     @unique @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   address   String?
   latitude  Float?
   longitude Float?
-  userId    Int     @unique @map("user_id")
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("address")
 }
