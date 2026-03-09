@@ -20,6 +20,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 const userOmit: Prisma.UserOmit = {
   password: true,
@@ -149,6 +150,18 @@ export class UserController {
 
     if (err) throw err;
     return user;
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('change-password')
+  async changePassword(
+    @Req() req: Request,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    data: ChangePasswordDto,
+  ) {
+    const { sub } = this.getUserFromRequest(req);
+    const [, err] = await this.userService.changePassword(sub, data);
+    if (err) throw err;
   }
 
   @ApiResponse({
