@@ -10,7 +10,7 @@ import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
 export class MailerService {
-  private readonly websiteName = 'Homepaw';
+  private readonly websiteName = 'HomePaw';
 
   private readonly transporter = createTransport({
     host: 'smtp.gmail.com',
@@ -50,9 +50,30 @@ export class MailerService {
 
     const [, err] = await this.send({
       to,
-      subject: `Ваш код подтверджения: ${code}`,
-      text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в HomePaw. ${code} Код действителен в течение ${expInMin} минут.`,
-      html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в HomePaw.</p> <h1>${code}</h1><p>Код действителен в течение ${expInMin} минут.</p>`,
+      subject: `Код подтверджения: ${code}`,
+      text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}. ${code} Код действителен в течение ${expInMin} минут.`,
+      html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}.</p> <h1>${code}</h1><p>Код действителен в течение ${expInMin} минут.</p>`,
+    });
+
+    if (err) throw err;
+  }
+
+  async sendResetPasswordUrl({
+    to,
+    url,
+    expiresIn,
+  }: {
+    to: string;
+    url: URL;
+    expiresIn: Duration;
+  }) {
+    const expInMin = expiresIn.asMinutes();
+
+    const [, err] = await this.send({
+      to,
+      subject: `Восстановление пароля`,
+      text: `Приветствуем! Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}. Ссылка действителен в течение ${expInMin} минут. ${url.href}`,
+      html: `<h2>Приветствуем!</h2><p>Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}.</p><p>Ссылка действителен в течение ${expInMin} минут.</p> <a href=${url.href} target="_blank">${url.href}</a>`,
     });
 
     if (err) throw err;
