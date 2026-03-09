@@ -89,7 +89,7 @@ export class AuthService {
 
       if (!user.password) {
         throw new BadRequestException(
-          "You don't enter password, please contact with support team",
+          "You don't have password, please contact with support team",
         );
       }
 
