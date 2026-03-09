@@ -2,13 +2,13 @@ import type { Prisma } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import dayjs from 'dayjs';
 
+import dayjs from 'dayjs';
 import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
@@ -24,16 +24,12 @@ export class VerificationCodeService {
     };
   }
 
-  async upsert({
-    email,
-    code,
-    expiredAt,
-  }: Prisma.VerifyMailCreateInput): ReturnWithErrPromise {
+  async upsert(data: Prisma.VerifyMailCreateInput): ReturnWithErrPromise {
     try {
       await this.prisma.verifyMail.upsert({
-        where: { email },
-        update: { code, expiredAt },
-        create: { email, code, expiredAt },
+        where: { email: data.email },
+        update: data,
+        create: data,
       });
 
       return [null, null];
