@@ -393,7 +393,8 @@ export const ModelName = {
   Breed: 'Breed',
   VetClinic: 'VetClinic',
   Message: 'Message',
-  VerifyMail: 'VerifyMail'
+  VerifyMail: 'VerifyMail',
+  ResetPasswordUrl: 'ResetPasswordUrl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message" | "verifyMail"
+    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message" | "verifyMail" | "resetPasswordUrl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1073,6 +1074,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ResetPasswordUrl: {
+      payload: Prisma.$ResetPasswordUrlPayload<ExtArgs>
+      fields: Prisma.ResetPasswordUrlFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResetPasswordUrlFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResetPasswordUrlFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        findFirst: {
+          args: Prisma.ResetPasswordUrlFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResetPasswordUrlFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        findMany: {
+          args: Prisma.ResetPasswordUrlFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>[]
+        }
+        create: {
+          args: Prisma.ResetPasswordUrlCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        createMany: {
+          args: Prisma.ResetPasswordUrlCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ResetPasswordUrlDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        update: {
+          args: Prisma.ResetPasswordUrlUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        deleteMany: {
+          args: Prisma.ResetPasswordUrlDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResetPasswordUrlUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ResetPasswordUrlUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResetPasswordUrlPayload>
+        }
+        aggregate: {
+          args: Prisma.ResetPasswordUrlAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResetPasswordUrl>
+        }
+        groupBy: {
+          args: Prisma.ResetPasswordUrlGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResetPasswordUrlGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResetPasswordUrlCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResetPasswordUrlCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1228,6 +1295,15 @@ export const VerifyMailScalarFieldEnum = {
 export type VerifyMailScalarFieldEnum = (typeof VerifyMailScalarFieldEnum)[keyof typeof VerifyMailScalarFieldEnum]
 
 
+export const ResetPasswordUrlScalarFieldEnum = {
+  email: 'email',
+  pageId: 'pageId',
+  expiredAt: 'expiredAt'
+} as const
+
+export type ResetPasswordUrlScalarFieldEnum = (typeof ResetPasswordUrlScalarFieldEnum)[keyof typeof ResetPasswordUrlScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1361,6 +1437,14 @@ export const VerifyMailOrderByRelevanceFieldEnum = {
 } as const
 
 export type VerifyMailOrderByRelevanceFieldEnum = (typeof VerifyMailOrderByRelevanceFieldEnum)[keyof typeof VerifyMailOrderByRelevanceFieldEnum]
+
+
+export const ResetPasswordUrlOrderByRelevanceFieldEnum = {
+  email: 'email',
+  pageId: 'pageId'
+} as const
+
+export type ResetPasswordUrlOrderByRelevanceFieldEnum = (typeof ResetPasswordUrlOrderByRelevanceFieldEnum)[keyof typeof ResetPasswordUrlOrderByRelevanceFieldEnum]
 
 
 
@@ -1543,6 +1627,7 @@ export type GlobalOmitConfig = {
   vetClinic?: Prisma.VetClinicOmit
   message?: Prisma.MessageOmit
   verifyMail?: Prisma.VerifyMailOmit
+  resetPasswordUrl?: Prisma.ResetPasswordUrlOmit
 }
 
 /* Types for Logging */

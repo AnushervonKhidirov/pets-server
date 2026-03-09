@@ -60,7 +60,8 @@ export const ModelName = {
   Breed: 'Breed',
   VetClinic: 'VetClinic',
   Message: 'Message',
-  VerifyMail: 'VerifyMail'
+  VerifyMail: 'VerifyMail',
+  ResetPasswordUrl: 'ResetPasswordUrl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -193,6 +194,15 @@ export const VerifyMailScalarFieldEnum = {
 } as const
 
 export type VerifyMailScalarFieldEnum = (typeof VerifyMailScalarFieldEnum)[keyof typeof VerifyMailScalarFieldEnum]
+
+
+export const ResetPasswordUrlScalarFieldEnum = {
+  email: 'email',
+  pageId: 'pageId',
+  expiredAt: 'expiredAt'
+} as const
+
+export type ResetPasswordUrlScalarFieldEnum = (typeof ResetPasswordUrlScalarFieldEnum)[keyof typeof ResetPasswordUrlScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -328,4 +338,12 @@ export const VerifyMailOrderByRelevanceFieldEnum = {
 } as const
 
 export type VerifyMailOrderByRelevanceFieldEnum = (typeof VerifyMailOrderByRelevanceFieldEnum)[keyof typeof VerifyMailOrderByRelevanceFieldEnum]
+
+
+export const ResetPasswordUrlOrderByRelevanceFieldEnum = {
+  email: 'email',
+  pageId: 'pageId'
+} as const
+
+export type ResetPasswordUrlOrderByRelevanceFieldEnum = (typeof ResetPasswordUrlOrderByRelevanceFieldEnum)[keyof typeof ResetPasswordUrlOrderByRelevanceFieldEnum]
 

@@ -128,6 +128,14 @@ model VerifyMail {
   @@map("verify_mail")
 }
 
+model ResetPasswordUrl {
+  email     String   @unique @db.VarChar(255)
+  pageId    String   @unique @db.VarChar(36)
+  expiredAt DateTime @map("expired_at") @db.Timestamp(0)
+
+  @@map("reset_password_url")
+}
+
 enum AuthType {
   Local
   Google

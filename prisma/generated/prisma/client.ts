@@ -87,3 +87,8 @@ export type Message = Prisma.MessageModel
  * 
  */
 export type VerifyMail = Prisma.VerifyMailModel
+/**
+ * Model ResetPasswordUrl
+ * 
+ */
+export type ResetPasswordUrl = Prisma.ResetPasswordUrlModel
