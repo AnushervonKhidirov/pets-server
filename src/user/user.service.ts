@@ -1,4 +1,4 @@
-import type { Prisma, User } from 'prisma/generated/prisma/client';
+import type { Prisma, User, Address } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -118,33 +118,23 @@ export class UserService {
   }
 
   private async addressHandler(userId: number, address?: AddressDto | null) {
-    const userAddress = await this.prisma.address.findUnique({
-      where: { userId },
-    });
+    if (address) {
+      const addressData: Address = {
+        userId,
+        address: address.address ?? null,
+        latitude: address.latitude ?? null,
+        longitude: address.longitude ?? null,
+      };
 
-    const isInstance = address instanceof AddressDto;
-
-    if (isInstance) {
-      for (const key in address) {
-        if (!address[key]) address[key] = null;
-      }
-
-      if (userAddress) {
-        await this.prisma.address.update({
-          where: { userId },
-          data: address,
-        });
-      } else {
-        await this.prisma.address.create({
-          data: { ...address, userId },
-        });
-      }
+      await this.prisma.address.upsert({
+        where: { userId },
+        update: addressData,
+        create: addressData,
+      });
     }
 
-    if (!isInstance && userAddress) {
-      await this.prisma.address.delete({
-        where: { userId },
-      });
+    if (address === null) {
+      await this.prisma.address.delete({ where: { userId } });
     }
   }
 }
