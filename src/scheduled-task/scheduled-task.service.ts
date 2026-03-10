@@ -3,14 +3,14 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { TokenService } from 'src/token/token.service';
 import { VerificationCodeService } from 'src/verification-code/verification-code.service';
-import { ResetPasswordService } from 'src/reset-password/reset-password.service';
+import { PasswordService } from 'src/reset-password/password.service';
 
 @Injectable()
 export class ScheduledTaskService {
   constructor(
     private readonly tokenService: TokenService,
     private readonly verificationCodeService: VerificationCodeService,
-    private readonly resetPasswordService: ResetPasswordService,
+    private readonly passwordService: PasswordService,
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
@@ -24,7 +24,7 @@ export class ScheduledTaskService {
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  async deleteResetPasswordId() {
-    await this.resetPasswordService.deleteExpired();
+  async deleteResetPasswordPageId() {
+    await this.passwordService.deleteExpiredResetPageId();
   }
 }
