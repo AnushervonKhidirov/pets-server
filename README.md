@@ -21,9 +21,5 @@ $ docker compose --profile prod up
 ## Database Setup
 
 ```bash
-# development
-$ npx prisma db push:dev
-
-# production
-$ npx prisma db push:prod
+$ npx prisma db push
 ```
