@@ -3,28 +3,14 @@ services:
     build: .
     ports:
       - ${PORT}:${PORT}
-    command: npm run start:dev
     environment:
       DB_HOST: db
-      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}
     depends_on:
       db:
         condition: service_healthy
         restart: true
     volumes:
       - .:/usr/app
-
-  dbadmin:
-    image: phpmyadmin:latest
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
 
   db:
     image: mysql:lts
