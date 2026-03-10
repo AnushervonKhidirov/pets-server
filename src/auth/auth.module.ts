@@ -5,6 +5,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { MailerModule } from 'src/mailer/mailer.module';
 import { VerificationCodeModule } from 'src/verification-code/verification-code.module';
 import { TokenModule } from 'src/token/token.module';
+import { PasswordModule } from 'src/reset-password/password.module';
 import { UserModule } from 'src/user/user.module';
 
 import { AuthController } from './controller/auth.controller';
@@ -23,6 +24,7 @@ import oauthGoogleConfig from './config/oauth-google.config';
     MailerModule,
     VerificationCodeModule,
     TokenModule,
+    PasswordModule,
     UserModule,
   ],
   controllers: [AuthController, OAuthGoogleController],

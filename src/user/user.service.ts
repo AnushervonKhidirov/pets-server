@@ -1,22 +1,25 @@
 import type { Prisma, User, Address } from 'prisma/generated/prisma/client';
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
-import { PrismaService } from 'src/prisma/prisma.service';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PasswordService } from 'src/reset-password/password.service';
 
 import { UpdateUserDto, AddressDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
-import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly passwordService: PasswordService,
+  ) {}
 
   async findOne({
     where,
@@ -33,6 +36,7 @@ export class UserService {
         include,
         omit,
       });
+
       if (!user) throw new NotFoundException('User not found!');
       return [user, null];
     } catch (err) {
@@ -121,10 +125,8 @@ export class UserService {
         );
       }
 
-      const isCorrectPassword = await compare(oldPassword, user.password);
-      if (!isCorrectPassword) throw new BadRequestException('Wrong password');
-
-      const hashPassword = await hash(newPassword, 10);
+      await this.passwordService.compare(oldPassword, user.password);
+      const hashPassword = await this.passwordService.hash(newPassword);
 
       await this.prisma.user.update({
         where: { id: userId },

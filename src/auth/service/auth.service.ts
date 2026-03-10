@@ -9,13 +9,13 @@ import { TokenService } from 'src/token/token.service';
 import { UserService } from 'src/user/user.service';
 import { MailerService } from 'src/mailer/mailer.service';
 import { VerificationCodeService } from 'src/verification-code/verification-code.service';
+import { PasswordService } from 'src/reset-password/password.service';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignOutDto } from '../dto/sign-out.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
-import { hash, compare } from 'bcryptjs';
 import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
@@ -25,6 +25,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly mailerService: MailerService,
     private readonly verificationCodeService: VerificationCodeService,
+    private readonly passwordService: PasswordService,
   ) {}
 
   async verifyEmail(email: string): ReturnWithErrPromise {
@@ -55,7 +56,7 @@ export class AuthService {
         code,
       });
 
-      const hashPassword = await hash(userData.password, 10);
+      const hashPassword = await this.passwordService.hash(userData.password);
 
       const [user, userErr] = await this.userService.create({
         data: {
@@ -93,11 +94,7 @@ export class AuthService {
         );
       }
 
-      const isCorrectPassword = await compare(
-        signInDto.password,
-        user.password,
-      );
-      if (!isCorrectPassword) throw new BadRequestException('Wrong password');
+      await this.passwordService.compare(signInDto.password, user.password);
 
       const [tokens, tokenErr] = await this.generateToken(user);
       if (tokenErr) throw tokenErr;

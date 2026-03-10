@@ -7,7 +7,7 @@ import { TokenModule } from './token/token.module';
 import { ScheduledTaskModule } from './scheduled-task/scheduled-task.module';
 import { MailerModule } from './mailer/mailer.module';
 import { VerificationCodeModule } from './verification-code/verification-code.module';
-import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { PasswordModule } from './reset-password/password.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PetModule } from './pet/pet.module';
@@ -24,7 +24,7 @@ import { MessageModule } from './message/message.module';
     ScheduledTaskModule,
     MailerModule,
     VerificationCodeModule,
-    ResetPasswordModule,
+    PasswordModule,
     AuthModule,
     UserModule,
     PetModule,
