@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "db": "npx prisma studio --config ./prisma.config.ts",
+    "db:prod": "npx prisma studio --config ./prisma.config.ts",
     "db:dev": "NODE_ENV=development npx prisma studio --config ./prisma.config.ts",
     "start": "nest start",
     "start:dev": "NODE_ENV=development nest start --watch",
