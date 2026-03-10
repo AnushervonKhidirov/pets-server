@@ -40,9 +40,10 @@ export class AppModule {}
 function getEnv(): string {
   const env = process.env.NODE_ENV ?? '';
 
-  const envFileNames: Record<string, string> = {
+  const envFileNames = {
     development: '.env.development.local',
+    production: '.env',
   };
 
-  return env in envFileNames ? envFileNames[env] : '.env';
+  return env in envFileNames ? envFileNames[env] : envFileNames.production;
 }
