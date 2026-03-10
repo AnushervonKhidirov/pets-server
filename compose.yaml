@@ -14,11 +14,23 @@ services:
     volumes:
       - .:/usr/app
 
+  dbadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
   db:
     image: mysql:lts
     restart: always
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
