@@ -5,8 +5,6 @@ const environment = process.env.NODE_ENV;
 const corsConfig: NestApplicationOptions['cors'] =
   environment === 'development'
     ? true
-    : {
-        origin: ['https://pets-website-rho.vercel.app/'],
-      };
+    : { origin: ['https://pets-website-rho.vercel.app'] };
 
 export default corsConfig;
