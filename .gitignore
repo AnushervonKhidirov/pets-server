@@ -43,7 +43,7 @@ lerna-debug.log*
 .env.local
 
 # secret config JSON
-secret/*.json
+secret/
 !secret/*.example.json
 
 # temp directory
