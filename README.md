@@ -12,10 +12,10 @@ This repository contains the RESTful API and core logic for the PawLink platform
 
 ```bash
 # development
-$ docker compose --profile dev up
+$ docker compose -f compose.yaml -f compose.dev.yaml --profile dev up
 
 # production
-$ docker compose --profile prod up
+$ docker compose -f compose.yaml -f compose.prod.yaml --profile prod up
 ```
 
 ## Database Setup
