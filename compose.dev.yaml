@@ -1,4 +1,0 @@
-services:
-  app:
-    command: npm run start:dev
-    profiles: ['dev']

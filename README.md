@@ -7,19 +7,3 @@ The server-side engine for **PawLink** — a unified digital registry designed t
 ## Overview
 
 This repository contains the RESTful API and core logic for the PawLink platform. It manages the lifecycle of a pet's "Digital Passport," handles secure owner authentication, and facilitates the connection between a found animal's QR tag and its owner's contact information.
-
-## Project setup
-
-```bash
-# development
-$ docker compose -f compose.yaml -f compose.dev.yaml --profile dev up
-
-# production
-$ docker compose -f compose.yaml -f compose.prod.yaml --profile prod up
-```
-
-## Database Setup
-
-```bash
-$ npx prisma db push
-```
