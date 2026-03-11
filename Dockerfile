@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.23
-RUN npm install
+FROM node:24-alpine
 COPY . /usr/app
 WORKDIR /usr/app
+RUN npm install
