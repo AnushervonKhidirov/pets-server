@@ -13,7 +13,6 @@ const envFileNames = {
 
 config({
   path: env in envFileNames ? envFileNames[env] : envFileNames.production,
-  override: true,
 });
 
 const dbUrl = (() => {
