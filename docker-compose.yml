@@ -3,7 +3,7 @@ services:
     image: mariadb:11
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-pets_secret}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-root}
       MARIADB_DATABASE: ${DB_NAME:-pets}
     volumes:
       - mysql_data:/var/lib/mysql
@@ -27,8 +27,7 @@ services:
       - .env
     environment:
       DB_HOST: mysql
-      DB_PORT: "3306"
-      DB_SSL: "false"
+      DB_PORT: ${DB_PORT:-3306}
     networks:
       - app-network
 
