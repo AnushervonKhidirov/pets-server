@@ -2,6 +2,7 @@
 // npm install --save-dev prisma dotenv
 import { config } from 'dotenv';
 import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 import { defineConfig } from 'prisma/config';
 
 const env = process.env.NODE_ENV ?? '';
@@ -24,10 +25,17 @@ const dbUrl = (() => {
   url.host = process.env.DB_HOST ?? '';
   url.port = process.env.DB_PORT ?? '';
   url.pathname = process.env.DB_NAME ?? '';
-  url.search = new URLSearchParams({
-    'ssl-mode': 'REQUIRED',
-    sslcert: join(process.cwd(), 'secret', 'ca.pem'),
-  }).toString();
+
+  const sslCertPath = join(process.cwd(), 'secret', 'ca.pem');
+  const useSsl =
+    process.env.DB_SSL !== 'false' && existsSync(sslCertPath);
+
+  if (useSsl) {
+    url.search = new URLSearchParams({
+      'ssl-mode': 'REQUIRED',
+      sslcert: sslCertPath,
+    }).toString();
+  }
 
   return url;
 })();

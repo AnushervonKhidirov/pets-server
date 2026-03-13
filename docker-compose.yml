@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mariadb:11
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-pets_secret}
+      MARIADB_DATABASE: ${DB_NAME:-pets}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_SSL: "false"
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
