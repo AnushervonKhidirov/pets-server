@@ -17,7 +17,7 @@ import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: getEnv(), isGlobal: true }),
+    ConfigModule.forRoot(),
     StorageModule,
     PrismaModule,
     TokenModule,
@@ -36,14 +36,3 @@ import { MessageModule } from './message/message.module';
   providers: [],
 })
 export class AppModule {}
-
-function getEnv(): string {
-  const env = process.env.NODE_ENV ?? '';
-
-  const envFileNames = {
-    development: '.env.development.local',
-    production: '.env',
-  };
-
-  return env in envFileNames ? envFileNames[env] : envFileNames.production;
-}
