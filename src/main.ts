@@ -1,5 +1,6 @@
 import './utils/config/dayjs.config';
-import corsConfig from './utils/config/cors.config';
+import cors from './utils/config/cors.config';
+import httpsOptions from './utils/config/ssl.config';
 
 import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -8,8 +9,7 @@ import { HttpExceptionFilter } from './filter/exception.filter';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-
+  const app = await NestFactory.create(AppModule, { cors, httpsOptions });
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   const config = new DocumentBuilder()
