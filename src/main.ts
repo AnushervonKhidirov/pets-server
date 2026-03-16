@@ -11,8 +11,6 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors, httpsOptions });
 
-  app.enableShutdownHooks();
-
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   const config = new DocumentBuilder()
