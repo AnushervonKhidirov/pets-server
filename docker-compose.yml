@@ -1,35 +1,53 @@
+x-server-common: &server-common
+  ports:
+    - 8080:8080
+  restart: always
+  depends_on:
+    mysql:
+      condition: service_healthy
+  env_file:
+    - .env
+  environment:
+    DB_HOST: mysql
+    DB_PORT: ${DB_PORT:-3306}
+  volumes:
+    - /server/node_modules
+  networks:
+    - app-network
+
 services:
   mysql:
     image: mariadb:11
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-      MARIADB_DATABASE: ${DB_NAME:-pets}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - app-network
 
-  app:
-    build: .
-    restart: always
-    ports:
-      - "${APP_PORT:-8080}:8080"
-    depends_on:
-      mysql:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      DB_HOST: mysql
-      DB_PORT: ${DB_PORT:-3306}
-    networks:
-      - app-network
+  server-dev:
+    <<: *server-common
+    profiles: ['dev']
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/server
+    command: npm run start:dev
+
+  server-prod:
+    <<: *server-common
+    profiles: ['prod']
+    build:
+      context: .
+      dockerfile: Dockerfile
 
 volumes:
   mysql_data:

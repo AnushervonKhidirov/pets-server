@@ -1,6 +1,6 @@
 # Stage 1: Build
 FROM node:24-slim AS builder
-WORKDIR /app
+WORKDIR /server
 
 RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
@@ -17,15 +17,15 @@ RUN npm run build
 
 # Stage 2: Runtime
 FROM node:24-slim
-WORKDIR /app
+WORKDIR /server
 RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/prisma ./prisma/
-COPY --from=builder /app/prisma.config.ts ./
-COPY --from=builder /app/secret ./secret
+COPY --from=builder /server/node_modules ./node_modules
+COPY --from=builder /server/dist ./dist
+COPY --from=builder /server/package*.json ./
+COPY --from=builder /server/prisma ./prisma/
+COPY --from=builder /server/prisma.config.ts ./
+COPY --from=builder /server/secret ./secret
 
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh

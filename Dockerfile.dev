@@ -1,0 +1,10 @@
+FROM node:24-slim
+
+WORKDIR /server
+
+COPY package*.json ./
+
+RUN npm ci
+
+ENV PORT=4000
+EXPOSE 4000
