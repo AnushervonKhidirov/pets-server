@@ -1,8 +1,7 @@
 # Stage 1: Build
-FROM node:24-slim AS builder
+FROM node:24-alpine AS builder
 WORKDIR /server
-
-RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache openssl ca-certificates libc6-compat
 
 COPY package*.json ./
 RUN npm ci
@@ -16,9 +15,9 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Runtime
-FROM node:24-slim
+FROM node:24-alpine
 WORKDIR /server
-RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache openssl ca-certificates libc6-compat
 
 COPY --from=builder /server/node_modules ./node_modules
 COPY --from=builder /server/dist ./dist
@@ -33,4 +32,4 @@ RUN chmod +x docker-entrypoint.sh
 ENV PORT=8080
 EXPOSE 8080
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "./docker-entrypoint.sh"]
