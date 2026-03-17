@@ -1,10 +1,25 @@
 import type { NestApplicationOptions } from '@nestjs/common';
 
 const environment = process.env.NODE_ENV;
+const allowedOrigins = new Set(['https://pets-website-rho.vercel.app']);
+
+function allowOriginCheck(origin: string) {
+  return (
+    allowedOrigins.has(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin)
+  );
+}
 
 const cors: NestApplicationOptions['cors'] =
   environment === 'development'
     ? true
-    : { origin: ['https://pets-website-rho.vercel.app'] };
+    : {
+        origin: (origin, callback) => {
+          if (!origin || allowOriginCheck(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
+      };
 
 export default cors;
