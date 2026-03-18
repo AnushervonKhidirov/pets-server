@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import type { NestApplicationOptions } from '@nestjs/common';
 
 const environment = process.env.NODE_ENV;
-const allowedOrigins = new Set(['https://pets-website-rho.vercel.app']);
+const allowedOrigins = new Set((process.env.ALLOWED_ORIGINS ?? '').split(';'));
 
 function allowOriginCheck(origin: string) {
   return (
