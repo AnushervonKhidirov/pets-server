@@ -22,7 +22,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter(httpAdapter));
   app.use(cookieParser());
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('swagger', app, documentFactory);
   await app.listen(process.env.PORT ?? 4000);
 }
 
