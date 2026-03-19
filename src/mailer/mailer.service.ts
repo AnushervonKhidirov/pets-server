@@ -10,7 +10,7 @@ import { exceptionHandler } from '@helper/exception.helper';
 
 @Injectable()
 export class MailerService {
-  private readonly websiteName = 'HomePaw';
+  private readonly websiteName = process.env.PROJECT_NAME;
 
   private readonly transporter = createTransport({
     host: 'smtp.gmail.com',
