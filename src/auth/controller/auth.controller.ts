@@ -35,8 +35,9 @@ export class AuthController {
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: VerifyEmailDto,
   ) {
-    const [, err] = await this.authService.verifyEmail(data.email);
+    const [mailInfo, err] = await this.authService.verifyEmail(data.email);
     if (err) throw err;
+    return mailInfo;
   }
 
   @Post('is-email-exist')

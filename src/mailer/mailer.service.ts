@@ -14,8 +14,10 @@ export class MailerService {
 
   private readonly transporter = createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
+    // port: 587,
+    // secure: false,
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.MAILER_LOGIN,
       pass: process.env.MAILER_APP_PASSWORD,
@@ -26,12 +28,12 @@ export class MailerService {
     data: Omit<SendMailOptions, 'from'>,
   ): ReturnWithErrPromise<SentMessageInfo> {
     try {
-      const mail = await this.transporter.sendMail({
+      const mailInfo = await this.transporter.sendMail({
         from: `"${this.websiteName}" <${process.env.MAILER_LOGIN}>`,
         ...data,
       });
 
-      return [mail, null];
+      return [mailInfo, null];
     } catch (err) {
       return exceptionHandler(err);
     }
@@ -45,17 +47,23 @@ export class MailerService {
     to: string;
     code: string;
     expiresIn: Duration;
-  }) {
-    const expInMin = expiresIn.asMinutes();
+  }): ReturnWithErrPromise<SentMessageInfo> {
+    try {
+      const expInMin = expiresIn.asMinutes();
 
-    const [, err] = await this.send({
-      to,
-      subject: `Код подтверджения: ${code}`,
-      text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}. ${code} Код действителен в течение ${expInMin} минут.`,
-      html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}.</p> <h1>${code}</h1><p>Код действителен в течение ${expInMin} минут.</p>`,
-    });
+      const [mailInfo, err] = await this.send({
+        to,
+        subject: `Код подтверджения: ${code}`,
+        text: `Приветствуем! Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}. ${code} Код действителен в течение ${expInMin} минут.`,
+        html: `<h2>Приветствуем!</h2><p>Введите этот код на странице подтверждения, чтобы завершить регистрацию в ${this.websiteName}.</p> <h1>${code}</h1><p>Код действителен в течение ${expInMin} минут.</p>`,
+      });
 
-    if (err) throw err;
+      if (err) throw err;
+
+      return [mailInfo, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
   }
 
   async sendResetPasswordUrl({
@@ -66,16 +74,22 @@ export class MailerService {
     to: string;
     url: URL;
     expiresIn: Duration;
-  }) {
-    const expInMin = expiresIn.asMinutes();
+  }): ReturnWithErrPromise<SentMessageInfo> {
+    try {
+      const expInMin = expiresIn.asMinutes();
 
-    const [, err] = await this.send({
-      to,
-      subject: `Восстановление пароля`,
-      text: `Приветствуем! Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}. Ссылка действителен в течение ${expInMin} минут. ${url.href}`,
-      html: `<h2>Приветствуем!</h2><p>Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}.</p><p>Ссылка действителен в течение ${expInMin} минут.</p> <a href=${url.href} target="_blank">${url.href}</a>`,
-    });
+      const [mailInfo, err] = await this.send({
+        to,
+        subject: `Восстановление пароля`,
+        text: `Приветствуем! Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}. Ссылка действителен в течение ${expInMin} минут. ${url.href}`,
+        html: `<h2>Приветствуем!</h2><p>Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}.</p><p>Ссылка действителен в течение ${expInMin} минут.</p> <a href=${url.href} target="_blank">${url.href}</a>`,
+      });
 
-    if (err) throw err;
+      if (err) throw err;
+
+      return [mailInfo, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
   }
 }

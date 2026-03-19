@@ -1,5 +1,6 @@
 import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 import type { Tokens } from 'src/token/token.type';
+import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 import type { Prisma, User } from 'prisma/generated/prisma/client';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -28,19 +29,21 @@ export class AuthService {
     private readonly passwordService: PasswordService,
   ) {}
 
-  async verifyEmail(email: string): ReturnWithErrPromise {
+  async verifyEmail(email: string): ReturnWithErrPromise<SentMessageInfo> {
     try {
       const { code, expiredAt } = this.verificationCodeService.generate();
 
-      await this.mailerService.sendVerificationCode({
+      const [mailInfo, err] = await this.mailerService.sendVerificationCode({
         to: email,
         code,
         expiresIn: this.verificationCodeService.verifyExpiresIn,
       });
 
+      if (err) throw err;
+
       await this.verificationCodeService.upsert({ email, code, expiredAt });
 
-      return [null, null];
+      return [mailInfo, null];
     } catch (err) {
       return exceptionHandler(err);
     }
