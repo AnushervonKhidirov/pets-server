@@ -40,10 +40,13 @@ export class OAuthGoogleController {
     example: { url: 'https://accounts.google.com/o/oauth2/v2/auth' },
   })
   googleUrl(@Req() request: Request) {
-    const origin = request.headers.origin;
-    if (!origin) throw new BadRequestException('Origin not found');
+    const referer = request.headers.origin ?? request.headers.referer;
+    if (!referer) throw new BadRequestException('Referer not found');
 
-    const [url, err] = this.oauthGoogleService.generateAuthUrl(origin);
+    const [url, err] = this.oauthGoogleService.generateAuthUrl(
+      new URL(referer).origin,
+    );
+
     if (err) throw err;
     return { url };
   }
