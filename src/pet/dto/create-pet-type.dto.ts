@@ -1,4 +1,4 @@
-import { IsString, ValidateNested } from 'class-validator';
+import { IsString, IsArray, ValidateNested } from 'class-validator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -21,6 +21,7 @@ export class CreateManyPetTypeDto {
       { en: 'Dog', ru: 'Собака' },
     ],
   })
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreatePetTypeDto)
   petTypes: CreatePetTypeDto[];

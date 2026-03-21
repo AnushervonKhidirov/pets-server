@@ -1,4 +1,4 @@
-import { IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, IsArray, ValidateNested } from 'class-validator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -29,6 +29,7 @@ export class CreateManyBreedDto {
       },
     ],
   })
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateBreedDto)
   breeds: CreateBreedDto[];
