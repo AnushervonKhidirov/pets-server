@@ -23,6 +23,8 @@ import { Readable } from 'node:stream';
 @Injectable()
 export class S3Storage {
   private readonly s3Client: S3Client;
+  private readonly development = process.env.NODE_ENV === 'development';
+  private readonly environmentFolder = this.development ? 'dev' : 'prod';
 
   constructor(
     @Inject(s3Config.KEY)
@@ -43,7 +45,7 @@ export class S3Storage {
     await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.config.bucketName,
-        Key: join(folder, filename),
+        Key: join(this.environmentFolder, folder, filename),
         Body: file.buffer,
         ContentType: file.mimetype,
       }),
@@ -54,14 +56,11 @@ export class S3Storage {
     folder: string,
     filename: string,
   ): ReturnWithErrPromise<StreamableFile> {
-    console.log('Bucket:', this.config.bucketName);
-    console.log('Key:', join(folder, filename));
-
     try {
       const { Body, ContentType, ContentLength } = await this.s3Client.send(
         new GetObjectCommand({
           Bucket: this.config.bucketName,
-          Key: join(folder, filename),
+          Key: join(this.environmentFolder, folder, filename),
         }),
       );
 
@@ -85,7 +84,7 @@ export class S3Storage {
     await this.s3Client.send(
       new DeleteObjectCommand({
         Bucket: this.config.bucketName,
-        Key: join(folder, filename),
+        Key: join(this.environmentFolder, folder, filename),
       }),
     );
   }
