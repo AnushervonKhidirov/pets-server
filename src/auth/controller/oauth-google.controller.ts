@@ -11,6 +11,7 @@ import {
   HttpStatus,
   Req,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthType } from 'prisma/generated/prisma/enums';
@@ -58,12 +59,12 @@ export class OAuthGoogleController {
     @Req() request: Request,
     @Body(new ValidationPipe({ whitelist: true })) body: GoogleCallbackDto,
   ) {
-    const origin = request.headers.origin;
-    if (!origin) throw new BadRequestException('Origin not found');
+    const referer = request.headers.origin ?? request.headers.referer;
+    if (!referer) throw new BadRequestException('Referer not found');
 
     const [decodedUser, decodeErr] = await this.oauthGoogleService.authCallback(
       body.code,
-      origin,
+      new URL(referer).origin,
     );
 
     if (decodeErr) throw decodeErr;
@@ -77,6 +78,10 @@ export class OAuthGoogleController {
       userErr.getStatus() !== (HttpStatus.NOT_FOUND as number)
     ) {
       throw userErr;
+    }
+
+    if (origin?.includes('admin') && user?.role !== 'Admin') {
+      throw new ForbiddenException();
     }
 
     if (user) {

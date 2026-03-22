@@ -31,8 +31,8 @@ export class PasswordController {
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: ResetPasswordUrlDto,
   ) {
-    const origin = request.headers.origin;
-    if (!origin) throw new BadRequestException('Origin not found');
+    const referer = request.headers.origin ?? request.headers.referer;
+    if (!referer) throw new BadRequestException('Referer not found');
 
     const [resetPasswordData, err] =
       await this.passwordService.generateResetUrl(data.email);
@@ -43,7 +43,10 @@ export class PasswordController {
       await this.passwordService.upsertResetPageId(resetPasswordData);
     if (upsertErr) throw upsertErr;
 
-    const resetUrl = new URL(join('reset-password', resetData.pageId), origin);
+    const resetUrl = new URL(
+      join('reset-password', resetData.pageId),
+      new URL(referer).origin,
+    );
 
     await this.mailerService.sendResetPasswordUrl({
       to: resetData.email,

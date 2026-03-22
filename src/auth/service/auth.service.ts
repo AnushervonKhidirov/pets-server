@@ -3,7 +3,11 @@ import type { Tokens } from 'src/token/token.type';
 import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 import type { Prisma, User } from 'prisma/generated/prisma/client';
 
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { AuthType } from 'prisma/generated/prisma/client';
 
 import { TokenService } from 'src/token/token.service';
@@ -83,7 +87,10 @@ export class AuthService {
     }
   }
 
-  async signInWithPassword(signInDto: SignInDto): ReturnWithErrPromise<Tokens> {
+  async signInWithPassword(
+    signInDto: SignInDto,
+    origin?: string,
+  ): ReturnWithErrPromise<Tokens> {
     try {
       const [user, userErr] = await this.userService.findOne({
         where: { email: signInDto.email },
@@ -98,6 +105,10 @@ export class AuthService {
       }
 
       await this.passwordService.compare(signInDto.password, user.password);
+
+      if (origin?.includes('admin') && user.role !== 'Admin') {
+        throw new ForbiddenException();
+      }
 
       const [tokens, tokenErr] = await this.generateToken(user);
       if (tokenErr) throw tokenErr;

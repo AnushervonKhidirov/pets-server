@@ -1,9 +1,11 @@
+import type { Request } from 'express';
 import type { Tokens } from 'src/token/token.type';
 
 import {
   Controller,
   Post,
   Body,
+  Req,
   ValidationPipe,
   BadRequestException,
 } from '@nestjs/common';
@@ -68,10 +70,17 @@ export class AuthController {
   @ApiResponse({ example: tokenExample, status: 200 })
   @Post('sign-in')
   async signIn(
+    @Req() request: Request,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: SignInDto,
   ) {
-    const [token, err] = await this.authService.signInWithPassword(data);
+    const referer = request.headers.origin ?? request.headers.referer;
+    const origin = referer ? new URL(referer).origin : undefined;
+
+    const [token, err] = await this.authService.signInWithPassword(
+      data,
+      origin,
+    );
     if (err) throw err;
     return token;
   }
