@@ -33,7 +33,6 @@ services:
       - app-network
 
   server-dev:
-    image: pets-server-dev:latest
     <<: *server-common
     profiles: ['dev']
     build:
@@ -44,7 +43,6 @@ services:
       - /server/node_modules
 
   server-prod:
-    image: pets-server-prod:latest
     <<: *server-common
     profiles: ['prod']
     build:
