@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request } from 'express';
 import type { Prisma } from 'prisma/generated/prisma/client';
 
 import {
@@ -19,7 +19,6 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   UseInterceptors,
-  Res,
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -28,12 +27,14 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 import { PetService } from '../service/pet.service';
-import { StorageService } from 'src/storage/storage.service';
+import { S3Storage } from 'src/storage/storage.service';
 
 import { CreatePetDto } from '../dto/create-pet.dto';
 import { UpdatePetDto } from '../dto/update-pet.dto';
 import { QueryPetDto } from '../dto/query-pet.dto';
 import { TokenDecoded } from 'src/token/token.type';
+
+import { extension } from 'mime-types';
 
 const petExample = {
   id: 1,
@@ -99,11 +100,11 @@ const petUserInclude: Prisma.PetInclude = {
 
 @Controller('pet')
 export class PetController {
-  private readonly storageFolder = 'pets';
+  private readonly storageFolder = 'pet-images';
 
   constructor(
     private readonly petService: PetService,
-    private readonly storageService: StorageService,
+    private readonly s3Storage: S3Storage,
   ) {}
 
   @ApiResponse({ example: 423 })
@@ -280,9 +281,9 @@ export class PetController {
 
     if (err) throw err;
 
-    const filename = `pet-${pet.id}`;
+    const filename = `pet-${pet.id}.${extension(file.mimetype)}`;
 
-    await this.storageService.upload(file, this.storageFolder, filename);
+    await this.s3Storage.upload(file, this.storageFolder, filename);
 
     const [, updateErr] = await this.petService.update({
       where: { id: petId, userId: tokenDecoded.sub },
@@ -294,11 +295,11 @@ export class PetController {
   }
 
   @Get('image/:filename')
-  async getImage(
-    @Param('filename') filename: string,
-    @Res() response: Response,
-  ) {
-    await this.storageService.get(this.storageFolder, filename, response);
+  async getImage(@Param('filename') filename: string) {
+    const [file, err] = await this.s3Storage.get(this.storageFolder, filename);
+
+    if (err) throw err;
+    return file;
   }
 
   @UseGuards(AuthGuard)
@@ -326,7 +327,7 @@ export class PetController {
     if (updateErr) throw updateErr;
 
     if (pet.image) {
-      await this.storageService.delete(this.storageFolder, pet.image);
+      await this.s3Storage.delete(this.storageFolder, pet.image);
     }
   }
 }

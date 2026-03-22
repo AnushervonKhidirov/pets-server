@@ -24,7 +24,6 @@ COPY --from=builder /server/dist ./dist
 COPY --from=builder /server/package*.json ./
 COPY --from=builder /server/prisma ./prisma/
 COPY --from=builder /server/prisma.config.ts ./
-COPY --from=builder /server/secret ./secret
 
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh

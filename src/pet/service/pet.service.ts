@@ -3,7 +3,7 @@ import type { ReturnWithErrPromise } from '@type/return-with-err.type';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { StorageService } from 'src/storage/storage.service';
+import { S3Storage } from 'src/storage/storage.service';
 
 import { exceptionHandler } from '@helper/exception.helper';
 import { CreatePetDto } from '../dto/create-pet.dto';
@@ -14,7 +14,7 @@ export class PetService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly storageService: StorageService,
+    private readonly s3Storage: S3Storage,
   ) {}
 
   async count({
@@ -154,7 +154,7 @@ export class PetService {
       if (!pet) throw new NotFoundException('Pet not found');
 
       if (pet.image) {
-        await this.storageService.delete(this.storageFolder, pet.image);
+        await this.s3Storage.delete(this.storageFolder, pet.image);
       }
 
       return [pet, null];

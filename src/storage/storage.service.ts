@@ -1,58 +1,92 @@
-import type { Response } from 'express';
+import type { ConfigType } from '@nestjs/config';
 
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Storage } from '@google-cloud/storage';
+import type { ReturnWithErrPromise } from '@type/return-with-err.type';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  StreamableFile,
+} from '@nestjs/common';
+
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+} from '@aws-sdk/client-s3';
+
+import s3Config from './storage.config';
 import { join } from 'node:path';
+import { exceptionHandler } from '@helper/exception.helper';
+import { Readable } from 'node:stream';
 
 @Injectable()
-export class StorageService {
-  private readonly storage: Storage;
-  private readonly apiEndpoint = 'https://storage.googleapis.com';
-  private readonly bucketName = process.env.GOOGLE_BUCKET_NAME!;
+export class S3Storage {
+  private readonly s3Client: S3Client;
 
-  constructor() {
-    this.storage = new Storage();
+  constructor(
+    @Inject(s3Config.KEY)
+    private readonly config: ConfigType<typeof s3Config>,
+  ) {
+    this.s3Client = new S3Client({
+      region: this.config.region,
+      endpoint: this.config.endpoint,
+      credentials: {
+        accessKeyId: this.config.accessKey,
+        secretAccessKey: this.config.secretAccessKey,
+      },
+      forcePathStyle: true,
+    });
   }
 
   async upload(file: Express.Multer.File, folder: string, filename: string) {
-    const bucket = this.storage.bucket(this.bucketName);
-    const blob = bucket.file(join(folder, filename));
-
-    const blobStream = blob.createWriteStream({
-      resumable: false,
-      contentType: file.mimetype,
-    });
-
-    return new Promise((resolve, reject) => {
-      blobStream.on('error', (err) => reject(err));
-
-      blobStream.on('finish', () => {
-        const publicUrl = new URL(
-          join(this.bucketName, blob.name),
-          this.apiEndpoint,
-        );
-
-        resolve({ message: 'Загружено!', url: publicUrl.href });
-      });
-
-      blobStream.end(file.buffer);
-    });
+    await this.s3Client.send(
+      new PutObjectCommand({
+        Bucket: this.config.bucketName,
+        Key: join(folder, filename),
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      }),
+    );
   }
 
-  async get(folder: string, filename: string, res: Response) {
-    const bucket = this.storage.bucket(this.bucketName);
-    const remoteFile = bucket.file(join(folder, filename));
+  async get(
+    folder: string,
+    filename: string,
+  ): ReturnWithErrPromise<StreamableFile> {
+    console.log('Bucket:', this.config.bucketName);
+    console.log('Key:', join(folder, filename));
 
-    const [exists] = await remoteFile.exists();
-    if (!exists) throw new NotFoundException();
+    try {
+      const { Body, ContentType, ContentLength } = await this.s3Client.send(
+        new GetObjectCommand({
+          Bucket: this.config.bucketName,
+          Key: join(folder, filename),
+        }),
+      );
 
-    res.setHeader('Content-Type', remoteFile.metadata.contentType ?? 'image/*');
-    remoteFile.createReadStream().pipe(res);
+      if (!Body) throw new NotFoundException('Fuck you!');
+
+      const stream = Body as Readable;
+
+      return [
+        new StreamableFile(stream, {
+          type: ContentType,
+          length: ContentLength,
+        }),
+        null,
+      ];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
   }
 
   async delete(folder: string, filename: string) {
-    const bucket = this.storage.bucket(this.bucketName);
-    const remoteFile = bucket.file(`${folder}/${filename}`);
-    await remoteFile.delete({ ignoreNotFound: true });
+    await this.s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: this.config.bucketName,
+        Key: join(folder, filename),
+      }),
+    );
   }
 }

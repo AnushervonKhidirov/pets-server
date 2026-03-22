@@ -42,10 +42,6 @@ lerna-debug.log*
 .env.production.local
 .env.local
 
-# secret config JSON
-secret/
-!secret/*.example.json
-
 # temp directory
 .temp
 .tmp
