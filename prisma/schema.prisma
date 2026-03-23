@@ -31,9 +31,13 @@ model User {
 model Address {
   userId    Int     @unique @map("user_id")
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  address   String?
+  address   String
   latitude  Float?
   longitude Float?
+  country   Country @relation(fields: [countryId], references: [id])
+  city      City    @relation(fields: [cityId], references: [id])
+  countryId Int     @map("country_id")
+  cityId    Int     @map("city_id")
 
   @@map("address")
 }
@@ -100,12 +104,15 @@ model Breed {
 model VetClinic {
   id        Int     @id @default(autoincrement())
   name      String  @db.VarChar(50)
+  country   Country @relation(fields: [countryId], references: [id])
+  city      City    @relation(fields: [cityId], references: [id])
+  countryId Int     @map("country_id")
+  cityId    Int     @map("city_id")
   address   String
   latitude  Float
   longitude Float
   contacts  Json
   about     String? @db.Text
-  image     String?
 
   @@map("vet_clinic")
 }
@@ -134,6 +141,29 @@ model ResetPasswordUrl {
   expiredAt DateTime @map("expired_at") @db.Timestamp(0)
 
   @@map("reset_password_url")
+}
+
+model Country {
+  id         Int         @unique @default(autoincrement())
+  en         String      @unique
+  ru         String      @unique
+  cities     City[]
+  addresses  Address[]
+  vetClinics VetClinic[]
+
+  @@map("country")
+}
+
+model City {
+  id         Int         @unique @default(autoincrement())
+  en         String      @unique
+  ru         String      @unique
+  country    Country     @relation(fields: [countryId], references: [id])
+  countryId  Int         @map("country_id")
+  addresses  Address[]
+  vetClinics VetClinic[]
+
+  @@map("city")
 }
 
 enum AuthType {
