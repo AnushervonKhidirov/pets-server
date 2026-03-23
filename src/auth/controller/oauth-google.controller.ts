@@ -62,9 +62,11 @@ export class OAuthGoogleController {
     const referer = request.headers.origin ?? request.headers.referer;
     if (!referer) throw new BadRequestException('Referer not found');
 
+    const origin = new URL(referer).origin;
+
     const [decodedUser, decodeErr] = await this.oauthGoogleService.authCallback(
       body.code,
-      new URL(referer).origin,
+      origin,
     );
 
     if (decodeErr) throw decodeErr;
