@@ -94,3 +94,13 @@ export type VerifyMail = Prisma.VerifyMailModel
  * 
  */
 export type ResetPasswordUrl = Prisma.ResetPasswordUrlModel
+/**
+ * Model Country
+ * 
+ */
+export type Country = Prisma.CountryModel
+/**
+ * Model City
+ * 
+ */
+export type City = Prisma.CityModel

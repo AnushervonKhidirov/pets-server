@@ -1174,6 +1174,11 @@ export type BreedFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Skip the first `n` Breeds.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Breeds.
+   */
   distinct?: Prisma.BreedScalarFieldEnum | Prisma.BreedScalarFieldEnum[]
 }
 

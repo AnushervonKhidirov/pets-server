@@ -1,4 +1,10 @@
-import { IsNumber, IsString, IsArray, ValidateNested } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  IsArray,
+  ValidateNested,
+  IsNotEmpty,
+} from 'class-validator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -10,10 +16,12 @@ export class CreateBreedDto {
 
   @ApiProperty({ example: 'Maine Coon' })
   @IsString()
+  @IsNotEmpty()
   en: string;
 
   @ApiProperty({ example: 'Мейн-кун' })
   @IsString()
+  @IsNotEmpty()
   ru: string;
 }
 

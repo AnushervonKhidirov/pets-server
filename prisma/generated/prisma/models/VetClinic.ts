@@ -28,12 +28,16 @@ export type AggregateVetClinic = {
 
 export type VetClinicAvgAggregateOutputType = {
   id: number | null
+  countryId: number | null
+  cityId: number | null
   latitude: number | null
   longitude: number | null
 }
 
 export type VetClinicSumAggregateOutputType = {
   id: number | null
+  countryId: number | null
+  cityId: number | null
   latitude: number | null
   longitude: number | null
 }
@@ -41,44 +45,51 @@ export type VetClinicSumAggregateOutputType = {
 export type VetClinicMinAggregateOutputType = {
   id: number | null
   name: string | null
+  countryId: number | null
+  cityId: number | null
   address: string | null
   latitude: number | null
   longitude: number | null
   about: string | null
-  image: string | null
 }
 
 export type VetClinicMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  countryId: number | null
+  cityId: number | null
   address: string | null
   latitude: number | null
   longitude: number | null
   about: string | null
-  image: string | null
 }
 
 export type VetClinicCountAggregateOutputType = {
   id: number
   name: number
+  countryId: number
+  cityId: number
   address: number
   latitude: number
   longitude: number
   contacts: number
   about: number
-  image: number
   _all: number
 }
 
 
 export type VetClinicAvgAggregateInputType = {
   id?: true
+  countryId?: true
+  cityId?: true
   latitude?: true
   longitude?: true
 }
 
 export type VetClinicSumAggregateInputType = {
   id?: true
+  countryId?: true
+  cityId?: true
   latitude?: true
   longitude?: true
 }
@@ -86,32 +97,35 @@ export type VetClinicSumAggregateInputType = {
 export type VetClinicMinAggregateInputType = {
   id?: true
   name?: true
+  countryId?: true
+  cityId?: true
   address?: true
   latitude?: true
   longitude?: true
   about?: true
-  image?: true
 }
 
 export type VetClinicMaxAggregateInputType = {
   id?: true
   name?: true
+  countryId?: true
+  cityId?: true
   address?: true
   latitude?: true
   longitude?: true
   about?: true
-  image?: true
 }
 
 export type VetClinicCountAggregateInputType = {
   id?: true
   name?: true
+  countryId?: true
+  cityId?: true
   address?: true
   latitude?: true
   longitude?: true
   contacts?: true
   about?: true
-  image?: true
   _all?: true
 }
 
@@ -204,12 +218,13 @@ export type VetClinicGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type VetClinicGroupByOutputType = {
   id: number
   name: string
+  countryId: number
+  cityId: number
   address: string
   latitude: number
   longitude: number
   contacts: runtime.JsonValue
   about: string | null
-  image: string | null
   _count: VetClinicCountAggregateOutputType | null
   _avg: VetClinicAvgAggregateOutputType | null
   _sum: VetClinicSumAggregateOutputType | null
@@ -238,23 +253,29 @@ export type VetClinicWhereInput = {
   NOT?: Prisma.VetClinicWhereInput | Prisma.VetClinicWhereInput[]
   id?: Prisma.IntFilter<"VetClinic"> | number
   name?: Prisma.StringFilter<"VetClinic"> | string
+  countryId?: Prisma.IntFilter<"VetClinic"> | number
+  cityId?: Prisma.IntFilter<"VetClinic"> | number
   address?: Prisma.StringFilter<"VetClinic"> | string
   latitude?: Prisma.FloatFilter<"VetClinic"> | number
   longitude?: Prisma.FloatFilter<"VetClinic"> | number
   contacts?: Prisma.JsonFilter<"VetClinic">
   about?: Prisma.StringNullableFilter<"VetClinic"> | string | null
-  image?: Prisma.StringNullableFilter<"VetClinic"> | string | null
+  country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
+  city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
 }
 
 export type VetClinicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
   about?: Prisma.SortOrderInput | Prisma.SortOrder
-  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.CountryOrderByWithRelationInput
+  city?: Prisma.CityOrderByWithRelationInput
   _relevance?: Prisma.VetClinicOrderByRelevanceInput
 }
 
@@ -264,23 +285,27 @@ export type VetClinicWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.VetClinicWhereInput[]
   NOT?: Prisma.VetClinicWhereInput | Prisma.VetClinicWhereInput[]
   name?: Prisma.StringFilter<"VetClinic"> | string
+  countryId?: Prisma.IntFilter<"VetClinic"> | number
+  cityId?: Prisma.IntFilter<"VetClinic"> | number
   address?: Prisma.StringFilter<"VetClinic"> | string
   latitude?: Prisma.FloatFilter<"VetClinic"> | number
   longitude?: Prisma.FloatFilter<"VetClinic"> | number
   contacts?: Prisma.JsonFilter<"VetClinic">
   about?: Prisma.StringNullableFilter<"VetClinic"> | string | null
-  image?: Prisma.StringNullableFilter<"VetClinic"> | string | null
+  country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
+  city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
 }, "id">
 
 export type VetClinicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
   about?: Prisma.SortOrderInput | Prisma.SortOrder
-  image?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.VetClinicCountOrderByAggregateInput
   _avg?: Prisma.VetClinicAvgOrderByAggregateInput
   _max?: Prisma.VetClinicMaxOrderByAggregateInput
@@ -294,12 +319,13 @@ export type VetClinicScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VetClinicScalarWhereWithAggregatesInput | Prisma.VetClinicScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
   name?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
+  countryId?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
+  cityId?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
   address?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
   latitude?: Prisma.FloatWithAggregatesFilter<"VetClinic"> | number
   longitude?: Prisma.FloatWithAggregatesFilter<"VetClinic"> | number
   contacts?: Prisma.JsonWithAggregatesFilter<"VetClinic">
   about?: Prisma.StringNullableWithAggregatesFilter<"VetClinic"> | string | null
-  image?: Prisma.StringNullableWithAggregatesFilter<"VetClinic"> | string | null
 }
 
 export type VetClinicCreateInput = {
@@ -309,18 +335,20 @@ export type VetClinicCreateInput = {
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: string | null
-  image?: string | null
+  country: Prisma.CountryCreateNestedOneWithoutVetClinicsInput
+  city: Prisma.CityCreateNestedOneWithoutVetClinicsInput
 }
 
 export type VetClinicUncheckedCreateInput = {
   id?: number
   name: string
+  countryId: number
+  cityId: number
   address: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: string | null
-  image?: string | null
 }
 
 export type VetClinicUpdateInput = {
@@ -330,29 +358,32 @@ export type VetClinicUpdateInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.CountryUpdateOneRequiredWithoutVetClinicsNestedInput
+  city?: Prisma.CityUpdateOneRequiredWithoutVetClinicsNestedInput
 }
 
 export type VetClinicUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  cityId?: Prisma.IntFieldUpdateOperationsInput | number
   address?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VetClinicCreateManyInput = {
   id?: number
   name: string
+  countryId: number
+  cityId: number
   address: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: string | null
-  image?: string | null
 }
 
 export type VetClinicUpdateManyMutationInput = {
@@ -362,18 +393,18 @@ export type VetClinicUpdateManyMutationInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VetClinicUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  cityId?: Prisma.IntFieldUpdateOperationsInput | number
   address?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VetClinicOrderByRelevanceInput = {
@@ -385,16 +416,19 @@ export type VetClinicOrderByRelevanceInput = {
 export type VetClinicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
   about?: Prisma.SortOrder
-  image?: Prisma.SortOrder
 }
 
 export type VetClinicAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -402,27 +436,41 @@ export type VetClinicAvgOrderByAggregateInput = {
 export type VetClinicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   about?: Prisma.SortOrder
-  image?: Prisma.SortOrder
 }
 
 export type VetClinicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   about?: Prisma.SortOrder
-  image?: Prisma.SortOrder
 }
 
 export type VetClinicSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  countryId?: Prisma.SortOrder
+  cityId?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+}
+
+export type VetClinicListRelationFilter = {
+  every?: Prisma.VetClinicWhereInput
+  some?: Prisma.VetClinicWhereInput
+  none?: Prisma.VetClinicWhereInput
+}
+
+export type VetClinicOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -433,17 +481,299 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type VetClinicCreateNestedManyWithoutCountryInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput> | Prisma.VetClinicCreateWithoutCountryInput[] | Prisma.VetClinicUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCountryInput | Prisma.VetClinicCreateOrConnectWithoutCountryInput[]
+  createMany?: Prisma.VetClinicCreateManyCountryInputEnvelope
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+}
+
+export type VetClinicUncheckedCreateNestedManyWithoutCountryInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput> | Prisma.VetClinicCreateWithoutCountryInput[] | Prisma.VetClinicUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCountryInput | Prisma.VetClinicCreateOrConnectWithoutCountryInput[]
+  createMany?: Prisma.VetClinicCreateManyCountryInputEnvelope
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+}
+
+export type VetClinicUpdateManyWithoutCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput> | Prisma.VetClinicCreateWithoutCountryInput[] | Prisma.VetClinicUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCountryInput | Prisma.VetClinicCreateOrConnectWithoutCountryInput[]
+  upsert?: Prisma.VetClinicUpsertWithWhereUniqueWithoutCountryInput | Prisma.VetClinicUpsertWithWhereUniqueWithoutCountryInput[]
+  createMany?: Prisma.VetClinicCreateManyCountryInputEnvelope
+  set?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  disconnect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  delete?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  update?: Prisma.VetClinicUpdateWithWhereUniqueWithoutCountryInput | Prisma.VetClinicUpdateWithWhereUniqueWithoutCountryInput[]
+  updateMany?: Prisma.VetClinicUpdateManyWithWhereWithoutCountryInput | Prisma.VetClinicUpdateManyWithWhereWithoutCountryInput[]
+  deleteMany?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+}
+
+export type VetClinicUncheckedUpdateManyWithoutCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput> | Prisma.VetClinicCreateWithoutCountryInput[] | Prisma.VetClinicUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCountryInput | Prisma.VetClinicCreateOrConnectWithoutCountryInput[]
+  upsert?: Prisma.VetClinicUpsertWithWhereUniqueWithoutCountryInput | Prisma.VetClinicUpsertWithWhereUniqueWithoutCountryInput[]
+  createMany?: Prisma.VetClinicCreateManyCountryInputEnvelope
+  set?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  disconnect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  delete?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  update?: Prisma.VetClinicUpdateWithWhereUniqueWithoutCountryInput | Prisma.VetClinicUpdateWithWhereUniqueWithoutCountryInput[]
+  updateMany?: Prisma.VetClinicUpdateManyWithWhereWithoutCountryInput | Prisma.VetClinicUpdateManyWithWhereWithoutCountryInput[]
+  deleteMany?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+}
+
+export type VetClinicCreateNestedManyWithoutCityInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput> | Prisma.VetClinicCreateWithoutCityInput[] | Prisma.VetClinicUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCityInput | Prisma.VetClinicCreateOrConnectWithoutCityInput[]
+  createMany?: Prisma.VetClinicCreateManyCityInputEnvelope
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+}
+
+export type VetClinicUncheckedCreateNestedManyWithoutCityInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput> | Prisma.VetClinicCreateWithoutCityInput[] | Prisma.VetClinicUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCityInput | Prisma.VetClinicCreateOrConnectWithoutCityInput[]
+  createMany?: Prisma.VetClinicCreateManyCityInputEnvelope
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+}
+
+export type VetClinicUpdateManyWithoutCityNestedInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput> | Prisma.VetClinicCreateWithoutCityInput[] | Prisma.VetClinicUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCityInput | Prisma.VetClinicCreateOrConnectWithoutCityInput[]
+  upsert?: Prisma.VetClinicUpsertWithWhereUniqueWithoutCityInput | Prisma.VetClinicUpsertWithWhereUniqueWithoutCityInput[]
+  createMany?: Prisma.VetClinicCreateManyCityInputEnvelope
+  set?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  disconnect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  delete?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  update?: Prisma.VetClinicUpdateWithWhereUniqueWithoutCityInput | Prisma.VetClinicUpdateWithWhereUniqueWithoutCityInput[]
+  updateMany?: Prisma.VetClinicUpdateManyWithWhereWithoutCityInput | Prisma.VetClinicUpdateManyWithWhereWithoutCityInput[]
+  deleteMany?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+}
+
+export type VetClinicUncheckedUpdateManyWithoutCityNestedInput = {
+  create?: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput> | Prisma.VetClinicCreateWithoutCityInput[] | Prisma.VetClinicUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.VetClinicCreateOrConnectWithoutCityInput | Prisma.VetClinicCreateOrConnectWithoutCityInput[]
+  upsert?: Prisma.VetClinicUpsertWithWhereUniqueWithoutCityInput | Prisma.VetClinicUpsertWithWhereUniqueWithoutCityInput[]
+  createMany?: Prisma.VetClinicCreateManyCityInputEnvelope
+  set?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  disconnect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  delete?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  connect?: Prisma.VetClinicWhereUniqueInput | Prisma.VetClinicWhereUniqueInput[]
+  update?: Prisma.VetClinicUpdateWithWhereUniqueWithoutCityInput | Prisma.VetClinicUpdateWithWhereUniqueWithoutCityInput[]
+  updateMany?: Prisma.VetClinicUpdateManyWithWhereWithoutCityInput | Prisma.VetClinicUpdateManyWithWhereWithoutCityInput[]
+  deleteMany?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+}
+
+export type VetClinicCreateWithoutCountryInput = {
+  name: string
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+  city: Prisma.CityCreateNestedOneWithoutVetClinicsInput
+}
+
+export type VetClinicUncheckedCreateWithoutCountryInput = {
+  id?: number
+  name: string
+  cityId: number
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+}
+
+export type VetClinicCreateOrConnectWithoutCountryInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  create: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput>
+}
+
+export type VetClinicCreateManyCountryInputEnvelope = {
+  data: Prisma.VetClinicCreateManyCountryInput | Prisma.VetClinicCreateManyCountryInput[]
+  skipDuplicates?: boolean
+}
+
+export type VetClinicUpsertWithWhereUniqueWithoutCountryInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  update: Prisma.XOR<Prisma.VetClinicUpdateWithoutCountryInput, Prisma.VetClinicUncheckedUpdateWithoutCountryInput>
+  create: Prisma.XOR<Prisma.VetClinicCreateWithoutCountryInput, Prisma.VetClinicUncheckedCreateWithoutCountryInput>
+}
+
+export type VetClinicUpdateWithWhereUniqueWithoutCountryInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  data: Prisma.XOR<Prisma.VetClinicUpdateWithoutCountryInput, Prisma.VetClinicUncheckedUpdateWithoutCountryInput>
+}
+
+export type VetClinicUpdateManyWithWhereWithoutCountryInput = {
+  where: Prisma.VetClinicScalarWhereInput
+  data: Prisma.XOR<Prisma.VetClinicUpdateManyMutationInput, Prisma.VetClinicUncheckedUpdateManyWithoutCountryInput>
+}
+
+export type VetClinicScalarWhereInput = {
+  AND?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+  OR?: Prisma.VetClinicScalarWhereInput[]
+  NOT?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
+  id?: Prisma.IntFilter<"VetClinic"> | number
+  name?: Prisma.StringFilter<"VetClinic"> | string
+  countryId?: Prisma.IntFilter<"VetClinic"> | number
+  cityId?: Prisma.IntFilter<"VetClinic"> | number
+  address?: Prisma.StringFilter<"VetClinic"> | string
+  latitude?: Prisma.FloatFilter<"VetClinic"> | number
+  longitude?: Prisma.FloatFilter<"VetClinic"> | number
+  contacts?: Prisma.JsonFilter<"VetClinic">
+  about?: Prisma.StringNullableFilter<"VetClinic"> | string | null
+}
+
+export type VetClinicCreateWithoutCityInput = {
+  name: string
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+  country: Prisma.CountryCreateNestedOneWithoutVetClinicsInput
+}
+
+export type VetClinicUncheckedCreateWithoutCityInput = {
+  id?: number
+  name: string
+  countryId: number
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+}
+
+export type VetClinicCreateOrConnectWithoutCityInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  create: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput>
+}
+
+export type VetClinicCreateManyCityInputEnvelope = {
+  data: Prisma.VetClinicCreateManyCityInput | Prisma.VetClinicCreateManyCityInput[]
+  skipDuplicates?: boolean
+}
+
+export type VetClinicUpsertWithWhereUniqueWithoutCityInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  update: Prisma.XOR<Prisma.VetClinicUpdateWithoutCityInput, Prisma.VetClinicUncheckedUpdateWithoutCityInput>
+  create: Prisma.XOR<Prisma.VetClinicCreateWithoutCityInput, Prisma.VetClinicUncheckedCreateWithoutCityInput>
+}
+
+export type VetClinicUpdateWithWhereUniqueWithoutCityInput = {
+  where: Prisma.VetClinicWhereUniqueInput
+  data: Prisma.XOR<Prisma.VetClinicUpdateWithoutCityInput, Prisma.VetClinicUncheckedUpdateWithoutCityInput>
+}
+
+export type VetClinicUpdateManyWithWhereWithoutCityInput = {
+  where: Prisma.VetClinicScalarWhereInput
+  data: Prisma.XOR<Prisma.VetClinicUpdateManyMutationInput, Prisma.VetClinicUncheckedUpdateManyWithoutCityInput>
+}
+
+export type VetClinicCreateManyCountryInput = {
+  id?: number
+  name: string
+  cityId: number
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+}
+
+export type VetClinicUpdateWithoutCountryInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.CityUpdateOneRequiredWithoutVetClinicsNestedInput
+}
+
+export type VetClinicUncheckedUpdateWithoutCountryInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cityId?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type VetClinicUncheckedUpdateManyWithoutCountryInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cityId?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type VetClinicCreateManyCityInput = {
+  id?: number
+  name: string
+  countryId: number
+  address: string
+  latitude: number
+  longitude: number
+  contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: string | null
+}
+
+export type VetClinicUpdateWithoutCityInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.CountryUpdateOneRequiredWithoutVetClinicsNestedInput
+}
+
+export type VetClinicUncheckedUpdateWithoutCityInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type VetClinicUncheckedUpdateManyWithoutCityInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type VetClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  countryId?: boolean
+  cityId?: boolean
   address?: boolean
   latitude?: boolean
   longitude?: boolean
   contacts?: boolean
   about?: boolean
-  image?: boolean
+  country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
+  city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vetClinic"]>
 
 
@@ -451,28 +781,37 @@ export type VetClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type VetClinicSelectScalar = {
   id?: boolean
   name?: boolean
+  countryId?: boolean
+  cityId?: boolean
   address?: boolean
   latitude?: boolean
   longitude?: boolean
   contacts?: boolean
   about?: boolean
-  image?: boolean
 }
 
-export type VetClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "latitude" | "longitude" | "contacts" | "about" | "image", ExtArgs["result"]["vetClinic"]>
+export type VetClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "countryId" | "cityId" | "address" | "latitude" | "longitude" | "contacts" | "about", ExtArgs["result"]["vetClinic"]>
+export type VetClinicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
+  city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
+}
 
 export type $VetClinicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "VetClinic"
-  objects: {}
+  objects: {
+    country: Prisma.$CountryPayload<ExtArgs>
+    city: Prisma.$CityPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    countryId: number
+    cityId: number
     address: string
     latitude: number
     longitude: number
     contacts: runtime.JsonValue
     about: string | null
-    image: string | null
   }, ExtArgs["result"]["vetClinic"]>
   composites: {}
 }
@@ -813,6 +1152,8 @@ readonly fields: VetClinicFieldRefs;
  */
 export interface Prisma__VetClinicClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  country<T extends Prisma.CountryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CountryDefaultArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  city<T extends Prisma.CityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CityDefaultArgs<ExtArgs>>): Prisma.Prisma__CityClient<runtime.Types.Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -844,12 +1185,13 @@ export interface Prisma__VetClinicClient<T, Null = never, ExtArgs extends runtim
 export interface VetClinicFieldRefs {
   readonly id: Prisma.FieldRef<"VetClinic", 'Int'>
   readonly name: Prisma.FieldRef<"VetClinic", 'String'>
+  readonly countryId: Prisma.FieldRef<"VetClinic", 'Int'>
+  readonly cityId: Prisma.FieldRef<"VetClinic", 'Int'>
   readonly address: Prisma.FieldRef<"VetClinic", 'String'>
   readonly latitude: Prisma.FieldRef<"VetClinic", 'Float'>
   readonly longitude: Prisma.FieldRef<"VetClinic", 'Float'>
   readonly contacts: Prisma.FieldRef<"VetClinic", 'Json'>
   readonly about: Prisma.FieldRef<"VetClinic", 'String'>
-  readonly image: Prisma.FieldRef<"VetClinic", 'String'>
 }
     
 
@@ -866,6 +1208,10 @@ export type VetClinicFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
   /**
    * Filter, which VetClinic to fetch.
    */
@@ -885,6 +1231,10 @@ export type VetClinicFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
+  /**
    * Filter, which VetClinic to fetch.
    */
   where: Prisma.VetClinicWhereUniqueInput
@@ -902,6 +1252,10 @@ export type VetClinicFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
   /**
    * Filter, which VetClinic to fetch.
    */
@@ -951,6 +1305,10 @@ export type VetClinicFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
+  /**
    * Filter, which VetClinic to fetch.
    */
   where?: Prisma.VetClinicWhereInput
@@ -999,6 +1357,10 @@ export type VetClinicFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
+  /**
    * Filter, which VetClinics to fetch.
    */
   where?: Prisma.VetClinicWhereInput
@@ -1026,6 +1388,11 @@ export type VetClinicFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` VetClinics.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of VetClinics.
+   */
   distinct?: Prisma.VetClinicScalarFieldEnum | Prisma.VetClinicScalarFieldEnum[]
 }
 
@@ -1041,6 +1408,10 @@ export type VetClinicCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
   /**
    * The data needed to create a VetClinic.
    */
@@ -1070,6 +1441,10 @@ export type VetClinicUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
   /**
    * The data needed to update a VetClinic.
    */
@@ -1111,6 +1486,10 @@ export type VetClinicUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
+  /**
    * The filter to search for the VetClinic to update in case it exists.
    */
   where: Prisma.VetClinicWhereUniqueInput
@@ -1136,6 +1515,10 @@ export type VetClinicDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
   /**
    * Filter which VetClinic to delete.
    */
@@ -1168,4 +1551,8 @@ export type VetClinicDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the VetClinic
    */
   omit?: Prisma.VetClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClinicInclude<ExtArgs> | null
 }

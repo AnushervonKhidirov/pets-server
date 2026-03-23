@@ -61,7 +61,9 @@ export const ModelName = {
   VetClinic: 'VetClinic',
   Message: 'Message',
   VerifyMail: 'VerifyMail',
-  ResetPasswordUrl: 'ResetPasswordUrl'
+  ResetPasswordUrl: 'ResetPasswordUrl',
+  Country: 'Country',
+  City: 'City'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -102,7 +104,9 @@ export const AddressScalarFieldEnum = {
   userId: 'userId',
   address: 'address',
   latitude: 'latitude',
-  longitude: 'longitude'
+  longitude: 'longitude',
+  countryId: 'countryId',
+  cityId: 'cityId'
 } as const
 
 export type AddressScalarFieldEnum = (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum]
@@ -165,12 +169,13 @@ export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof Br
 export const VetClinicScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  countryId: 'countryId',
+  cityId: 'cityId',
   address: 'address',
   latitude: 'latitude',
   longitude: 'longitude',
   contacts: 'contacts',
-  about: 'about',
-  image: 'image'
+  about: 'about'
 } as const
 
 export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
@@ -203,6 +208,25 @@ export const ResetPasswordUrlScalarFieldEnum = {
 } as const
 
 export type ResetPasswordUrlScalarFieldEnum = (typeof ResetPasswordUrlScalarFieldEnum)[keyof typeof ResetPasswordUrlScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
+
+
+export const CityScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru',
+  countryId: 'countryId'
+} as const
+
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -316,8 +340,7 @@ export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldE
 export const VetClinicOrderByRelevanceFieldEnum = {
   name: 'name',
   address: 'address',
-  about: 'about',
-  image: 'image'
+  about: 'about'
 } as const
 
 export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]
@@ -346,4 +369,20 @@ export const ResetPasswordUrlOrderByRelevanceFieldEnum = {
 } as const
 
 export type ResetPasswordUrlOrderByRelevanceFieldEnum = (typeof ResetPasswordUrlOrderByRelevanceFieldEnum)[keyof typeof ResetPasswordUrlOrderByRelevanceFieldEnum]
+
+
+export const CountryOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CountryOrderByRelevanceFieldEnum = (typeof CountryOrderByRelevanceFieldEnum)[keyof typeof CountryOrderByRelevanceFieldEnum]
+
+
+export const CityOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CityOrderByRelevanceFieldEnum = (typeof CityOrderByRelevanceFieldEnum)[keyof typeof CityOrderByRelevanceFieldEnum]
 

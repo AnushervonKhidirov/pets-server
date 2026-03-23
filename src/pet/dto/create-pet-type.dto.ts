@@ -1,4 +1,4 @@
-import { IsString, IsArray, ValidateNested } from 'class-validator';
+import { IsString, IsArray, ValidateNested, IsNotEmpty } from 'class-validator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -6,10 +6,12 @@ import { Type } from 'class-transformer';
 export class CreatePetTypeDto {
   @ApiProperty({ example: 'Cat' })
   @IsString()
+  @IsNotEmpty()
   en: string;
 
   @ApiProperty({ example: 'Кошка' })
   @IsString()
+  @IsNotEmpty()
   ru: string;
 }
 

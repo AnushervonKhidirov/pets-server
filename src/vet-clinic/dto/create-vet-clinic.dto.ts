@@ -1,5 +1,6 @@
 import {
   IsString,
+  IsInt,
   IsNumber,
   IsPhoneNumber,
   IsArray,
@@ -16,6 +17,14 @@ export class CreateVetClinicDto {
   @IsString()
   @ApiProperty({ example: 'vet clinic name' })
   name: string;
+
+  @ApiProperty({ example: 1 })
+  @IsInt()
+  countryId: number;
+
+  @ApiProperty({ example: 1 })
+  @IsInt()
+  cityId: number;
 
   @IsString()
   @ApiProperty({ example: 'vet clinic address' })

@@ -18,10 +18,17 @@ import { CreateUserDto } from './create-user.dto';
 
 @ApiSchema({ name: 'Address Dto' })
 export class AddressDto {
-  @ApiProperty({ example: 'some address, appartment number', required: false })
+  @ApiProperty({ example: 1 })
   @IsString()
-  @IsOptional()
-  address?: string;
+  countryId: number;
+
+  @ApiProperty({ example: 1 })
+  @IsString()
+  cityId: number;
+
+  @ApiProperty({ example: 'some address, appartment number' })
+  @IsString()
+  address: string;
 
   @ApiProperty({ example: 40.4123124123, required: false })
   @IsNumber()

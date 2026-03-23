@@ -1687,6 +1687,11 @@ export type PetFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Skip the first `n` Pets.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Pets.
+   */
   distinct?: Prisma.PetScalarFieldEnum | Prisma.PetScalarFieldEnum[]
 }
 

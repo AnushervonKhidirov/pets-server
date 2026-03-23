@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.4.2
- * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.4.2",
-  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 /**
@@ -394,7 +394,9 @@ export const ModelName = {
   VetClinic: 'VetClinic',
   Message: 'Message',
   VerifyMail: 'VerifyMail',
-  ResetPasswordUrl: 'ResetPasswordUrl'
+  ResetPasswordUrl: 'ResetPasswordUrl',
+  Country: 'Country',
+  City: 'City'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message" | "verifyMail" | "resetPasswordUrl"
+    modelProps: "user" | "address" | "token" | "pet" | "lostInfo" | "petType" | "breed" | "vetClinic" | "message" | "verifyMail" | "resetPasswordUrl" | "country" | "city"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1140,6 +1142,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Country: {
+      payload: Prisma.$CountryPayload<ExtArgs>
+      fields: Prisma.CountryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CountryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CountryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findFirst: {
+          args: Prisma.CountryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CountryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findMany: {
+          args: Prisma.CountryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        create: {
+          args: Prisma.CountryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        createMany: {
+          args: Prisma.CountryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.CountryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        update: {
+          args: Prisma.CountryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        deleteMany: {
+          args: Prisma.CountryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CountryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.CountryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        aggregate: {
+          args: Prisma.CountryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCountry>
+        }
+        groupBy: {
+          args: Prisma.CountryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CountryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryCountAggregateOutputType> | number
+        }
+      }
+    }
+    City: {
+      payload: Prisma.$CityPayload<ExtArgs>
+      fields: Prisma.CityFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CityFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CityFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        findFirst: {
+          args: Prisma.CityFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CityFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        findMany: {
+          args: Prisma.CityFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>[]
+        }
+        create: {
+          args: Prisma.CityCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        createMany: {
+          args: Prisma.CityCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.CityDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        update: {
+          args: Prisma.CityUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        deleteMany: {
+          args: Prisma.CityDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CityUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.CityUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        aggregate: {
+          args: Prisma.CityAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCity>
+        }
+        groupBy: {
+          args: Prisma.CityGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CityGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CityCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CityCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1201,7 +1335,9 @@ export const AddressScalarFieldEnum = {
   userId: 'userId',
   address: 'address',
   latitude: 'latitude',
-  longitude: 'longitude'
+  longitude: 'longitude',
+  countryId: 'countryId',
+  cityId: 'cityId'
 } as const
 
 export type AddressScalarFieldEnum = (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum]
@@ -1264,12 +1400,13 @@ export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof Br
 export const VetClinicScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  countryId: 'countryId',
+  cityId: 'cityId',
   address: 'address',
   latitude: 'latitude',
   longitude: 'longitude',
   contacts: 'contacts',
-  about: 'about',
-  image: 'image'
+  about: 'about'
 } as const
 
 export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
@@ -1302,6 +1439,25 @@ export const ResetPasswordUrlScalarFieldEnum = {
 } as const
 
 export type ResetPasswordUrlScalarFieldEnum = (typeof ResetPasswordUrlScalarFieldEnum)[keyof typeof ResetPasswordUrlScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
+
+
+export const CityScalarFieldEnum = {
+  id: 'id',
+  en: 'en',
+  ru: 'ru',
+  countryId: 'countryId'
+} as const
+
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1415,8 +1571,7 @@ export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldE
 export const VetClinicOrderByRelevanceFieldEnum = {
   name: 'name',
   address: 'address',
-  about: 'about',
-  image: 'image'
+  about: 'about'
 } as const
 
 export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]
@@ -1445,6 +1600,22 @@ export const ResetPasswordUrlOrderByRelevanceFieldEnum = {
 } as const
 
 export type ResetPasswordUrlOrderByRelevanceFieldEnum = (typeof ResetPasswordUrlOrderByRelevanceFieldEnum)[keyof typeof ResetPasswordUrlOrderByRelevanceFieldEnum]
+
+
+export const CountryOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CountryOrderByRelevanceFieldEnum = (typeof CountryOrderByRelevanceFieldEnum)[keyof typeof CountryOrderByRelevanceFieldEnum]
+
+
+export const CityOrderByRelevanceFieldEnum = {
+  en: 'en',
+  ru: 'ru'
+} as const
+
+export type CityOrderByRelevanceFieldEnum = (typeof CityOrderByRelevanceFieldEnum)[keyof typeof CityOrderByRelevanceFieldEnum]
 
 
 
@@ -1628,6 +1799,8 @@ export type GlobalOmitConfig = {
   message?: Prisma.MessageOmit
   verifyMail?: Prisma.VerifyMailOmit
   resetPasswordUrl?: Prisma.ResetPasswordUrlOmit
+  country?: Prisma.CountryOmit
+  city?: Prisma.CityOmit
 }
 
 /* Types for Logging */

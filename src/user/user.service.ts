@@ -161,7 +161,7 @@ export class UserService {
     if (address) {
       const addressData: Address = {
         userId,
-        address: address.address ?? null,
+        ...address,
         latitude: address.latitude ?? null,
         longitude: address.longitude ?? null,
       };

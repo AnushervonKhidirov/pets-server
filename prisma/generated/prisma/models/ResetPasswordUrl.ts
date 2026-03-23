@@ -841,6 +841,11 @@ export type ResetPasswordUrlFindManyArgs<ExtArgs extends runtime.Types.Extension
    * Skip the first `n` ResetPasswordUrls.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ResetPasswordUrls.
+   */
   distinct?: Prisma.ResetPasswordUrlScalarFieldEnum | Prisma.ResetPasswordUrlScalarFieldEnum[]
 }
 

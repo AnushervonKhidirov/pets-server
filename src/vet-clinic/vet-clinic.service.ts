@@ -12,11 +12,16 @@ export class VetClinicService {
 
   async findOne({
     where,
+    include,
   }: {
     where: Prisma.VetClinicWhereUniqueInput;
+    include?: Prisma.VetClinicInclude;
   }): ReturnWithErrPromise<VetClinic> {
     try {
-      const vetClinic = await this.prisma.vetClinic.findUnique({ where });
+      const vetClinic = await this.prisma.vetClinic.findUnique({
+        where,
+        include,
+      });
       if (!vetClinic) throw new NotFoundException();
       return [vetClinic, null];
     } catch (err) {
@@ -26,11 +31,16 @@ export class VetClinicService {
 
   async findMany({
     where,
+    include,
   }: {
     where?: Prisma.VetClinicWhereInput;
+    include?: Prisma.VetClinicInclude;
   } = {}): ReturnWithErrPromise<VetClinic[]> {
     try {
-      const vetClinics = await this.prisma.vetClinic.findMany({ where });
+      const vetClinics = await this.prisma.vetClinic.findMany({
+        where,
+        include,
+      });
       return [vetClinics, null];
     } catch (err) {
       return exceptionHandler(err);
@@ -39,11 +49,13 @@ export class VetClinicService {
 
   async create({
     data,
+    include,
   }: {
     data: Prisma.VetClinicCreateInput;
+    include?: Prisma.VetClinicInclude;
   }): ReturnWithErrPromise<VetClinic> {
     try {
-      const vetClinic = await this.prisma.vetClinic.create({ data });
+      const vetClinic = await this.prisma.vetClinic.create({ data, include });
       return [vetClinic, null];
     } catch (err) {
       return exceptionHandler(err);
@@ -53,12 +65,18 @@ export class VetClinicService {
   async update({
     where,
     data,
+    include,
   }: {
     where: Prisma.VetClinicWhereUniqueInput;
     data: Prisma.VetClinicUpdateInput;
+    include?: Prisma.VetClinicInclude;
   }): ReturnWithErrPromise<VetClinic> {
     try {
-      const vetClinic = await this.prisma.vetClinic.update({ where, data });
+      const vetClinic = await this.prisma.vetClinic.update({
+        where,
+        data,
+        include,
+      });
       return [vetClinic, null];
     } catch (err) {
       return exceptionHandler(err);

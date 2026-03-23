@@ -14,6 +14,8 @@ import { PetModule } from './pet/pet.module';
 import { LostInfoModule } from './lost-info/lost-info.module';
 import { VetClinicModule } from './vet-clinic/vet-clinic.module';
 import { MessageModule } from './message/message.module';
+import { CountryModule } from './country/country.module';
+import { CityModule } from './city/city.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { MessageModule } from './message/message.module';
     LostInfoModule,
     VetClinicModule,
     MessageModule,
+    CountryModule,
+    CityModule,
   ],
   controllers: [],
   providers: [],

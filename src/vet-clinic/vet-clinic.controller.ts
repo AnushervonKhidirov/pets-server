@@ -1,3 +1,5 @@
+import type { Prisma } from 'prisma/generated/prisma/client';
+
 import {
   Controller,
   Get,
@@ -20,6 +22,11 @@ import { VetClinicService } from './vet-clinic.service';
 
 import { CreateVetClinicDto } from './dto/create-vet-clinic.dto';
 import { UpdateVetClinicDto } from './dto/update-vet-clinic.dto';
+
+const vetClinicInclude: Prisma.VetClinicInclude = {
+  country: { omit: { id: true } },
+  city: { omit: { id: true } },
+};
 
 const vetClinicsExample = [
   {
@@ -54,6 +61,7 @@ export class VetClinicController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const [vetClinic, err] = await this.vetClinicService.findOne({
       where: { id },
+      include: vetClinicInclude,
     });
 
     if (err) throw err;
@@ -63,7 +71,9 @@ export class VetClinicController {
   @ApiResponse({ example: vetClinicsExample })
   @Get()
   async findMany() {
-    const [vetClinic, err] = await this.vetClinicService.findMany();
+    const [vetClinic, err] = await this.vetClinicService.findMany({
+      include: vetClinicInclude,
+    });
     if (err) throw err;
     return vetClinic;
   }
@@ -74,9 +84,16 @@ export class VetClinicController {
   @Post()
   async create(
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
-    data: CreateVetClinicDto,
+    { countryId, cityId, ...data }: CreateVetClinicDto,
   ) {
-    const [vetClinic, err] = await this.vetClinicService.create({ data });
+    const [vetClinic, err] = await this.vetClinicService.create({
+      data: {
+        ...data,
+        country: { connect: { id: countryId } },
+        city: { connect: { id: cityId } },
+      },
+      include: vetClinicInclude,
+    });
     if (err) throw err;
     return vetClinic;
   }
@@ -93,6 +110,7 @@ export class VetClinicController {
     const [vetClinic, err] = await this.vetClinicService.update({
       where: { id },
       data,
+      include: vetClinicInclude,
     });
     if (err) throw err;
     return vetClinic;
