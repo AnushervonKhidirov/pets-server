@@ -24,7 +24,11 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/auth/decorator/role.decorator';
+
 import { UserService } from './user.service';
+
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
@@ -124,20 +128,8 @@ export class UserController {
     return user;
   }
 
-  @ApiResponse({
-    example: [userExample1, userExample2],
-    status: 200,
-  })
-  @Get()
-  async findMany() {
-    const [users, err] = await this.userService.findMany({
-      omit: userOmit,
-      include: userInclude,
-    });
-    if (err) throw err;
-    return users;
-  }
-
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @ApiResponse({
     examples: {
       user_1: { summary: 'Full data', value: userExample1 },
@@ -155,6 +147,22 @@ export class UserController {
 
     if (err) throw err;
     return user;
+  }
+
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
+  @ApiResponse({
+    example: [userExample1, userExample2],
+    status: 200,
+  })
+  @Get()
+  async findMany() {
+    const [users, err] = await this.userService.findMany({
+      omit: userOmit,
+      include: userInclude,
+    });
+    if (err) throw err;
+    return users;
   }
 
   @ApiResponse({
