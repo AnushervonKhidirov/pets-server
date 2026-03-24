@@ -30,7 +30,10 @@ const userOmit: Prisma.UserOmit = {
 };
 
 const userInclude: Prisma.UserInclude = {
-  address: { omit: { userId: true } },
+  address: {
+    omit: { userId: true },
+    include: { country: { omit: { id: true } }, city: { omit: { id: true } } },
+  },
 };
 
 const userExample1 = {

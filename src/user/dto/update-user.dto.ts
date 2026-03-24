@@ -3,6 +3,8 @@ import type { NullableJsonNullValueInput } from 'prisma/generated/prisma/interna
 import {
   IsPhoneNumber,
   IsString,
+  IsNotEmpty,
+  IsInt,
   IsNumber,
   Min,
   Max,
@@ -19,15 +21,16 @@ import { CreateUserDto } from './create-user.dto';
 @ApiSchema({ name: 'Address Dto' })
 export class AddressDto {
   @ApiProperty({ example: 1 })
-  @IsString()
+  @IsInt()
   countryId: number;
 
   @ApiProperty({ example: 1 })
-  @IsString()
+  @IsInt()
   cityId: number;
 
   @ApiProperty({ example: 'some address, appartment number' })
   @IsString()
+  @IsNotEmpty()
   address: string;
 
   @ApiProperty({ example: 40.4123124123, required: false })
@@ -84,6 +87,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
-  @IsOptional()
-  address?: AddressDto;
+  address: AddressDto;
 }
