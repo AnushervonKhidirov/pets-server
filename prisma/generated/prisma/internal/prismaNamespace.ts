@@ -1408,7 +1408,8 @@ export const VetClinicScalarFieldEnum = {
   latitude: 'latitude',
   longitude: 'longitude',
   contacts: 'contacts',
-  about: 'about'
+  aboutEn: 'aboutEn',
+  aboutRu: 'aboutRu'
 } as const
 
 export type VetClinicScalarFieldEnum = (typeof VetClinicScalarFieldEnum)[keyof typeof VetClinicScalarFieldEnum]
@@ -1575,7 +1576,8 @@ export const VetClinicOrderByRelevanceFieldEnum = {
   nameRu: 'nameRu',
   addressEn: 'addressEn',
   addressRu: 'addressRu',
-  about: 'about'
+  aboutEn: 'aboutEn',
+  aboutRu: 'aboutRu'
 } as const
 
 export type VetClinicOrderByRelevanceFieldEnum = (typeof VetClinicOrderByRelevanceFieldEnum)[keyof typeof VetClinicOrderByRelevanceFieldEnum]

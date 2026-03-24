@@ -1,4 +1,4 @@
-import type { Prisma } from 'prisma/generated/prisma/client';
+import type { Prisma, VetClinic } from 'prisma/generated/prisma/client';
 
 import {
   Controller,
@@ -28,27 +28,34 @@ const vetClinicInclude: Prisma.VetClinicInclude = {
   city: { omit: { id: true } },
 };
 
-const vetClinicsExample = [
+const vetClinicsExample: VetClinic[] = [
   {
     id: 1,
-    name: 'Городская Ветеринарная Клиника',
-    address: 'Кахорова 29',
+    nameEn: 'vet clinic name en',
+    nameRu: 'vet clinic name ru',
+    addressEn: 'address en',
+    addressRu: 'address ru',
     latitude: 38.56194293904967,
     longitude: 68.77537965776406,
     contacts: ['+992918972505'],
-    about: 'Ветеринарная клиника в подвале здания',
-    image: null,
+    aboutEn: 'vet clinic about en',
+    aboutRu: 'vet clinic about ru',
+    cityId: 1,
+    countryId: 1,
   },
   {
     id: 2,
-    name: '4 Лапы',
-    address: 'Бехзод 47',
-    latitude: 38.57368522247546,
-    longitude: 68.8012973175865,
-    contacts: ['+992918900039'],
-    about:
-      'Ветеринарная клиника внутри магазина 4 лапы. Подвал супермаркета Ашан (bi1)',
-    image: null,
+    nameEn: 'vet clinic name en',
+    nameRu: 'vet clinic name ru',
+    addressEn: 'address en',
+    addressRu: 'address ru',
+    latitude: 38.56194293904967,
+    longitude: 68.77537965776406,
+    contacts: ['+992918972505'],
+    aboutEn: 'vet clinic about en',
+    aboutRu: 'vet clinic about ru',
+    cityId: 1,
+    countryId: 2,
   },
 ];
 

@@ -65,5 +65,10 @@ export class CreateVetClinicDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'about vet clinic', required: false })
-  about?: string;
+  aboutEn?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ example: 'about vet clinic', required: false })
+  aboutRu?: string;
 }

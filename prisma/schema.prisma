@@ -114,7 +114,8 @@ model VetClinic {
   latitude  Float
   longitude Float
   contacts  Json
-  about     String? @db.Text
+  aboutEn   String? @map("about_en") @db.Text
+  aboutRu   String? @map("about_ru") @db.Text
 
   @@map("vet_clinic")
 }
