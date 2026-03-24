@@ -1,7 +1,13 @@
 import type { Request } from 'express';
-import type { Prisma } from 'prisma/generated/prisma/client';
-import { AuthType } from 'prisma/generated/prisma/client';
+import type {
+  Address,
+  Country,
+  City,
+  Prisma,
+  User,
+} from 'prisma/generated/prisma/client';
 import type { TokenDecoded } from 'src/token/token.type';
+import { AuthType } from 'prisma/generated/prisma/client';
 
 import {
   Controller,
@@ -22,6 +28,18 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
+type UserExample = Omit<
+  User,
+  'password' | 'createdAt' | 'updatedAt' | 'role'
+> & {
+  address:
+    | (Omit<Address, 'userId'> & {
+        country: Country;
+        city: City;
+      })
+    | null;
+};
+
 const userOmit: Prisma.UserOmit = {
   password: true,
   createdAt: true,
@@ -32,11 +50,11 @@ const userOmit: Prisma.UserOmit = {
 const userInclude: Prisma.UserInclude = {
   address: {
     omit: { userId: true },
-    include: { country: { omit: { id: true } }, city: { omit: { id: true } } },
+    include: { country: true, city: true },
   },
 };
 
-const userExample1 = {
+const userExample1: UserExample = {
   id: 1,
   authType: AuthType.Google,
   email: 'your_email1@gmail.com',
@@ -49,19 +67,33 @@ const userExample1 = {
     { name: 'WatsApp', value: '@username' },
   ],
   address: {
+    country: {
+      id: 1,
+      en: 'Country',
+      ru: 'Страна',
+    },
+    city: {
+      id: 1,
+      countryId: 1,
+      en: 'City',
+      ru: 'Город',
+    },
+    countryId: 1,
+    cityId: 1,
     address: 'some address, appartment number',
     latitude: 40.4123124123,
     longitude: 90.4123124123,
   },
 };
 
-const userExample2 = {
+const userExample2: UserExample = {
   id: 2,
   authType: AuthType.Local,
   email: 'your_email2@gmail.com',
   phone: '+992715303257',
   firstName: 'firstName',
   lastName: null,
+  avatar: null,
   contacts: null,
   address: null,
 };
