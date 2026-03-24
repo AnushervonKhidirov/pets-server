@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { Prisma } from 'prisma/generated/prisma/client';
+import type { Pet, Prisma, User } from 'prisma/generated/prisma/client';
 
 import {
   Controller,
@@ -94,9 +94,31 @@ const petUserInclude: Prisma.PetInclude = {
       createdAt: true,
       updatedAt: true,
     },
-    include: { address: { omit: { userId: true } } },
+    include: {
+      address: {
+        omit: { userId: true },
+        include: { country: true, city: true },
+      },
+    },
   },
 };
+
+function removeSensitiveInfo(pet: Pet) {
+  if (!('user' in pet)) return pet;
+  if ('lostInfo' in pet && pet.lostInfo) return pet;
+
+  const user = pet.user as User;
+
+  return {
+    ...pet,
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar,
+    },
+  };
+}
 
 @Controller('pet')
 export class PetController {
@@ -151,7 +173,7 @@ export class PetController {
 
     const { skip, take, lost, ...where } = query;
 
-    const [pet, err] = await this.petService.findMany({
+    const [pets, err] = await this.petService.findMany({
       where: {
         ...where,
         userId: tokenDecoded.sub,
@@ -162,7 +184,7 @@ export class PetController {
       take,
     });
     if (err) throw err;
-    return pet;
+    return pets;
   }
 
   @ApiResponse({ example: { ...petExample, user: userExample } })
@@ -174,7 +196,7 @@ export class PetController {
     });
 
     if (err) throw err;
-    return pet;
+    return removeSensitiveInfo(pet);
   }
 
   @ApiResponse({ example: [petExample] })
@@ -202,7 +224,7 @@ export class PetController {
       take,
     });
     if (err) throw err;
-    return pets;
+    return pets.map((pet) => removeSensitiveInfo(pet));
   }
 
   @ApiResponse({ example: petExample })
