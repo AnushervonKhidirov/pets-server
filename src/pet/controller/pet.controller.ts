@@ -73,7 +73,19 @@ const userExample = {
     { name: 'WatsApp', value: '@username' },
   ],
   address: {
-    id: 1,
+    country: {
+      id: 1,
+      en: 'Country',
+      ru: 'Страна',
+    },
+    city: {
+      id: 1,
+      countryId: 1,
+      en: 'City',
+      ru: 'Город',
+    },
+    countryId: 1,
+    cityId: 1,
     address: 'some address, appartment number',
     latitude: 40.4123124123,
     longitude: 90.4123124123,
