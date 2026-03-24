@@ -44,10 +44,12 @@ export type VetClinicSumAggregateOutputType = {
 
 export type VetClinicMinAggregateOutputType = {
   id: number | null
-  name: string | null
+  nameEn: string | null
+  nameRu: string | null
   countryId: number | null
   cityId: number | null
-  address: string | null
+  addressEn: string | null
+  addressRu: string | null
   latitude: number | null
   longitude: number | null
   about: string | null
@@ -55,10 +57,12 @@ export type VetClinicMinAggregateOutputType = {
 
 export type VetClinicMaxAggregateOutputType = {
   id: number | null
-  name: string | null
+  nameEn: string | null
+  nameRu: string | null
   countryId: number | null
   cityId: number | null
-  address: string | null
+  addressEn: string | null
+  addressRu: string | null
   latitude: number | null
   longitude: number | null
   about: string | null
@@ -66,10 +70,12 @@ export type VetClinicMaxAggregateOutputType = {
 
 export type VetClinicCountAggregateOutputType = {
   id: number
-  name: number
+  nameEn: number
+  nameRu: number
   countryId: number
   cityId: number
-  address: number
+  addressEn: number
+  addressRu: number
   latitude: number
   longitude: number
   contacts: number
@@ -96,10 +102,12 @@ export type VetClinicSumAggregateInputType = {
 
 export type VetClinicMinAggregateInputType = {
   id?: true
-  name?: true
+  nameEn?: true
+  nameRu?: true
   countryId?: true
   cityId?: true
-  address?: true
+  addressEn?: true
+  addressRu?: true
   latitude?: true
   longitude?: true
   about?: true
@@ -107,10 +115,12 @@ export type VetClinicMinAggregateInputType = {
 
 export type VetClinicMaxAggregateInputType = {
   id?: true
-  name?: true
+  nameEn?: true
+  nameRu?: true
   countryId?: true
   cityId?: true
-  address?: true
+  addressEn?: true
+  addressRu?: true
   latitude?: true
   longitude?: true
   about?: true
@@ -118,10 +128,12 @@ export type VetClinicMaxAggregateInputType = {
 
 export type VetClinicCountAggregateInputType = {
   id?: true
-  name?: true
+  nameEn?: true
+  nameRu?: true
   countryId?: true
   cityId?: true
-  address?: true
+  addressEn?: true
+  addressRu?: true
   latitude?: true
   longitude?: true
   contacts?: true
@@ -217,10 +229,12 @@ export type VetClinicGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type VetClinicGroupByOutputType = {
   id: number
-  name: string
+  nameEn: string
+  nameRu: string
   countryId: number
   cityId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: runtime.JsonValue
@@ -252,10 +266,12 @@ export type VetClinicWhereInput = {
   OR?: Prisma.VetClinicWhereInput[]
   NOT?: Prisma.VetClinicWhereInput | Prisma.VetClinicWhereInput[]
   id?: Prisma.IntFilter<"VetClinic"> | number
-  name?: Prisma.StringFilter<"VetClinic"> | string
+  nameEn?: Prisma.StringFilter<"VetClinic"> | string
+  nameRu?: Prisma.StringFilter<"VetClinic"> | string
   countryId?: Prisma.IntFilter<"VetClinic"> | number
   cityId?: Prisma.IntFilter<"VetClinic"> | number
-  address?: Prisma.StringFilter<"VetClinic"> | string
+  addressEn?: Prisma.StringFilter<"VetClinic"> | string
+  addressRu?: Prisma.StringFilter<"VetClinic"> | string
   latitude?: Prisma.FloatFilter<"VetClinic"> | number
   longitude?: Prisma.FloatFilter<"VetClinic"> | number
   contacts?: Prisma.JsonFilter<"VetClinic">
@@ -266,10 +282,12 @@ export type VetClinicWhereInput = {
 
 export type VetClinicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameRu?: Prisma.SortOrder
   countryId?: Prisma.SortOrder
   cityId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  addressEn?: Prisma.SortOrder
+  addressRu?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
@@ -284,10 +302,12 @@ export type VetClinicWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.VetClinicWhereInput | Prisma.VetClinicWhereInput[]
   OR?: Prisma.VetClinicWhereInput[]
   NOT?: Prisma.VetClinicWhereInput | Prisma.VetClinicWhereInput[]
-  name?: Prisma.StringFilter<"VetClinic"> | string
+  nameEn?: Prisma.StringFilter<"VetClinic"> | string
+  nameRu?: Prisma.StringFilter<"VetClinic"> | string
   countryId?: Prisma.IntFilter<"VetClinic"> | number
   cityId?: Prisma.IntFilter<"VetClinic"> | number
-  address?: Prisma.StringFilter<"VetClinic"> | string
+  addressEn?: Prisma.StringFilter<"VetClinic"> | string
+  addressRu?: Prisma.StringFilter<"VetClinic"> | string
   latitude?: Prisma.FloatFilter<"VetClinic"> | number
   longitude?: Prisma.FloatFilter<"VetClinic"> | number
   contacts?: Prisma.JsonFilter<"VetClinic">
@@ -298,10 +318,12 @@ export type VetClinicWhereUniqueInput = Prisma.AtLeast<{
 
 export type VetClinicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameRu?: Prisma.SortOrder
   countryId?: Prisma.SortOrder
   cityId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  addressEn?: Prisma.SortOrder
+  addressRu?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
@@ -318,10 +340,12 @@ export type VetClinicScalarWhereWithAggregatesInput = {
   OR?: Prisma.VetClinicScalarWhereWithAggregatesInput[]
   NOT?: Prisma.VetClinicScalarWhereWithAggregatesInput | Prisma.VetClinicScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
-  name?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
+  nameEn?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
+  nameRu?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
   countryId?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
   cityId?: Prisma.IntWithAggregatesFilter<"VetClinic"> | number
-  address?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
+  addressEn?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
+  addressRu?: Prisma.StringWithAggregatesFilter<"VetClinic"> | string
   latitude?: Prisma.FloatWithAggregatesFilter<"VetClinic"> | number
   longitude?: Prisma.FloatWithAggregatesFilter<"VetClinic"> | number
   contacts?: Prisma.JsonWithAggregatesFilter<"VetClinic">
@@ -329,8 +353,10 @@ export type VetClinicScalarWhereWithAggregatesInput = {
 }
 
 export type VetClinicCreateInput = {
-  name: string
-  address: string
+  nameEn: string
+  nameRu: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -341,10 +367,12 @@ export type VetClinicCreateInput = {
 
 export type VetClinicUncheckedCreateInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   countryId: number
   cityId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -352,8 +380,10 @@ export type VetClinicUncheckedCreateInput = {
 }
 
 export type VetClinicUpdateInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -364,10 +394,12 @@ export type VetClinicUpdateInput = {
 
 export type VetClinicUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
   cityId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -376,10 +408,12 @@ export type VetClinicUncheckedUpdateInput = {
 
 export type VetClinicCreateManyInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   countryId: number
   cityId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -387,8 +421,10 @@ export type VetClinicCreateManyInput = {
 }
 
 export type VetClinicUpdateManyMutationInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -397,10 +433,12 @@ export type VetClinicUpdateManyMutationInput = {
 
 export type VetClinicUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
   cityId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -415,10 +453,12 @@ export type VetClinicOrderByRelevanceInput = {
 
 export type VetClinicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameRu?: Prisma.SortOrder
   countryId?: Prisma.SortOrder
   cityId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  addressEn?: Prisma.SortOrder
+  addressRu?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   contacts?: Prisma.SortOrder
@@ -435,10 +475,12 @@ export type VetClinicAvgOrderByAggregateInput = {
 
 export type VetClinicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameRu?: Prisma.SortOrder
   countryId?: Prisma.SortOrder
   cityId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  addressEn?: Prisma.SortOrder
+  addressRu?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   about?: Prisma.SortOrder
@@ -446,10 +488,12 @@ export type VetClinicMaxOrderByAggregateInput = {
 
 export type VetClinicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameRu?: Prisma.SortOrder
   countryId?: Prisma.SortOrder
   cityId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  addressEn?: Prisma.SortOrder
+  addressRu?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   about?: Prisma.SortOrder
@@ -566,8 +610,10 @@ export type VetClinicUncheckedUpdateManyWithoutCityNestedInput = {
 }
 
 export type VetClinicCreateWithoutCountryInput = {
-  name: string
-  address: string
+  nameEn: string
+  nameRu: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -577,9 +623,11 @@ export type VetClinicCreateWithoutCountryInput = {
 
 export type VetClinicUncheckedCreateWithoutCountryInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   cityId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -617,10 +665,12 @@ export type VetClinicScalarWhereInput = {
   OR?: Prisma.VetClinicScalarWhereInput[]
   NOT?: Prisma.VetClinicScalarWhereInput | Prisma.VetClinicScalarWhereInput[]
   id?: Prisma.IntFilter<"VetClinic"> | number
-  name?: Prisma.StringFilter<"VetClinic"> | string
+  nameEn?: Prisma.StringFilter<"VetClinic"> | string
+  nameRu?: Prisma.StringFilter<"VetClinic"> | string
   countryId?: Prisma.IntFilter<"VetClinic"> | number
   cityId?: Prisma.IntFilter<"VetClinic"> | number
-  address?: Prisma.StringFilter<"VetClinic"> | string
+  addressEn?: Prisma.StringFilter<"VetClinic"> | string
+  addressRu?: Prisma.StringFilter<"VetClinic"> | string
   latitude?: Prisma.FloatFilter<"VetClinic"> | number
   longitude?: Prisma.FloatFilter<"VetClinic"> | number
   contacts?: Prisma.JsonFilter<"VetClinic">
@@ -628,8 +678,10 @@ export type VetClinicScalarWhereInput = {
 }
 
 export type VetClinicCreateWithoutCityInput = {
-  name: string
-  address: string
+  nameEn: string
+  nameRu: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -639,9 +691,11 @@ export type VetClinicCreateWithoutCityInput = {
 
 export type VetClinicUncheckedCreateWithoutCityInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   countryId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -676,9 +730,11 @@ export type VetClinicUpdateManyWithWhereWithoutCityInput = {
 
 export type VetClinicCreateManyCountryInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   cityId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -686,8 +742,10 @@ export type VetClinicCreateManyCountryInput = {
 }
 
 export type VetClinicUpdateWithoutCountryInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -697,9 +755,11 @@ export type VetClinicUpdateWithoutCountryInput = {
 
 export type VetClinicUncheckedUpdateWithoutCountryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   cityId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -708,9 +768,11 @@ export type VetClinicUncheckedUpdateWithoutCountryInput = {
 
 export type VetClinicUncheckedUpdateManyWithoutCountryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   cityId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -719,9 +781,11 @@ export type VetClinicUncheckedUpdateManyWithoutCountryInput = {
 
 export type VetClinicCreateManyCityInput = {
   id?: number
-  name: string
+  nameEn: string
+  nameRu: string
   countryId: number
-  address: string
+  addressEn: string
+  addressRu: string
   latitude: number
   longitude: number
   contacts: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -729,8 +793,10 @@ export type VetClinicCreateManyCityInput = {
 }
 
 export type VetClinicUpdateWithoutCityInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -740,9 +806,11 @@ export type VetClinicUpdateWithoutCityInput = {
 
 export type VetClinicUncheckedUpdateWithoutCityInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -751,9 +819,11 @@ export type VetClinicUncheckedUpdateWithoutCityInput = {
 
 export type VetClinicUncheckedUpdateManyWithoutCityInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameRu?: Prisma.StringFieldUpdateOperationsInput | string
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
-  address?: Prisma.StringFieldUpdateOperationsInput | string
+  addressEn?: Prisma.StringFieldUpdateOperationsInput | string
+  addressRu?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   contacts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -764,10 +834,12 @@ export type VetClinicUncheckedUpdateManyWithoutCityInput = {
 
 export type VetClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
+  nameEn?: boolean
+  nameRu?: boolean
   countryId?: boolean
   cityId?: boolean
-  address?: boolean
+  addressEn?: boolean
+  addressRu?: boolean
   latitude?: boolean
   longitude?: boolean
   contacts?: boolean
@@ -780,17 +852,19 @@ export type VetClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type VetClinicSelectScalar = {
   id?: boolean
-  name?: boolean
+  nameEn?: boolean
+  nameRu?: boolean
   countryId?: boolean
   cityId?: boolean
-  address?: boolean
+  addressEn?: boolean
+  addressRu?: boolean
   latitude?: boolean
   longitude?: boolean
   contacts?: boolean
   about?: boolean
 }
 
-export type VetClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "countryId" | "cityId" | "address" | "latitude" | "longitude" | "contacts" | "about", ExtArgs["result"]["vetClinic"]>
+export type VetClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nameEn" | "nameRu" | "countryId" | "cityId" | "addressEn" | "addressRu" | "latitude" | "longitude" | "contacts" | "about", ExtArgs["result"]["vetClinic"]>
 export type VetClinicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
@@ -804,10 +878,12 @@ export type $VetClinicPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    name: string
+    nameEn: string
+    nameRu: string
     countryId: number
     cityId: number
-    address: string
+    addressEn: string
+    addressRu: string
     latitude: number
     longitude: number
     contacts: runtime.JsonValue
@@ -1184,10 +1260,12 @@ export interface Prisma__VetClinicClient<T, Null = never, ExtArgs extends runtim
  */
 export interface VetClinicFieldRefs {
   readonly id: Prisma.FieldRef<"VetClinic", 'Int'>
-  readonly name: Prisma.FieldRef<"VetClinic", 'String'>
+  readonly nameEn: Prisma.FieldRef<"VetClinic", 'String'>
+  readonly nameRu: Prisma.FieldRef<"VetClinic", 'String'>
   readonly countryId: Prisma.FieldRef<"VetClinic", 'Int'>
   readonly cityId: Prisma.FieldRef<"VetClinic", 'Int'>
-  readonly address: Prisma.FieldRef<"VetClinic", 'String'>
+  readonly addressEn: Prisma.FieldRef<"VetClinic", 'String'>
+  readonly addressRu: Prisma.FieldRef<"VetClinic", 'String'>
   readonly latitude: Prisma.FieldRef<"VetClinic", 'Float'>
   readonly longitude: Prisma.FieldRef<"VetClinic", 'Float'>
   readonly contacts: Prisma.FieldRef<"VetClinic", 'Json'>

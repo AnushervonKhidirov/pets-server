@@ -168,10 +168,12 @@ export type BreedScalarFieldEnum = (typeof BreedScalarFieldEnum)[keyof typeof Br
 
 export const VetClinicScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  nameEn: 'nameEn',
+  nameRu: 'nameRu',
   countryId: 'countryId',
   cityId: 'cityId',
-  address: 'address',
+  addressEn: 'addressEn',
+  addressRu: 'addressRu',
   latitude: 'latitude',
   longitude: 'longitude',
   contacts: 'contacts',
@@ -338,8 +340,10 @@ export type BreedOrderByRelevanceFieldEnum = (typeof BreedOrderByRelevanceFieldE
 
 
 export const VetClinicOrderByRelevanceFieldEnum = {
-  name: 'name',
-  address: 'address',
+  nameEn: 'nameEn',
+  nameRu: 'nameRu',
+  addressEn: 'addressEn',
+  addressRu: 'addressRu',
   about: 'about'
 } as const
 

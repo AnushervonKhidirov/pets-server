@@ -230,16 +230,16 @@ export type CityOrderByWithRelationInput = {
 
 export type CityWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  en?: string
-  ru?: string
   AND?: Prisma.CityWhereInput | Prisma.CityWhereInput[]
   OR?: Prisma.CityWhereInput[]
   NOT?: Prisma.CityWhereInput | Prisma.CityWhereInput[]
+  en?: Prisma.StringFilter<"City"> | string
+  ru?: Prisma.StringFilter<"City"> | string
   countryId?: Prisma.IntFilter<"City"> | number
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   addresses?: Prisma.AddressListRelationFilter
   vetClinics?: Prisma.VetClinicListRelationFilter
-}, "id" | "en" | "ru">
+}, "id">
 
 export type CityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

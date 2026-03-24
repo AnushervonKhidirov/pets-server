@@ -16,7 +16,11 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 export class CreateVetClinicDto {
   @IsString()
   @ApiProperty({ example: 'vet clinic name' })
-  name: string;
+  nameEn: string;
+
+  @IsString()
+  @ApiProperty({ example: 'vet clinic name' })
+  nameRu: string;
 
   @ApiProperty({ example: 1 })
   @IsInt()
@@ -28,7 +32,11 @@ export class CreateVetClinicDto {
 
   @IsString()
   @ApiProperty({ example: 'vet clinic address' })
-  address: string;
+  addressEn: string;
+
+  @IsString()
+  @ApiProperty({ example: 'vet clinic address' })
+  addressRu: string;
 
   @IsNumber()
   @ApiProperty({ example: 40.4123124123 })

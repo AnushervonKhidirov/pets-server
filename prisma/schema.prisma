@@ -31,7 +31,7 @@ model User {
 model Address {
   userId    Int     @unique @map("user_id")
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  address   String
+  address   String  @db.VarChar(255)
   latitude  Float?
   longitude Float?
   country   Country @relation(fields: [countryId], references: [id])
@@ -103,12 +103,14 @@ model Breed {
 
 model VetClinic {
   id        Int     @id @default(autoincrement())
-  name      String  @db.VarChar(50)
+  nameEn    String  @map("name_en") @db.VarChar(50)
+  nameRu    String  @map("name_ru") @db.VarChar(50)
   country   Country @relation(fields: [countryId], references: [id])
   city      City    @relation(fields: [cityId], references: [id])
   countryId Int     @map("country_id")
   cityId    Int     @map("city_id")
-  address   String
+  addressEn String  @map("address_en") @db.VarChar(255)
+  addressRu String  @map("address_ru") @db.VarChar(255)
   latitude  Float
   longitude Float
   contacts  Json
@@ -156,8 +158,8 @@ model Country {
 
 model City {
   id         Int         @unique @default(autoincrement())
-  en         String      @unique
-  ru         String      @unique
+  en         String
+  ru         String
   country    Country     @relation(fields: [countryId], references: [id])
   countryId  Int         @map("country_id")
   addresses  Address[]
