@@ -199,7 +199,11 @@ export class PetController {
     return pets;
   }
 
-  @ApiResponse({ example: { ...petExample, user: userExample } })
+  @ApiResponse({
+    example: { ...petExample, user: userExample },
+    description:
+      'Sensitive user info (filed: phone, email, contacts, address) will show only when pet is lost',
+  })
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const [pet, err] = await this.petService.findOne({
@@ -211,7 +215,11 @@ export class PetController {
     return removeSensitiveInfo(pet);
   }
 
-  @ApiResponse({ example: [petExample] })
+  @ApiResponse({
+    example: [{ ...petExample, user: userExample }],
+    description:
+      'Sensitive user info (filed: phone, email, contacts, address) will show only when pet is lost',
+  })
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
