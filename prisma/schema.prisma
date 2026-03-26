@@ -65,6 +65,8 @@ model Pet {
   user        User      @relation(fields: [userId], references: [id])
   userId      Int
   image       String?
+  hadLost     Boolean   @default(false)
+  hadFound    Boolean   @default(false)
   lostInfo    LostInfo?
 
   @@map("pets")

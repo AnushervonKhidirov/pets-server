@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `pets` ADD COLUMN `hadFound` BOOLEAN NOT NULL DEFAULT false,
+    ADD COLUMN `hadLost` BOOLEAN NOT NULL DEFAULT false;
