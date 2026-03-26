@@ -16,6 +16,7 @@ import { VetClinicModule } from './vet-clinic/vet-clinic.module';
 import { MessageModule } from './message/message.module';
 import { CountryModule } from './country/country.module';
 import { CityModule } from './city/city.module';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CityModule } from './city/city.module';
     MessageModule,
     CountryModule,
     CityModule,
+    StatisticModule,
   ],
   controllers: [],
   providers: [],
