@@ -18,6 +18,8 @@ x-server-common: &server-common
 services:
   mysql:
     image: mariadb:11
+    ports:
+      - ${DB_PORT}:${DB_PORT}
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
