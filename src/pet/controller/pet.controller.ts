@@ -1,5 +1,11 @@
 import type { Request } from 'express';
-import type { Pet, Prisma, User } from 'prisma/generated/prisma/client';
+import type {
+  Pet,
+  Breed,
+  PetType,
+  Prisma,
+  User,
+} from 'prisma/generated/prisma/client';
 
 import {
   Controller,
@@ -36,17 +42,19 @@ import { TokenDecoded } from 'src/token/token.type';
 
 import { extension } from 'mime-types';
 
-const petExample = {
+const petExample: Pet & { breed: Breed; petType: PetType } = {
   id: 1,
   name: 'Фобос',
   about: 'Хитрожопая скотина',
   sex: 'Male',
-  birthday: '2021-07-01T19:00:00.000Z',
+  birthday: new Date('2021-07-01T19:00:00.000Z'),
   microchipId: '00433555635422',
   petTypeId: 1,
   breedId: 147,
   image: 'pet-1',
   lost: false,
+  hadFound: false,
+  hadLost: false,
   breed: {
     id: 147,
     en: 'European Shorthair',
@@ -116,8 +124,8 @@ const petUserInclude: Prisma.PetInclude = {
 };
 
 function removeSensitiveInfo(pet: Pet) {
+  if (pet.lost) return pet;
   if (!('user' in pet)) return pet;
-  if ('lostInfo' in pet && pet.lostInfo) return pet;
 
   const user = pet.user as User;
 
@@ -147,11 +155,12 @@ export class PetController {
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryPetDto,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { skip, take, lost, ...where } = query;
+    const { skip, take, ...where } = query;
 
     const [pets, err] = await this.petService.count({
-      where: { ...where, lostInfo: lost ? { isNot: null } : undefined },
+      where,
+      skip,
+      take,
     });
     if (err) throw err;
     return pets;
@@ -183,13 +192,12 @@ export class PetController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    const { skip, take, lost, ...where } = query;
+    const { skip, take, ...where } = query;
 
     const [pets, err] = await this.petService.findMany({
       where: {
         ...where,
         userId: tokenDecoded.sub,
-        lostInfo: lost ? { isNot: null } : undefined,
       },
       include: petInclude,
       skip,
@@ -225,7 +233,7 @@ export class PetController {
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryPetDto,
   ) {
-    const { skip, take, lost, name, microchipId, ...where } = query;
+    const { skip, take, name, microchipId, ...where } = query;
 
     const [pets, err] = await this.petService.findMany({
       where: {
@@ -237,7 +245,6 @@ export class PetController {
                 { microchipId: { contains: microchipId } },
               ]
             : undefined,
-        lostInfo: lost ? { isNot: null } : undefined,
       },
       include: { ...petInclude, ...petUserInclude },
       skip,

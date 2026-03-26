@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `pets` ADD COLUMN `lost` BOOLEAN NOT NULL DEFAULT false;

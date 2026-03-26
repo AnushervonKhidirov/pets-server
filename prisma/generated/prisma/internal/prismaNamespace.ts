@@ -1363,6 +1363,7 @@ export const PetScalarFieldEnum = {
   breedId: 'breedId',
   userId: 'userId',
   image: 'image',
+  lost: 'lost',
   hadLost: 'hadLost',
   hadFound: 'hadFound'
 } as const

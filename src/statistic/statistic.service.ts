@@ -9,7 +9,8 @@ type Statistic = {
   totalUser: number;
   totalPets: number;
   lostPets: number;
-  foundPets: number;
+  hadLostPets: number;
+  hadFoundPets: number;
 };
 
 @Injectable()
@@ -22,10 +23,14 @@ export class StatisticService {
       const totalPets = await this.prisma.pet.count();
 
       const lostPets = await this.prisma.pet.count({
+        where: { lost: true },
+      });
+
+      const hadLostPets = await this.prisma.pet.count({
         where: { hadLost: true },
       });
 
-      const foundPets = await this.prisma.pet.count({
+      const hadFoundPets = await this.prisma.pet.count({
         where: { hadFound: true },
       });
 
@@ -33,7 +38,8 @@ export class StatisticService {
         totalUser,
         totalPets,
         lostPets,
-        foundPets,
+        hadLostPets,
+        hadFoundPets,
       };
 
       return [statistic, null];

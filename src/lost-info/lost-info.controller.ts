@@ -42,14 +42,14 @@ export class LostInfoController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    if (query.addToStatistic) {
-      const [, err] = await this.petService.update({
-        where: { id: petId },
-        data: { hadLost: true },
-      });
+    const hadLost = query.addToStatistic ? true : undefined;
 
-      if (err) throw err;
-    }
+    const [, lostPetErr] = await this.petService.update({
+      where: { id: petId },
+      data: { hadLost, lost: true },
+    });
+
+    if (lostPetErr) throw lostPetErr;
 
     const [lostInfo, err] = await this.lostInfoService.upsert({
       where: { petId, pet: { userId: tokenDecoded.sub } },
@@ -71,14 +71,14 @@ export class LostInfoController {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
 
-    if (query.addToStatistic) {
-      const [, err] = await this.petService.update({
-        where: { id: petId },
-        data: { hadFound: true, hadLost: true },
-      });
+    const hadFound = query.addToStatistic ? true : undefined;
 
-      if (err) throw err;
-    }
+    const [, lostPetErr] = await this.petService.update({
+      where: { id: petId },
+      data: { hadFound, hadLost: hadFound, lost: false },
+    });
+
+    if (lostPetErr) throw lostPetErr;
 
     const [, err] = await this.lostInfoService.delete({
       where: { petId, pet: { userId: tokenDecoded.sub } },
