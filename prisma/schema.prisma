@@ -103,19 +103,16 @@ model Breed {
 
 model VetClinic {
   id        Int     @id @default(autoincrement())
-  nameEn    String  @map("name_en") @db.VarChar(50)
-  nameRu    String  @map("name_ru") @db.VarChar(50)
+  name      Json
   country   Country @relation(fields: [countryId], references: [id])
   city      City    @relation(fields: [cityId], references: [id])
   countryId Int     @map("country_id")
   cityId    Int     @map("city_id")
-  addressEn String  @map("address_en") @db.VarChar(255)
-  addressRu String  @map("address_ru") @db.VarChar(255)
+  address   Json
   latitude  Float
   longitude Float
   contacts  Json
-  aboutEn   String? @map("about_en") @db.Text
-  aboutRu   String? @map("about_ru") @db.Text
+  about     Json?
 
   @@map("vet_clinic")
 }

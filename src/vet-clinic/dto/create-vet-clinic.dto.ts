@@ -1,3 +1,5 @@
+import { NullableJsonNullValueInput } from 'prisma/generated/prisma/internal/prismaNamespace';
+
 import {
   IsString,
   IsInt,
@@ -6,21 +8,31 @@ import {
   IsArray,
   ArrayNotEmpty,
   IsOptional,
+  IsNotEmpty,
+  ValidateNested,
 } from 'class-validator';
 
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import parsePhoneNumberFromString from 'libphonenumber-js';
+import { InputJsonValue, JsonNullClass } from '@prisma/client/runtime/client';
+
+class FieldWithLang {
+  @IsString()
+  @IsNotEmpty()
+  en: string;
+
+  @IsString()
+  @IsNotEmpty()
+  ru: string;
+}
 
 @ApiSchema({ name: 'Create Vet Clinic Dto' })
 export class CreateVetClinicDto {
-  @IsString()
-  @ApiProperty({ example: 'vet clinic name' })
-  nameEn: string;
-
-  @IsString()
-  @ApiProperty({ example: 'vet clinic name' })
-  nameRu: string;
+  @ApiProperty({ example: { en: 'vet clinic name', ru: 'vet clinic name' } })
+  @ValidateNested()
+  @Type(() => FieldWithLang)
+  name: JsonNullClass | InputJsonValue;
 
   @ApiProperty({ example: 1 })
   @IsInt()
@@ -30,13 +42,12 @@ export class CreateVetClinicDto {
   @IsInt()
   cityId: number;
 
-  @IsString()
-  @ApiProperty({ example: 'vet clinic address' })
-  addressEn: string;
-
-  @IsString()
-  @ApiProperty({ example: 'vet clinic address' })
-  addressRu: string;
+  @ApiProperty({
+    example: { en: 'vet clinic address', ru: 'vet clinic address' },
+  })
+  @ValidateNested()
+  @Type(() => FieldWithLang)
+  address: JsonNullClass | InputJsonValue;
 
   @IsNumber()
   @ApiProperty({ example: 40.4123124123 })
@@ -62,13 +73,12 @@ export class CreateVetClinicDto {
   })
   contacts: string[];
 
-  @IsString()
+  @ApiProperty({
+    example: { en: 'about vet clinic', ru: 'about vet clinic' },
+    required: false,
+  })
+  @ValidateNested()
+  @Type(() => FieldWithLang)
   @IsOptional()
-  @ApiProperty({ example: 'about vet clinic', required: false })
-  aboutEn?: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ example: 'about vet clinic', required: false })
-  aboutRu?: string;
+  about?: NullableJsonNullValueInput;
 }
