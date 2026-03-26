@@ -42,6 +42,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - .:/server
+      - ../backups:/server/backups
       - /server/node_modules
 
   server-prod:
@@ -50,6 +51,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - ../backups:/server/backups
 
 volumes:
   mysql_data:
