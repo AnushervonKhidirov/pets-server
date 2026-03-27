@@ -41,6 +41,7 @@ CREATE TABLE `token` (
 -- CreateTable
 CREATE TABLE `pets` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(30) NOT NULL,
     `about` TEXT NULL,
     `sex` ENUM('Male', 'Female') NULL,
@@ -50,7 +51,11 @@ CREATE TABLE `pets` (
     `breedId` INTEGER NULL,
     `userId` INTEGER NOT NULL,
     `image` VARCHAR(191) NULL,
+    `lost` BOOLEAN NOT NULL DEFAULT false,
+    `hadLost` BOOLEAN NOT NULL DEFAULT false,
+    `hadFound` BOOLEAN NOT NULL DEFAULT false,
 
+    UNIQUE INDEX `pets_uuid_key`(`uuid`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -59,7 +64,7 @@ CREATE TABLE `lost_info` (
     `lostAt` DATETIME(3) NOT NULL,
     `details` VARCHAR(255) NULL,
     `address` VARCHAR(255) NULL,
-    `petId` INTEGER NOT NULL,
+    `petId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `lost_info_petId_key`(`petId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -90,17 +95,14 @@ CREATE TABLE `breed` (
 -- CreateTable
 CREATE TABLE `vet_clinic` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name_en` VARCHAR(50) NOT NULL,
-    `name_ru` VARCHAR(50) NOT NULL,
+    `name` JSON NOT NULL,
     `country_id` INTEGER NOT NULL,
     `city_id` INTEGER NOT NULL,
-    `address_en` VARCHAR(255) NOT NULL,
-    `address_ru` VARCHAR(255) NOT NULL,
+    `address` JSON NOT NULL,
     `latitude` DOUBLE NOT NULL,
     `longitude` DOUBLE NOT NULL,
     `contacts` JSON NOT NULL,
-    `about_en` TEXT NULL,
-    `about_ru` TEXT NULL,
+    `about` JSON NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -178,7 +180,7 @@ ALTER TABLE `pets` ADD CONSTRAINT `pets_breedId_fkey` FOREIGN KEY (`breedId`) RE
 ALTER TABLE `pets` ADD CONSTRAINT `pets_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `lost_info` ADD CONSTRAINT `lost_info_petId_fkey` FOREIGN KEY (`petId`) REFERENCES `pets`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `lost_info` ADD CONSTRAINT `lost_info_petId_fkey` FOREIGN KEY (`petId`) REFERENCES `pets`(`uuid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `breed` ADD CONSTRAINT `breed_pet_type_id_fkey` FOREIGN KEY (`pet_type_id`) REFERENCES `pet_type`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -190,4 +192,4 @@ ALTER TABLE `vet_clinic` ADD CONSTRAINT `vet_clinic_country_id_fkey` FOREIGN KEY
 ALTER TABLE `vet_clinic` ADD CONSTRAINT `vet_clinic_city_id_fkey` FOREIGN KEY (`city_id`) REFERENCES `city`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `city` ADD CONSTRAINT `city_country_id_fkey` FOREIGN KEY (`country_id`) REFERENCES `country`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `city` ADD CONSTRAINT `city_country_id_fkey` FOREIGN KEY (`country_id`) REFERENCES `country`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

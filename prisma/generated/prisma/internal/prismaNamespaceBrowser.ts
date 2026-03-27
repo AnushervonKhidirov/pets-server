@@ -123,6 +123,7 @@ export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof To
 
 export const PetScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   name: 'name',
   about: 'about',
   sex: 'sex',
@@ -307,6 +308,7 @@ export type TokenOrderByRelevanceFieldEnum = (typeof TokenOrderByRelevanceFieldE
 
 
 export const PetOrderByRelevanceFieldEnum = {
+  uuid: 'uuid',
   name: 'name',
   about: 'about',
   microchipId: 'microchipId',
@@ -318,7 +320,8 @@ export type PetOrderByRelevanceFieldEnum = (typeof PetOrderByRelevanceFieldEnum)
 
 export const LostInfoOrderByRelevanceFieldEnum = {
   details: 'details',
-  address: 'address'
+  address: 'address',
+  petId: 'petId'
 } as const
 
 export type LostInfoOrderByRelevanceFieldEnum = (typeof LostInfoOrderByRelevanceFieldEnum)[keyof typeof LostInfoOrderByRelevanceFieldEnum]

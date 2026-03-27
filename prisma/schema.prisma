@@ -53,6 +53,7 @@ model Token {
 
 model Pet {
   id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(uuid())
   name        String    @db.VarChar(30)
   about       String?   @db.Text
   sex         Sex?
@@ -77,8 +78,8 @@ model LostInfo {
   lostAt  DateTime
   details String?  @db.VarChar(255)
   address String?  @db.VarChar(255)
-  petId   Int      @unique
-  pet     Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId   String   @unique
+  pet     Pet      @relation(fields: [petId], references: [uuid], onDelete: Cascade)
 
   @@map("lost_info")
 }
@@ -161,7 +162,7 @@ model City {
   id         Int         @unique @default(autoincrement())
   en         String
   ru         String
-  country    Country     @relation(fields: [countryId], references: [id])
+  country    Country     @relation(fields: [countryId], references: [id], onDelete: Cascade)
   countryId  Int         @map("country_id")
   addresses  Address[]
   vetClinics VetClinic[]

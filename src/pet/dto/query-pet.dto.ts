@@ -3,6 +3,7 @@ import { Sex } from 'prisma/generated/prisma/enums';
 import {
   IsEnum,
   IsString,
+  IsUUID,
   IsDate,
   IsInt,
   IsOptional,
@@ -17,6 +18,14 @@ export class QueryPetDto {
   @Type(() => Number)
   @IsOptional()
   userId?: number;
+
+  @ApiProperty({
+    example: '2de16ba8-5730-4899-88fa-832422600dc6',
+    required: false,
+  })
+  @IsUUID('4')
+  @IsOptional()
+  uuid?: string;
 
   @ApiProperty({ example: 'Phobos', required: false })
   @IsString()

@@ -44,6 +44,7 @@ import { extension } from 'mime-types';
 
 const petExample: Pet & { breed: Breed; petType: PetType } = {
   id: 1,
+  uuid: '2de16ba8-5730-4899-88fa-832422600dc6',
   name: 'Фобос',
   about: 'Хитрожопая скотина',
   sex: 'Male',

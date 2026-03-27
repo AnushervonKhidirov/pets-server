@@ -8,7 +8,6 @@ import {
   Param,
   Body,
   Req,
-  ParseIntPipe,
   ValidationPipe,
   UseGuards,
   UnauthorizedException,
@@ -30,10 +29,10 @@ export class LostInfoController {
   ) {}
 
   @UseGuards(AuthGuard)
-  @Post(':petId')
+  @Post(':petUUID')
   async set(
     @Req() req: Request,
-    @Param('petId', ParseIntPipe) petId: number,
+    @Param('petUUID') petUUID: string,
     @Body(new ValidationPipe({ transform: true, whitelist: true }))
     data: CreateLostInfoDto,
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
@@ -45,15 +44,15 @@ export class LostInfoController {
     const hadLost = query.addToStatistic ? true : undefined;
 
     const [, lostPetErr] = await this.petService.update({
-      where: { id: petId },
+      where: { uuid: petUUID },
       data: { hadLost, lost: true },
     });
 
     if (lostPetErr) throw lostPetErr;
 
     const [lostInfo, err] = await this.lostInfoService.upsert({
-      where: { petId, pet: { userId: tokenDecoded.sub } },
-      data: { ...data, pet: { connect: { id: petId } } },
+      where: { petId: petUUID, pet: { userId: tokenDecoded.sub } },
+      data: { ...data, pet: { connect: { uuid: petUUID } } },
     });
 
     if (err) throw err;
@@ -61,10 +60,10 @@ export class LostInfoController {
   }
 
   @UseGuards(AuthGuard)
-  @Delete(':petId')
+  @Delete(':petUUID')
   async delete(
     @Req() req: Request,
-    @Param('petId', ParseIntPipe) petId: number,
+    @Param('petUUID') petUUID: string,
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryLostInfoDto,
   ) {
@@ -74,14 +73,14 @@ export class LostInfoController {
     const hadFound = query.addToStatistic ? true : undefined;
 
     const [, lostPetErr] = await this.petService.update({
-      where: { id: petId },
+      where: { uuid: petUUID },
       data: { hadFound, hadLost: hadFound, lost: false },
     });
 
     if (lostPetErr) throw lostPetErr;
 
     const [, err] = await this.lostInfoService.delete({
-      where: { petId, pet: { userId: tokenDecoded.sub } },
+      where: { petId: petUUID, pet: { userId: tokenDecoded.sub } },
     });
     if (err) throw err;
   }
