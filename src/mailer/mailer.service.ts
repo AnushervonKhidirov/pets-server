@@ -5,6 +5,7 @@ import type { Duration } from 'dayjs/plugin/duration';
 
 import { Injectable } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
+import dayjs from 'dayjs';
 
 import { exceptionHandler } from '@helper/exception.helper';
 
@@ -14,8 +15,6 @@ export class MailerService {
 
   private readonly transporter = createTransport({
     host: 'smtp.gmail.com',
-    // port: 587,
-    // secure: false,
     port: 465,
     secure: true,
     auth: {
@@ -80,9 +79,34 @@ export class MailerService {
 
       const [mailInfo, err] = await this.send({
         to,
-        subject: `Восстановление пароля`,
+        subject: 'Восстановление пароля',
         text: `Приветствуем! Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}. Ссылка действителен в течение ${expInMin} минут. ${url.href}`,
         html: `<h2>Приветствуем!</h2><p>Перейдите по ссылке ниже для восстановления пароля на сайте ${this.websiteName}.</p><p>Ссылка действителен в течение ${expInMin} минут.</p> <a href=${url.href} target="_blank">${url.href}</a>`,
+      });
+
+      if (err) throw err;
+
+      return [mailInfo, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
+  async sendScanAction({
+    to,
+    petName,
+  }: {
+    to: string;
+    petName: string;
+  }): ReturnWithErrPromise<SentMessageInfo> {
+    try {
+      const scanAt = dayjs().format('DD.MM.YYYY hh:mm');
+
+      const [mailInfo, err] = await this.send({
+        to,
+        subject: `Скан QR-код питомца ${petName}`,
+        text: `Приветствуем! QR-код вашего питомца по кличке ${petName} отсканирован. Дата и время сканирования ${scanAt}`,
+        html: `<h2>Приветствуем!</h2><p>QR-код вашего питомца по кличке ${petName} отсканирован.</p><p>Дата и время сканирования <b>${scanAt}</b></p>`,
       });
 
       if (err) throw err;

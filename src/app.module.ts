@@ -18,6 +18,7 @@ import { CountryModule } from './country/country.module';
 import { CityModule } from './city/city.module';
 import { StatisticModule } from './statistic/statistic.module';
 import { DatabaseModule } from './database/database.module';
+import { ScanModule } from './scan/scan.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { DatabaseModule } from './database/database.module';
     CityModule,
     StatisticModule,
     DatabaseModule,
+    ScanModule,
   ],
   controllers: [],
   providers: [],
