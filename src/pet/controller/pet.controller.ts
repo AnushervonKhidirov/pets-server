@@ -331,7 +331,7 @@ export class PetController {
 
     if (err) throw err;
 
-    const filename = `pet-${pet.id}.${extension(file.mimetype)}`;
+    const filename = `${pet.uuid}.${extension(file.mimetype)}`;
 
     await this.s3Storage.upload(file, this.storageFolder, filename);
 
