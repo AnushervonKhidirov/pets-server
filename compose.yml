@@ -11,6 +11,8 @@ x-server-common: &server-common
     DB_HOST: mysql
     DB_PORT: ${DB_PORT:-3306}
   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
     - /server/node_modules
   networks:
     - app-network
