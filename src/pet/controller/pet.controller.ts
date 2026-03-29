@@ -204,22 +204,6 @@ export class PetController {
   }
 
   @ApiResponse({
-    example: { ...petExample, user: userExample },
-    description:
-      'Sensitive user info (filed: phone, email, contacts, address) will show only when pet is lost',
-  })
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const [pet, err] = await this.petService.findOne({
-      where: { id },
-      include: { ...petInclude, ...petUserInclude },
-    });
-
-    if (err) throw err;
-    return removeSensitiveInfo(pet);
-  }
-
-  @ApiResponse({
     example: {
       data: [removeSensitiveInfo({ ...petExample, user: userExample as any })],
       total: 1,
@@ -261,6 +245,22 @@ export class PetController {
       data: data.map((pet) => removeSensitiveInfo(pet)),
       total,
     };
+  }
+
+  @ApiResponse({
+    example: { ...petExample, user: userExample },
+    description:
+      'Sensitive user info (filed: phone, email, contacts, address) will show only when pet is lost',
+  })
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const [pet, err] = await this.petService.findOne({
+      where: { id },
+      include: { ...petInclude, ...petUserInclude },
+    });
+
+    if (err) throw err;
+    return removeSensitiveInfo(pet);
   }
 
   @ApiResponse({
