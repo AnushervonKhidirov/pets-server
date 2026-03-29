@@ -31,6 +31,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { Roles } from 'src/auth/decorator/role.decorator';
 
 import { PetService } from '../service/pet.service';
 import { S3Storage } from 'src/storage/storage.service';
@@ -124,7 +126,7 @@ const petUserInclude: Prisma.PetInclude = {
   },
 };
 
-function removeSensitiveInfo(pet: Pet) {
+function removeSensitiveInfo(pet: Pet & { user?: User }) {
   if (pet.lost) return pet;
   if (!('user' in pet)) return pet;
 
@@ -156,13 +158,10 @@ export class PetController {
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryPetDto,
   ) {
-    const { skip, take, ...where } = query;
-
     const [pets, err] = await this.petService.count({
-      where,
-      skip,
-      take,
+      where: query,
     });
+
     if (err) throw err;
     return pets;
   }
@@ -225,34 +224,80 @@ export class PetController {
   }
 
   @ApiResponse({
-    example: [{ ...petExample, user: userExample }],
+    example: {
+      data: [removeSensitiveInfo({ ...petExample, user: userExample as any })],
+      total: 1,
+    },
     description:
       'Sensitive user info (filed: phone, email, contacts, address) will show only when pet is lost',
   })
+  @Get('search')
+  async findManyWithSearch(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    query: QueryPetDto,
+  ) {
+    const { skip, take, name, microchipId, ...whereQuery } = query;
+
+    const where = {
+      ...whereQuery,
+      OR:
+        name || microchipId
+          ? [
+              { name: { contains: name } },
+              { microchipId: { contains: microchipId } },
+            ]
+          : undefined,
+    };
+
+    const [data, err] = await this.petService.findMany({
+      where,
+      include: { ...petInclude, ...petUserInclude },
+      skip,
+      take,
+    });
+
+    if (err) throw err;
+
+    const [total, countErr] = await this.petService.count({ where });
+    if (countErr) throw countErr;
+
+    return {
+      data: data.map((pet) => removeSensitiveInfo(pet)),
+      total,
+    };
+  }
+
+  @ApiResponse({
+    example: {
+      data: [{ ...petExample, user: userExample as any }],
+      total: 1,
+    },
+  })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(['Admin'])
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     query: QueryPetDto,
   ) {
-    const { skip, take, name, microchipId, ...where } = query;
+    const { skip, take, ...where } = query;
 
-    const [pets, err] = await this.petService.findMany({
-      where: {
-        ...where,
-        OR:
-          name || microchipId
-            ? [
-                { name: { contains: name } },
-                { microchipId: { contains: microchipId } },
-              ]
-            : undefined,
-      },
+    const [data, err] = await this.petService.findMany({
+      where,
       include: { ...petInclude, ...petUserInclude },
       skip,
       take,
     });
+
     if (err) throw err;
-    return pets.map((pet) => removeSensitiveInfo(pet));
+
+    const [total, countErr] = await this.petService.count({ where });
+    if (countErr) throw countErr;
+
+    return {
+      data: data.map((pet) => removeSensitiveInfo(pet)),
+      total,
+    };
   }
 
   @ApiResponse({ example: petExample })

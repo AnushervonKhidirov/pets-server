@@ -21,6 +21,21 @@ export class UserService {
     private readonly passwordService: PasswordService,
   ) {}
 
+  async count({
+    where,
+  }: {
+    where?: Prisma.UserWhereInput;
+  } = {}): ReturnWithErrPromise<number> {
+    try {
+      const total = await this.prisma.user.count({
+        where,
+      });
+      return [total, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async findOne({
     where,
     include,
@@ -48,13 +63,23 @@ export class UserService {
     where,
     include,
     omit,
+    skip,
+    take,
   }: {
     where?: Prisma.UserWhereInput;
     include?: Prisma.UserInclude;
     omit?: Prisma.UserOmit;
+    skip?: number;
+    take?: number;
   } = {}): ReturnWithErrPromise<User[]> {
     try {
-      const users = await this.prisma.user.findMany({ where, include, omit });
+      const users = await this.prisma.user.findMany({
+        where,
+        include,
+        omit,
+        skip,
+        take,
+      });
       return [users, null];
     } catch (err) {
       return exceptionHandler(err);

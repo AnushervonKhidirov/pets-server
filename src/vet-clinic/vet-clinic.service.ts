@@ -10,6 +10,19 @@ import { exceptionHandler } from '@helper/exception.helper';
 export class VetClinicService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async count({
+    where,
+  }: {
+    where?: Prisma.VetClinicWhereInput;
+  } = {}): ReturnWithErrPromise<number> {
+    try {
+      const total = await this.prisma.vetClinic.count({ where });
+      return [total, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async findOne({
     where,
     include,

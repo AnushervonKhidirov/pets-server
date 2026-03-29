@@ -41,12 +41,18 @@ export class CountryController {
     return country;
   }
 
-  @ApiResponse({ example: countryExample })
+  @ApiResponse({
+    example: { data: countryExample, total: countryExample.length },
+  })
   @Get()
   async findMany() {
-    const [countries, err] = await this.countryService.findMany();
+    const [data, err] = await this.countryService.findMany();
     if (err) throw err;
-    return countries;
+
+    const [total, countErr] = await this.countryService.count();
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({ example: { count: countryExample.length } })

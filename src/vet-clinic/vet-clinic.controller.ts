@@ -69,14 +69,20 @@ export class VetClinicController {
     return vetClinic;
   }
 
-  @ApiResponse({ example: vetClinicsExample })
+  @ApiResponse({
+    example: { data: vetClinicsExample, total: vetClinicsExample.length },
+  })
   @Get()
   async findMany() {
-    const [vetClinic, err] = await this.vetClinicService.findMany({
+    const [data, err] = await this.vetClinicService.findMany({
       include: vetClinicInclude,
     });
     if (err) throw err;
-    return vetClinic;
+
+    const [total, countErr] = await this.vetClinicService.count();
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({ example: vetClinicsExample[0] })

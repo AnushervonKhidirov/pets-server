@@ -54,19 +54,21 @@ export class MessageController {
     return message;
   }
 
-  @ApiResponse({ example: messages })
+  @ApiResponse({ example: { data: messages, total: messages.length } })
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(['Admin'])
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryMessageDto,
+    where: QueryMessageDto,
   ) {
-    const [messages, err] = await this.messageService.findMany({
-      where: query,
-    });
+    const [data, err] = await this.messageService.findMany({ where });
     if (err) throw err;
-    return messages;
+
+    const [total, countErr] = await this.messageService.count({ where });
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @Post()

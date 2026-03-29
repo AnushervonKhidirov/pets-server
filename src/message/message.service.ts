@@ -10,6 +10,19 @@ import { exceptionHandler } from '@helper/exception.helper';
 export class MessageService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async count({
+    where,
+  }: {
+    where?: Prisma.MessageWhereInput;
+  } = {}): ReturnWithErrPromise<number> {
+    try {
+      const total = await this.prisma.message.count({ where });
+      return [total, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async findOne({
     where,
   }: {

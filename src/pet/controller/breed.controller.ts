@@ -44,15 +44,19 @@ export class BreedController {
     return breed;
   }
 
-  @ApiResponse({ example: breedExample })
+  @ApiResponse({ example: { data: breedExample, total: breedExample.length } })
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
     where: BreedQueryDto,
   ) {
-    const [breeds, err] = await this.breedService.findMany({ where });
+    const [data, err] = await this.breedService.findMany({ where });
     if (err) throw err;
-    return breeds;
+
+    const [total, countErr] = await this.breedService.count({ where });
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({ example: { count: breedExample.length } })

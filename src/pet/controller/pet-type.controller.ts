@@ -41,12 +41,18 @@ export class PetTypeController {
     return petType;
   }
 
-  @ApiResponse({ example: petTypeExample })
+  @ApiResponse({
+    example: { data: petTypeExample, total: petTypeExample.length },
+  })
   @Get()
   async findMany() {
-    const [petTypes, err] = await this.petTypeService.findMany();
+    const [data, err] = await this.petTypeService.findMany();
     if (err) throw err;
-    return petTypes;
+
+    const [total, countErr] = await this.petTypeService.count();
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({ example: { count: petTypeExample.length } })

@@ -10,6 +10,19 @@ import { exceptionHandler } from '@helper/exception.helper';
 export class CityService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async count({
+    where,
+  }: {
+    where?: Prisma.CityWhereInput;
+  } = {}): ReturnWithErrPromise<number> {
+    try {
+      const total = await this.prisma.city.count({ where });
+      return [total, null];
+    } catch (err) {
+      return exceptionHandler(err);
+    }
+  }
+
   async findOne({
     where,
     omit,

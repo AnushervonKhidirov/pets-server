@@ -19,16 +19,12 @@ export class PetService {
 
   async count({
     where,
-    skip,
-    take,
   }: {
     where?: Prisma.PetWhereInput;
-    skip?: number;
-    take?: number;
-  } = {}): ReturnWithErrPromise<{ total: number }> {
+  } = {}): ReturnWithErrPromise<number> {
     try {
-      const total = await this.prisma.pet.count({ where, skip, take });
-      return [{ total }, null];
+      const total = await this.prisma.pet.count({ where });
+      return [total, null];
     } catch (err) {
       return exceptionHandler(err);
     }

@@ -40,7 +40,7 @@ export class CityController {
     return city;
   }
 
-  @ApiResponse({ example: cityExample })
+  @ApiResponse({ example: { data: cityExample, total: cityExample.length } })
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
@@ -48,15 +48,18 @@ export class CityController {
   ) {
     const { skip, take, ...where } = query;
 
-    const [cities, err] = await this.cityService.findMany({
-      where: {
-        ...where,
-      },
+    const [data, err] = await this.cityService.findMany({
+      where,
       skip,
       take,
     });
+
     if (err) throw err;
-    return cities;
+
+    const [total, countErr] = await this.cityService.count({ where });
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({ example: { count: cityExample.length } })

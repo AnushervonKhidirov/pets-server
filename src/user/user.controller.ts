@@ -21,6 +21,7 @@ import {
   UnauthorizedException,
   ParseIntPipe,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
@@ -31,6 +32,7 @@ import { UserService } from './user.service';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { QueryUserDto } from './dto/query-user.dto';
 
 type UserExample = Omit<
   User,
@@ -152,17 +154,30 @@ export class UserController {
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(['Admin'])
   @ApiResponse({
-    example: [userExample1, userExample2],
+    example: { data: [userExample1, userExample2], total: 2 },
     status: 200,
   })
   @Get()
-  async findMany() {
-    const [users, err] = await this.userService.findMany({
+  async findMany(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    query: QueryUserDto,
+  ) {
+    const { skip, take, ...where } = query;
+
+    const [data, err] = await this.userService.findMany({
+      where,
       omit: userOmit,
       include: userInclude,
+      skip,
+      take,
     });
+
     if (err) throw err;
-    return users;
+
+    const [total, countErr] = await this.userService.count({ where });
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({
