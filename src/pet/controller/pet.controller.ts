@@ -152,20 +152,6 @@ export class PetController {
     private readonly s3Storage: S3Storage,
   ) {}
 
-  @ApiResponse({ example: 423 })
-  @Get('count')
-  async count(
-    @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryPetDto,
-  ) {
-    const [pets, err] = await this.petService.count({
-      where: query,
-    });
-
-    if (err) throw err;
-    return pets;
-  }
-
   @ApiResponse({ example: petExample })
   @UseGuards(AuthGuard)
   @Get('my/:id')
@@ -194,7 +180,7 @@ export class PetController {
 
     const { skip, take, ...where } = query;
 
-    const [pets, err] = await this.petService.findMany({
+    const [data, err] = await this.petService.findMany({
       where: {
         ...where,
         userId: tokenDecoded.sub,
@@ -204,7 +190,17 @@ export class PetController {
       take,
     });
     if (err) throw err;
-    return pets;
+
+    const [total, countErr] = await this.petService.count({
+      where: {
+        ...where,
+        userId: tokenDecoded.sub,
+      },
+    });
+
+    if (countErr) throw countErr;
+
+    return { data, total };
   }
 
   @ApiResponse({
