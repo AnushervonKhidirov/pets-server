@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   ValidationPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
@@ -23,6 +24,7 @@ import {
   CreateManyCountryDto,
 } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
+import { SearchQueryCountryDto } from './dto/query-country.dto';
 
 const countryExample = [
   { id: 1, en: 'Tajikistan', ru: 'Таджикистан' },
@@ -45,11 +47,25 @@ export class CountryController {
     example: { data: countryExample, total: countryExample.length },
   })
   @Get()
-  async findMany() {
-    const [data, err] = await this.countryService.findMany();
+  async findMany(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    query: SearchQueryCountryDto,
+  ) {
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      en: { contains: whereQuery.en },
+      ru: { contains: whereQuery.ru },
+    };
+
+    const [data, err] = await this.countryService.findMany({
+      where,
+      take,
+      skip,
+    });
     if (err) throw err;
 
-    const [total, countErr] = await this.countryService.count();
+    const [total, countErr] = await this.countryService.count({ where });
     if (countErr) throw countErr;
 
     return { data, total };

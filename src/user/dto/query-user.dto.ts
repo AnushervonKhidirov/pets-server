@@ -15,7 +15,7 @@ export class QueryUserDto {
   @IsEmail()
   @IsNotEmpty()
   @IsOptional()
-  email: string;
+  email?: string;
 
   @ApiProperty({ example: 'firstName', required: false })
   @IsString()
@@ -42,6 +42,32 @@ export class QueryUserDto {
     value = formattedNumber ?? value;
     return value;
   })
+  @IsOptional()
+  phone?: string;
+}
+
+export class SearchQueryUserDto {
+  @ApiProperty({ example: 'your_email@gmail.com' })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty({ example: 'firstName', required: false })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  firstName?: string;
+
+  @ApiProperty({ example: 'lastName', required: false })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  lastName?: string;
+
+  @ApiProperty({ example: '+992715303256', required: false })
+  @IsString()
+  @IsNotEmpty()
   @IsOptional()
   phone?: string;
 

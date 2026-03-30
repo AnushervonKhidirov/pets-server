@@ -52,16 +52,22 @@ export class BreedService {
     where,
     omit,
     include,
+    skip,
+    take,
   }: {
     where?: Prisma.BreedWhereInput;
     omit?: Prisma.BreedOmit;
     include?: Prisma.BreedInclude;
+    skip?: number;
+    take?: number;
   } = {}): ReturnWithErrPromise<Breed[]> {
     try {
       const breeds = await this.prisma.breed.findMany({
         where,
         omit,
         include,
+        skip,
+        take,
       });
 
       return [breeds, null];

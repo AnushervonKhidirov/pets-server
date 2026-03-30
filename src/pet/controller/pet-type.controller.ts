@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   ValidationPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
@@ -23,6 +24,7 @@ import {
   CreatePetTypeDto,
 } from '../dto/create-pet-type.dto';
 import { UpdatePetTypeDto } from '../dto/update-pet-type.dto';
+import { SearchQueryPetTypeDto } from '../dto/query-pet-type.dto';
 
 const petTypeExample = [
   { id: 1, en: 'Cat', ru: 'Кошка' },
@@ -45,11 +47,25 @@ export class PetTypeController {
     example: { data: petTypeExample, total: petTypeExample.length },
   })
   @Get()
-  async findMany() {
-    const [data, err] = await this.petTypeService.findMany();
+  async findMany(
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    query: SearchQueryPetTypeDto,
+  ) {
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      en: { contains: whereQuery.en },
+      ru: { contains: whereQuery.ru },
+    };
+
+    const [data, err] = await this.petTypeService.findMany({
+      where,
+      skip,
+      take,
+    });
     if (err) throw err;
 
-    const [total, countErr] = await this.petTypeService.count();
+    const [total, countErr] = await this.petTypeService.count({ where });
     if (countErr) throw countErr;
 
     return { data, total };

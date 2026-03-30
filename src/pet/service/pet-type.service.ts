@@ -51,16 +51,22 @@ export class PetTypeService {
     where,
     omit,
     include,
+    skip,
+    take,
   }: {
     where?: Prisma.PetTypeWhereInput;
     omit?: Prisma.PetTypeOmit;
     include?: Prisma.PetTypeInclude;
+    skip?: number;
+    take?: number;
   } = {}): ReturnWithErrPromise<PetType[]> {
     try {
       const petTypes = await this.prisma.petType.findMany({
         where,
         omit,
         include,
+        skip,
+        take,
       });
 
       return [petTypes, null];

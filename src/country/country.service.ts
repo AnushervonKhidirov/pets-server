@@ -51,16 +51,22 @@ export class CountryService {
     where,
     omit,
     include,
+    skip,
+    take,
   }: {
     where?: Prisma.CountryWhereInput;
     omit?: Prisma.CountryOmit;
     include?: Prisma.CountryInclude;
+    skip?: number;
+    take?: number;
   } = {}): ReturnWithErrPromise<Country[]> {
     try {
       const countries = await this.prisma.country.findMany({
         where,
         omit,
         include,
+        skip,
+        take,
       });
 
       return [countries, null];

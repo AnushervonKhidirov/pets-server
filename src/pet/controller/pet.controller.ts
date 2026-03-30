@@ -6,6 +6,7 @@ import type {
   Prisma,
   User,
 } from 'prisma/generated/prisma/client';
+import type { TokenDecoded } from 'src/token/token.type';
 
 import {
   Controller,
@@ -39,8 +40,7 @@ import { S3Storage } from 'src/storage/storage.service';
 
 import { CreatePetDto } from '../dto/create-pet.dto';
 import { UpdatePetDto } from '../dto/update-pet.dto';
-import { QueryPetDto } from '../dto/query-pet.dto';
-import { TokenDecoded } from 'src/token/token.type';
+import { QueryPetDto, SearchQueryPetDto } from '../dto/query-pet.dto';
 
 import { extension } from 'mime-types';
 
@@ -172,13 +172,11 @@ export class PetController {
   @Get('my')
   async findMyMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryPetDto,
+    where: QueryPetDto,
     @Req() req: Request,
   ) {
     const tokenDecoded = req['user'] as TokenDecoded | undefined;
     if (!tokenDecoded) throw new UnauthorizedException();
-
-    const { skip, take, ...where } = query;
 
     const [data, err] = await this.petService.findMany({
       where: {
@@ -186,8 +184,6 @@ export class PetController {
         userId: tokenDecoded.sub,
       },
       include: petInclude,
-      skip,
-      take,
     });
     if (err) throw err;
 
@@ -214,7 +210,7 @@ export class PetController {
   @Get('search')
   async findManyWithSearch(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryPetDto,
+    query: SearchQueryPetDto,
   ) {
     const { skip, take, name, microchipId, ...whereQuery } = query;
 
@@ -274,9 +270,21 @@ export class PetController {
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryPetDto,
+    query: SearchQueryPetDto,
   ) {
-    const { skip, take, ...where } = query;
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      userId: whereQuery.userId,
+      user: { email: { contains: whereQuery.userEmail } },
+      petTypeId: whereQuery.petTypeId,
+      breedId: whereQuery.breedId,
+      uuid: whereQuery.uuid,
+      sex: whereQuery.sex,
+      lost: whereQuery.lost,
+      name: { contains: whereQuery.name },
+      microchipId: { contains: whereQuery.microchipId },
+    };
 
     const [data, err] = await this.petService.findMany({
       where,

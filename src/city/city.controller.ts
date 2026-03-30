@@ -21,7 +21,7 @@ import { CityService } from './city.service';
 
 import { CreateCityDto, CreateManyCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
-import { QueryCityDto } from './dto/query-city.dto';
+import { SearchQueryCityDto } from './dto/query-city.dto';
 
 const cityExample = [
   { id: 1, countryId: 1, en: 'Dushanbe', ru: 'Душанбе' },
@@ -44,9 +44,15 @@ export class CityController {
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryCityDto,
+    query: SearchQueryCityDto,
   ) {
-    const { skip, take, ...where } = query;
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      countryId: whereQuery.countryId,
+      en: { contains: whereQuery.en },
+      ru: { contains: whereQuery.ru },
+    };
 
     const [data, err] = await this.cityService.findMany({
       where,

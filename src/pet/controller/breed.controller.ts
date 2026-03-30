@@ -21,7 +21,7 @@ import { BreedService } from '../service/breed.service';
 
 import { CreateBreedDto, CreateManyBreedDto } from '../dto/create-breed.dto';
 import { UpdateBreedDto } from '../dto/update-breed.dto';
-import { BreedQueryDto } from '../dto/breed-query.dto';
+import { SearchQueryBreedDto } from '../dto/query-breed.dto';
 
 const breedExample = [
   { petTypeId: 1, en: 'Maine Coon', ru: 'Мейн-кун' },
@@ -48,9 +48,21 @@ export class BreedController {
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    where: BreedQueryDto,
+    query: SearchQueryBreedDto,
   ) {
-    const [data, err] = await this.breedService.findMany({ where });
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      petTypeId: whereQuery.petTypeId,
+      en: { contains: whereQuery.en },
+      ru: { contains: whereQuery.ru },
+    };
+
+    const [data, err] = await this.breedService.findMany({
+      where,
+      skip,
+      take,
+    });
     if (err) throw err;
 
     const [total, countErr] = await this.breedService.count({ where });

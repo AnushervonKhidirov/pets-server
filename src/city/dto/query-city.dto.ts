@@ -18,6 +18,24 @@ export class QueryCityDto {
   @IsString()
   @IsOptional()
   ru?: string;
+}
+
+export class SearchQueryCityDto {
+  @ApiProperty({ example: 1, name: 'countryId', required: false })
+  @IsInt()
+  @Type(() => Number)
+  @IsOptional()
+  countryId?: number;
+
+  @ApiProperty({ example: 'Dushanbe', required: false })
+  @IsString()
+  @IsOptional()
+  en?: string;
+
+  @ApiProperty({ example: 'Душанбе', required: false })
+  @IsString()
+  @IsOptional()
+  ru?: string;
 
   @ApiProperty({ example: 50, required: false })
   @IsInt()

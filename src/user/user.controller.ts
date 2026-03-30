@@ -32,7 +32,7 @@ import { UserService } from './user.service';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { QueryUserDto } from './dto/query-user.dto';
+import { SearchQueryUserDto } from './dto/query-user.dto';
 
 type UserExample = Omit<
   User,
@@ -160,9 +160,16 @@ export class UserController {
   @Get()
   async findMany(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))
-    query: QueryUserDto,
+    query: SearchQueryUserDto,
   ) {
-    const { skip, take, ...where } = query;
+    const { skip, take, ...whereQuery } = query;
+
+    const where = {
+      firstName: { contains: whereQuery.firstName },
+      lastName: { contains: whereQuery.lastName },
+      email: { contains: whereQuery.email },
+      phone: { contains: whereQuery.phone },
+    };
 
     const [data, err] = await this.userService.findMany({
       where,
