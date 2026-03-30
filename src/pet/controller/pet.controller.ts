@@ -288,7 +288,12 @@ export class PetController {
 
     const [data, err] = await this.petService.findMany({
       where,
-      include: { ...petInclude, ...petUserInclude },
+      include: {
+        ...petInclude,
+        user: {
+          select: { email: true, phone: true, firstName: true, lastName: true },
+        },
+      },
       skip,
       take,
     });
@@ -298,10 +303,7 @@ export class PetController {
     const [total, countErr] = await this.petService.count({ where });
     if (countErr) throw countErr;
 
-    return {
-      data: data.map((pet) => removeSensitiveInfo(pet)),
-      total,
-    };
+    return { data, total };
   }
 
   @ApiResponse({ example: petExample })
